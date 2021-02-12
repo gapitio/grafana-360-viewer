@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "name": "Inside",
+      "metricName": "random-series-1",
+      "decimals": 2,
+      "baseUnit": "°C"
+    },
+    {
+      "name": "Outside",
+      "metricName": "random-series-2",
+      "decimals": 3,
+      "baseUnit": "°C"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# don't ever lint node_modules
+node_modules
+# don't lint build output
+dist
+public
+# don't lint nyc coverage output
+coverage
+# don't lint local folder
+local
