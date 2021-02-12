@@ -1,5 +1,5 @@
 import { writeFileSync, readFileSync } from "fs";
-import panelOptionsConfig from "../panel-options.config.js";
+import panelOptionsConfig from "../panel-options.config.mjs";
 
 const IN_PATHS = {
   css: "dist/bundle.css",
