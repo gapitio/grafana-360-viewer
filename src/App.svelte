@@ -2,6 +2,7 @@
   import { onDestroy } from "svelte";
   import { metricValues } from "./stores";
   import { getMetricValue } from "@gapit/grafana-metric";
+  import PanoramaViewer from "./components/viewers/PanoramaViewer.svelte";
 
   function getValues() {
     return customProperties.values.map((valueDict) => {
@@ -29,19 +30,5 @@
 </script>
 
 <main>
-  {#each Object.values($metricValues) as { name, value }}
-    <h1>{name}: {value}</h1>
-  {/each}
+  <PanoramaViewer />
 </main>
-
-<style type="text/scss">
-  $color: #ff3e00;
-  main {
-    text-align: center;
-  }
-
-  h1 {
-    color: $color;
-    font-weight: 400;
-  }
-</style>
