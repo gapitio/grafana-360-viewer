@@ -4,7 +4,6 @@
   import SceneHotspot from "../hotspots/SceneHotspot.svelte";
   import { onMount } from "svelte";
   import Marzipano from "marzipano";
-  import RandomData from "../Data/RandomData.svelte";
   import GrafanaData from "../Data/GrafanaData.svelte";
 
   let container: HTMLElement;
@@ -167,11 +166,8 @@
                 <tspan slot="title">{hotspotConfig.title}</tspan>
                 <tspan slot="value">
                   {#if hotspotConfig.data.database && config.databases && config.databases[hotspotConfig.data.database]}
-                    {#if config.databases[hotspotConfig.data.database].type == "random"}
-                      <RandomData />
-                    {/if}
                     {#if config.databases[hotspotConfig.data.database].type == "grafana"}
-                      <GrafanaData />
+                      <GrafanaData alias={hotspotConfig.data.alias} />
                     {/if}
                   {/if}
                 </tspan>
