@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export const metricValues = writable([]);
+export const dataStore = writable(data);

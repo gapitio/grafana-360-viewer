@@ -171,7 +171,7 @@
                       <RandomData />
                     {/if}
                     {#if config.databases[hotspotConfig.data.database].type == "grafana"}
-                      <GrafanaData />
+                      <GrafanaData alias={hotspotConfig.data.alias} />
                     {/if}
                   {/if}
                 </tspan>
