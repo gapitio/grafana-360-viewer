@@ -5,7 +5,7 @@ export default {
   SVGBaseFix: true,
   codeData: "{}",
   css: "",
-  html: "",
+  html: "<div></div>",
   onRender: "",
   dynamicData: true,
   onInit: "",
