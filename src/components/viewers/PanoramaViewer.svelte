@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import Marzipano from "marzipano";
   import GrafanaData from "../Data/GrafanaData.svelte";
+  import { dataStore } from "../../stores";
 
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
@@ -51,6 +52,8 @@
   let currentSceneIndex = 0;
   let viewer: any;
   let fov = 100;
+
+  dataStore.subscribe(() => viewer && viewer.updateSize());
 
   const baseURL = "http://localhost:5500";
   const configPath = baseURL + "/config.json";
