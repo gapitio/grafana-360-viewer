@@ -1,34 +1,15 @@
 <script lang="ts">
-  export let type: "flow" | "energy" | "power" | "temperature";
+  export let title: string;
+  export let unit: string;
+  export let color: string;
   export let value: string | number;
-
-  const types = {
-    flow: {
-      color: "#7a36d2",
-      unit: "L/h",
-    },
-    energy: {
-      color: "#17C1B6",
-      unit: "kWh",
-    },
-    power: {
-      color: "#48ADE0",
-      unit: "kW",
-    },
-    temperature: {
-      color: "#D648E0",
-      unit: "°C",
-    },
-  };
-
-  let elt: HTMLElement;
 
   // setInterval(() => {
   //   value = (Math.random() * 1000).toFixed(2);
   // }, 1000);
 </script>
 
-<div bind:this={elt}>
+<div>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"
@@ -39,7 +20,7 @@
       <g
         transform="translate(657 552)"
         fill="#1b191c"
-        stroke={types[type].color}
+        stroke={color}
         stroke-width="5"
         opacity="0.88"
       >
@@ -54,7 +35,7 @@
         font-family="OpenSans, Open Sans"
         letter-spacing="0.01em"
       >
-        <slot name="title">{type}</slot>
+        <slot name="title">{title}</slot>
       </text>
       <text
         class="value"
@@ -65,7 +46,7 @@
         font-weight="600"
       >
         <slot name="value">{value}</slot>
-        <slot name="unit">{` ${types[type].unit}`}</slot>
+        <slot name="unit">{` ${unit}`}</slot>
         <slot />
       </text>
     </g>

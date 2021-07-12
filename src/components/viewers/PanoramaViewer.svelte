@@ -6,119 +6,72 @@
   import Marzipano from "marzipano";
   import GrafanaData from "../Data/GrafanaData.svelte";
   import { dataStore } from "../../stores";
+  import type { Config } from "../../utils/getConfig";
+  import { getConfig } from "../../utils/getConfig";
 
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
-  let config: {
-    scenes: [
-      {
-        name: string;
-        url: string;
-        hotspots: [
-          {
-            type: string;
-            dataType: "flow" | "energy" | "power" | "temperature";
-            data: {
-              database?: string;
-              type?: "influx" | "random" | "grafana";
-              url?: string;
-              token?: string;
-              organization?: string;
-              query?: string;
-              alias?: string;
-            };
-            title: string;
-            sceneIndex: number;
-            yaw: number;
-            pitch: number;
-            extraTransforms?: string;
-          }
-        ];
-      }
-    ];
-    databases:
-      | {
-          [key: string]: {
-            type: "influx" | "random" | "grafana";
-            url?: string;
-            token?: string;
-            organization?: string;
-          };
-        }
-      | undefined;
-  };
 
-  let scenes: { name: string; scene: any }[] = [];
-  let currentSceneIndex = 0;
+  let config: Config;
+
+  let scenes: { name: string; key: number; scene: any }[] = [];
+  let currentSceneKey = 1;
   let viewer: any;
   let fov = 100;
 
+  // Update the view size when the panel is resized
   dataStore.subscribe(() => viewer && viewer.updateSize());
 
-  const baseURL = "http://localhost:5500";
-  const configPath = baseURL + "/config.json";
-
-  async function getConfig() {
-    const config = await fetch(baseURL + "/config.json")
-      .then((response) => response.json())
-      .catch((e) => {
-        console.warn("Failed to fetch config from " + configPath);
-      });
-
-    return config;
-  }
-
   function switchScene(scene: any) {
-    // Display scene.
     scene.switchTo();
   }
 
-  $: if (currentSceneIndex != null && scenes.length > 0) {
-    switchScene(scenes[currentSceneIndex].scene);
+  function findScene(sceneKey: number) {
+    const scene = scenes.find((scene) => scene.key == sceneKey);
+    if (!scene) throw new Error(`Found no scene with key ${sceneKey}`);
+
+    return scenes.find((scene) => scene.key == sceneKey);
+  }
+
+  $: if (scenes.length > 0) {
+    switchScene(findScene(currentSceneKey).scene);
   }
 
   function addHotspot(hotspot: HTMLElement) {
     const sceneIndex = hotspot.dataset.sceneIndex;
-    if (sceneIndex) {
-      scenes[Number(sceneIndex)].scene.hotspotContainer().createHotspot(
-        hotspot,
-        {
-          yaw: Number(hotspot.dataset.yaw),
-          pitch: Number(hotspot.dataset.pitch),
-        },
-        {
-          perspective: {
-            extraTransforms: "rotateZ(-0.5deg)",
-          },
-        }
-      );
-    }
-  }
 
-  function setFOV() {
-    const fovRadiens = (fov * Math.PI) / 180;
-    viewer.scene().view().setFov(fovRadiens);
+    if (!sceneIndex) {
+      console.warn("Missing scene index on", hotspot);
+      return;
+    }
+
+    const scene = findScene(Number(sceneIndex));
+
+    scene.scene.hotspotContainer().createHotspot(
+      hotspot,
+      {
+        yaw: Number(hotspot.dataset.yaw),
+        pitch: Number(hotspot.dataset.pitch),
+      },
+      {
+        perspective: {
+          extraTransforms: "rotateZ(-0.5deg)",
+        },
+      }
+    );
   }
 
   onMount(async () => {
     viewer = new Marzipano.Viewer(panoramaContainer);
 
-    config = await getConfig();
+    config = getConfig();
+
     if (config && config.scenes) {
       for (const sceneConfig of config.scenes) {
-        // Create source.
-        const source = Marzipano.ImageUrlSource.fromString(
-          baseURL + sceneConfig.url
-        );
+        const source = Marzipano.ImageUrlSource.fromString(sceneConfig.image);
 
-        // Create geometry.
         const geometry = new Marzipano.EquirectGeometry([{ width: 4096 }]);
 
-        // Create view.
-        // const limiter = Marzipano.RectilinearView.limit.traditional(
-        //   1024,
-        //   (fov * Math.PI) / 180
-        // );
         const limiter = Marzipano.util.compose(
           Marzipano.RectilinearView.limit.vfov(0, 3),
           Marzipano.RectilinearView.limit.hfov(0, 3),
@@ -129,7 +82,6 @@
           limiter
         );
 
-        // Create scene.
         const scene = viewer.createScene({
           source: source,
           geometry: geometry,
@@ -137,15 +89,22 @@
           pinFirstLevel: true,
         });
 
-        scenes = [...scenes, { name: sceneConfig.name, scene: scene }];
+        scenes = [
+          ...scenes,
+          {
+            name: sceneConfig.scene_name,
+            key: sceneConfig.scene_key,
+            scene: scene,
+          },
+        ];
       }
     }
 
-    panoramaContainer.addEventListener("click", (e) => {
+    panoramaContainer.addEventListener("click", (event) => {
       console.log(
-        scenes[currentSceneIndex].scene
-          .view()
-          .screenToCoordinates({ x: e.x, y: e.y })
+        findScene(currentSceneKey)
+          .scene.view()
+          .screenToCoordinates({ x: event.x, y: event.y })
       );
     });
   });
@@ -154,53 +113,51 @@
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
   {#if config && scenes.length > 0}
-    {#each config.scenes as sceneConfig, sceneIndex}
-      {#each sceneConfig.hotspots as hotspotConfig}
-        {#if currentSceneIndex == sceneIndex}
-          <div
-            data-scene-index={sceneIndex}
-            use:addHotspot
-            data-yaw={hotspotConfig.yaw}
-            data-pitch={hotspotConfig.pitch}
-            data-extra-transforms={hotspotConfig.extraTransforms}
-          >
-            {#if hotspotConfig.type == "data"}
-              <DataHotspot type={hotspotConfig.dataType} value={252}>
-                <tspan slot="title">{hotspotConfig.title}</tspan>
-                <tspan slot="value">
-                  {#if hotspotConfig.data.database && config.databases && config.databases[hotspotConfig.data.database]}
-                    {#if config.databases[hotspotConfig.data.database].type == "grafana"}
-                      <GrafanaData alias={hotspotConfig.data.alias} />
-                    {/if}
-                  {/if}
-                </tspan>
-              </DataHotspot>
-            {:else if hotspotConfig.type == "scene"}
-              <SceneHotspot
-                func={() => {
-                  currentSceneIndex = hotspotConfig.sceneIndex;
-                }}
-              />
-            {:else if hotspotConfig.type == "info"}
-              <InfoHotspot />
-            {/if}
-          </div>
-        {/if}
-      {/each}
+    {#each config.hotspots as hotspotConfig}
+      {#if true}
+        <div
+          data-scene-index={hotspotConfig.scene_key}
+          use:addHotspot
+          data-yaw={hotspotConfig.yaw}
+          data-pitch={hotspotConfig.pitch}
+          data-extra-transforms={hotspotConfig.extra_transform}
+        >
+          {#if hotspotConfig.type == "metric"}
+            <DataHotspot
+              title={hotspotConfig.title}
+              color={hotspotConfig.color}
+              unit={hotspotConfig.unit}
+              value={"No data"}
+            >
+              <tspan slot="title">{hotspotConfig.title}</tspan>
+              <tspan slot="value">
+                <GrafanaData alias={hotspotConfig.metric} />
+              </tspan>
+            </DataHotspot>
+          {:else if hotspotConfig.type == "scene"}
+            <SceneHotspot
+              func={() => {
+                currentSceneKey = hotspotConfig.go_to_scene_key;
+              }}
+            />
+          {:else if hotspotConfig.type == "info"}
+            <InfoHotspot />
+          {/if}
+        </div>
+      {/if}
     {/each}
   {/if}
 </div>
 
 <div class="scene-list">
   <ul>
-    <input type="number" bind:value={fov} on:change={setFOV} />
-    {#each scenes as sceneConfig, sceneIndex}
+    {#each scenes as sceneConfig}
       <li>
-        <label class={sceneIndex == currentSceneIndex ? "active" : ""}
+        <label class={sceneConfig.key == currentSceneKey ? "active" : ""}
           ><input
             type="radio"
-            bind:group={currentSceneIndex}
-            value={sceneIndex}
+            bind:group={currentSceneKey}
+            value={sceneConfig.key}
           />
           {sceneConfig.name}</label
         >

@@ -7,8 +7,9 @@
   let value: unknown = "No data";
 
   dataStore.subscribe((_run) => {
-    value = getMetricValue(alias);
-    if (typeof value == "string" || typeof value == "number") {
+    value = getMetricValue(alias, { noDataValue: "No data" });
+
+    if (typeof value == "number") {
       value = Number(value).toFixed(2);
     }
   });

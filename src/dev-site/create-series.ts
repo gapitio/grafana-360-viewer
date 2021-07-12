@@ -1,4 +1,8 @@
-function createSeries(name: string, value: number, refId = "A"): DataFrame {
+export function createSeries(
+  name: string,
+  value: number,
+  refId = "A"
+): DataFrame {
   return {
     name: name,
     fields: [
@@ -61,4 +65,32 @@ function createSeries(name: string, value: number, refId = "A"): DataFrame {
   };
 }
 
-export default createSeries;
+// Series created from marcusolsson-json-datasource datasource in grafana
+export function createJSONDataSeries(
+  name: string,
+  values: (number | string)[]
+): DataFrame {
+  return {
+    name: name,
+    refId: name,
+    fields: [
+      {
+        name: "Value",
+        type: "number",
+        config: {},
+        values: {
+          length: values.length,
+          get: (index) => {
+            return values[index];
+          },
+          toArray: () => values,
+        },
+        state: {
+          displayName: null,
+          scopedVars: {},
+        },
+      },
+    ],
+    length: 1,
+  };
+}
