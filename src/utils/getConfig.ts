@@ -24,6 +24,7 @@ export interface Scene {
 export interface Hotspot {
   hotspot_key: number;
   scene_key: number;
+  area_key: number;
   type: string;
   title: string;
   description: string;

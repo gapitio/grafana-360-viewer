@@ -2,25 +2,40 @@
   import DataHotspot from "../hotspots/DataHotspot.svelte";
   import InfoHotspot from "../hotspots/InfoHotspot.svelte";
   import SceneHotspot from "../hotspots/SceneHotspot.svelte";
+  import equal from "fast-deep-equal";
   import { onMount } from "svelte";
   import Marzipano from "marzipano";
   import GrafanaData from "../Data/GrafanaData.svelte";
   import { dataStore } from "../../stores";
-  import type { Config } from "../../utils/getConfig";
   import { getConfig } from "../../utils/getConfig";
+  import { getScenes } from "../../utils/getScenes";
 
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
-  let config: Config;
+  let config = getConfig();
 
   let scenes: { name: string; key: number; scene: any }[] = [];
-  let currentSceneKey = 1;
+  let currentSceneKey = getSceneTemplateVariable();
+
   let viewer: any;
   let fov = 100;
 
+  function getSceneTemplateVariable() {
+    return Number(
+      getTemplateSrv().replace(`$${customProperties.templateVariables.scene}`)
+    );
+  }
+
   // Update the view size when the panel is resized
-  dataStore.subscribe(() => viewer && viewer.updateSize());
+  dataStore.subscribe(() => {
+    const newConfig = getConfig();
+
+    if (!equal(config, newConfig)) config = newConfig;
+
+    currentSceneKey = getSceneTemplateVariable();
+    viewer && viewer.updateSize();
+  });
 
   function switchScene(scene: any) {
     scene.switchTo();
@@ -35,6 +50,19 @@
 
   $: if (scenes.length > 0) {
     switchScene(findScene(currentSceneKey).scene);
+  }
+
+  $: if (config && viewer) {
+    scenes = getScenes(config, viewer, fov);
+  }
+
+  $: if (currentSceneKey != getSceneTemplateVariable()) {
+    getLocationSrv().update({
+      query: {
+        [`var-scene`]: currentSceneKey,
+      },
+      partial: true,
+    });
   }
 
   function addHotspot(hotspot: HTMLElement) {
@@ -55,7 +83,7 @@
       },
       {
         perspective: {
-          extraTransforms: "rotateZ(-0.5deg)",
+          extraTransforms: Number(hotspot.dataset.extraTransform),
         },
       }
     );
@@ -63,42 +91,6 @@
 
   onMount(async () => {
     viewer = new Marzipano.Viewer(panoramaContainer);
-
-    config = getConfig();
-
-    if (config && config.scenes) {
-      for (const sceneConfig of config.scenes) {
-        const source = Marzipano.ImageUrlSource.fromString(sceneConfig.image);
-
-        const geometry = new Marzipano.EquirectGeometry([{ width: 4096 }]);
-
-        const limiter = Marzipano.util.compose(
-          Marzipano.RectilinearView.limit.vfov(0, 3),
-          Marzipano.RectilinearView.limit.hfov(0, 3),
-          Marzipano.RectilinearView.limit.pitch(-Math.PI / 2, Math.PI / 2)
-        );
-        const view = new Marzipano.RectilinearView(
-          { yaw: 0, pitch: 0, fov: (fov * Math.PI) / 180 },
-          limiter
-        );
-
-        const scene = viewer.createScene({
-          source: source,
-          geometry: geometry,
-          view: view,
-          pinFirstLevel: true,
-        });
-
-        scenes = [
-          ...scenes,
-          {
-            name: sceneConfig.scene_name,
-            key: sceneConfig.scene_key,
-            scene: scene,
-          },
-        ];
-      }
-    }
 
     panoramaContainer.addEventListener("click", (event) => {
       console.log(
