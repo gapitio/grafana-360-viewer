@@ -105,7 +105,7 @@
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
   {#if config && scenes.length > 0}
-    {#each config.hotspots as hotspotConfig (hotspotConfig.hotspot_key)}
+    {#each config.hotspots as hotspotConfig}
       {#if hotspotConfig.scene_key == currentSceneKey}
         <div
           data-scene-key={hotspotConfig.scene_key}
