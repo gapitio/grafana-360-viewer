@@ -40,5 +40,6 @@
     left: 0;
     width: 80px;
     cursor: pointer;
+    transform: translate(-50%, -50%);
   }
 </style>
