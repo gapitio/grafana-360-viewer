@@ -66,14 +66,14 @@
   }
 
   function addHotspot(hotspot: HTMLElement) {
-    const sceneIndex = hotspot.dataset.sceneIndex;
+    const sceneKey = hotspot.dataset.sceneKey;
 
-    if (!sceneIndex) {
-      console.warn("Missing scene index on", hotspot);
+    if (!sceneKey) {
+      console.warn("Missing scene key on", hotspot);
       return;
     }
 
-    const scene = findScene(Number(sceneIndex));
+    const scene = findScene(Number(sceneKey));
 
     scene.scene.hotspotContainer().createHotspot(
       hotspot,
@@ -83,7 +83,7 @@
       },
       {
         perspective: {
-          extraTransforms: Number(hotspot.dataset.extraTransform),
+          extraTransforms: hotspot.dataset.extraTransform,
         },
       }
     );
@@ -105,14 +105,14 @@
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
   {#if config && scenes.length > 0}
-    {#each config.hotspots as hotspotConfig}
-      {#if true}
+    {#each config.hotspots as hotspotConfig (hotspotConfig.hotspot_key)}
+      {#if hotspotConfig.scene_key == currentSceneKey}
         <div
-          data-scene-index={hotspotConfig.scene_key}
+          data-scene-key={hotspotConfig.scene_key}
           use:addHotspot
           data-yaw={hotspotConfig.yaw}
           data-pitch={hotspotConfig.pitch}
-          data-extra-transforms={hotspotConfig.extra_transform}
+          data-extra-transforms={hotspotConfig.extra_transforms}
         >
           {#if hotspotConfig.type == "metric"}
             <DataHotspot
