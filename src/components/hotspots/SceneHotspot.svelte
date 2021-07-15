@@ -34,11 +34,10 @@
 </div>
 
 <style>
-  div {
+  .hotspot {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
     width: 80px;
     cursor: pointer;
   }

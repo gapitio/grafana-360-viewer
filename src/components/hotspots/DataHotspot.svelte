@@ -9,7 +9,7 @@
   // }, 1000);
 </script>
 
-<div>
+<div class="hotspot">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"
@@ -54,7 +54,10 @@
 </div>
 
 <style>
-  div {
+  .hotspot {
+    position: absolute;
+    top: 0;
+    left: 0;
     color: white;
     width: 200px;
     transform: translate(-50%, -50%);
