@@ -83,7 +83,7 @@
       },
       {
         perspective: {
-          extraTransforms: hotspot.dataset.extraTransform,
+          extraTransforms: hotspot.dataset.extraTransforms,
         },
       }
     );

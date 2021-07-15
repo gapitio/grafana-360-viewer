@@ -34,7 +34,7 @@ export interface Hotspot {
   go_to_scene_key: number;
   yaw: number;
   pitch: number;
-  extra_transform: string;
+  extra_transforms: string;
 }
 
 export function getConfig(): Config {
