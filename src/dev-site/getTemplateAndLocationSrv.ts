@@ -1,60 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const variables = [
-  {
-    id: "area",
-    name: "area",
-    label: null,
-    type: "query",
-    current: {
-      text: "2",
-      value: "2",
-      selected: false,
-    },
-    options: [
-      {
-        text: "1",
-        value: "1",
-        selected: true,
-      },
-      {
-        text: "2",
-        value: "2",
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: "scene",
-    name: "scene",
-    label: null,
-    type: "query",
-    options: [
-      {
-        text: "1",
-        value: "1",
-        selected: true,
-      },
-      {
-        text: "2",
-        value: "2",
-        selected: false,
-      },
-      {
-        text: "3",
-        value: "3",
-        selected: false,
-      },
-    ],
-    current: {
-      value: "1",
-    },
-  },
-] as any;
+import { updateData } from "./data";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 window.getTemplateSrv = (): TemplateSrv => ({
-  getVariables: (): VariableModel[] => variables,
+  getVariables: (): VariableModel[] => window.templateVariableList,
   replace: (target): string =>
-    variables.find((variable) => "$" + variable.name == target).current.value,
+    window.templateVariableList.find(
+      (variable) => "$" + variable.name == target
+    ).current.value,
 });
 
 window.getLocationSrv = (): LocationSrv => ({
@@ -65,7 +17,7 @@ window.getLocationSrv = (): LocationSrv => ({
     }
 
     Object.entries(options.query).map(([variableName, value]) => {
-      const variable = variables.find(
+      const variable = window.templateVariableList.find(
         (variable) => "var-" + variable.name == variableName
       );
 
@@ -74,15 +26,22 @@ window.getLocationSrv = (): LocationSrv => ({
         return;
       }
 
-      variable.options.find((options) => options.selected).selected = false;
-      variable.options.find(
-        (options) => options.value == String(value)
-      ).selected = true;
+      const currentlySelectedVariable = variable.options.find(
+        (options) => options.selected
+      );
+      if (currentlySelectedVariable) currentlySelectedVariable.selected = false;
 
-      variable.options.find(
+      const selectedVariable = variable.options.find(
         (options) => options.value == String(value)
-      ).selected = true;
+      );
+      if (selectedVariable) selectedVariable.selected = true;
+
       variable.current.value = String(value);
     });
+
+    updateData(false, false);
+    const panelUpdateEvent = new CustomEvent("panelupdate");
+    htmlNode.dispatchEvent(panelUpdateEvent);
+    htmlNode.onpanelupdate();
   },
 });

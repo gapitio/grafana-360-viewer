@@ -6,6 +6,7 @@ import json from "@rollup/plugin-json";
 import svelte from "rollup-plugin-svelte";
 import sveltePreprocess from "svelte-preprocess";
 import css from "rollup-plugin-css-only";
+import image from "rollup-plugin-img";
 
 const OUT_DIR = "public/build";
 
@@ -21,6 +22,9 @@ export default [
       clearScreen: false,
     },
     plugins: [
+      image({
+        limit: 100000000,
+      }),
       json({
         preferConst: true,
       }),
