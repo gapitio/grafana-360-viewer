@@ -30,6 +30,9 @@
       configStore.set(newConfig);
     }
     $viewerStore && $viewerStore.updateSize();
+    console.log($configStore, $sceneDataListStore);
+    console.log(2);
+    currentSceneKeyStore.updateKey();
   });
 
   let scenes = $sceneDataListStore;

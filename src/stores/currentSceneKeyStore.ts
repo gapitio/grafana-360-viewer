@@ -1,5 +1,4 @@
-import { derived } from "svelte/store";
-import { dataStore } from "./dataStore";
+import { writable } from "svelte/store";
 
 function getCurrentSceneKey() {
   return Number(
@@ -7,7 +6,7 @@ function getCurrentSceneKey() {
   );
 }
 
-function updateCurrentSceneKey(value: number): void {
+function setCurrentSceneKey(value: number): void {
   getLocationSrv().update({
     query: {
       [`var-scene`]: value,
@@ -16,7 +15,16 @@ function updateCurrentSceneKey(value: number): void {
   });
 }
 
-export const currentSceneKeyStore = {
-  subscribe: derived(dataStore, getCurrentSceneKey).subscribe,
-  update: updateCurrentSceneKey,
-};
+function createCurrentSceneKeyStore() {
+  const { set, subscribe, update } = writable(getCurrentSceneKey());
+
+  return {
+    set,
+    subscribe,
+    update,
+    setKey: setCurrentSceneKey,
+    updateKey: () => set(getCurrentSceneKey()),
+  };
+}
+
+export const currentSceneKeyStore = createCurrentSceneKeyStore();
