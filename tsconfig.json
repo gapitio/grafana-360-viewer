@@ -6,6 +6,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "types": ["svelte"]
+    "types": ["svelte"],
+    "strictNullChecks": false
   }
 }
