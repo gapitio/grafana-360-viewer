@@ -2,7 +2,7 @@
 import Marzipano from "marzipano";
 import type { Config } from "./getConfig";
 
-interface SceneData {
+export interface SceneData {
   name: string;
   key: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

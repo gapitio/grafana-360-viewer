@@ -10,6 +10,7 @@
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import { getSceneDataList } from "../../utils/getSceneDataList";
+  import type { SceneData } from "../../utils/getSceneDataList";
   import HotspotContainer from "../HotspotContainer.svelte";
   import SceneEditorContainer from "../SceneEditorContainer.svelte";
   import equal from "fast-deep-equal";
@@ -30,12 +31,10 @@
       configStore.set(newConfig);
     }
     $viewerStore && $viewerStore.updateSize();
-    console.log($configStore, $sceneDataListStore);
-    console.log(2);
     currentSceneKeyStore.updateKey();
   });
 
-  let scenes = $sceneDataListStore;
+  let scenes: SceneData[] = [];
 
   function switchScene(scene: any) {
     scene.switchTo();
