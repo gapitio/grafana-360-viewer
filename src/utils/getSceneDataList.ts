@@ -2,12 +2,18 @@
 import Marzipano from "marzipano";
 import type { Config } from "./getConfig";
 
-export function getScenes(
+interface SceneData {
+  name: string;
+  key: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  scene: any;
+}
+
+export function getSceneDataList(
   config: Config,
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  viewer: any,
-  fov: number
-): { name: string; key: number; scene: any }[] {
+  viewer: any
+): SceneData[] {
   const scenes = config.scenes.map((sceneConfig) => {
     const source = Marzipano.ImageUrlSource.fromString(sceneConfig.image);
 
@@ -19,7 +25,11 @@ export function getScenes(
       Marzipano.RectilinearView.limit.pitch(-Math.PI / 2, Math.PI / 2)
     );
     const view = new Marzipano.RectilinearView(
-      { yaw: 0, pitch: 0, fov: (fov * Math.PI) / 180 },
+      {
+        yaw: sceneConfig.facing_yaw,
+        pitch: sceneConfig.facing_pitch,
+        fov: (sceneConfig.fov * Math.PI) / 180,
+      },
       limiter
     );
 

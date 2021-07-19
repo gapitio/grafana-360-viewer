@@ -1,17 +1,17 @@
 import { getSeriesFromName } from "@gapit/grafana-metric";
 
 export interface Config {
-  areas: Area[];
-  scenes: Scene[];
-  hotspots: Hotspot[];
+  areas: AreaConfig[];
+  scenes: SceneConfig[];
+  hotspots: HotspotConfig[];
 }
 
-export interface Area {
+export interface AreaConfig {
   area_key: number;
   area_name: string;
 }
 
-export interface Scene {
+export interface SceneConfig {
   scene_key: number;
   area_key: number;
   scene_name: string;
@@ -21,7 +21,7 @@ export interface Scene {
   fov: number;
 }
 
-export interface Hotspot {
+export interface HotspotConfig {
   hotspot_key: number;
   scene_key: number;
   area_key: number;

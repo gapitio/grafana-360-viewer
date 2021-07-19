@@ -3,10 +3,6 @@
   export let unit: string;
   export let color: string;
   export let value: string | number;
-
-  // setInterval(() => {
-  //   value = (Math.random() * 1000).toFixed(2);
-  // }, 1000);
 </script>
 
 <div class="hotspot">
