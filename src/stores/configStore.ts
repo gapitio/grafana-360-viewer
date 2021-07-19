@@ -1,5 +1,4 @@
-import { derived } from "svelte/store";
+import { writable } from "svelte/store";
 import { getConfig } from "../utils/getConfig";
-import { dataStore } from "./dataStore";
 
-export const configStore = derived(dataStore, () => getConfig());
+export const configStore = writable(getConfig());

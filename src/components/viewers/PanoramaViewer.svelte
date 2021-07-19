@@ -28,17 +28,9 @@
 
     if (!equal($configStore, newConfig)) {
       configStore.set(newConfig);
-      if ($viewerStore)
-        $sceneDataListStore = getSceneDataList($configStore, $viewerStore);
     }
     $viewerStore && $viewerStore.updateSize();
   });
-
-  $: {
-    config.scenes = sceneConfigList;
-    config = { ...config };
-    if ($viewerStore) scenes = getSceneDataList(config, $viewerStore);
-  }
 
   let scenes = $sceneDataListStore;
 
