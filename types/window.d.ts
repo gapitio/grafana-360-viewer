@@ -6,4 +6,6 @@ interface Window {
   theme: typeof theme;
   getTemplateSrv: typeof getTemplateSrv;
   getLocationSrv: typeof getLocationSrv;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  templateVariableList: any;
 }

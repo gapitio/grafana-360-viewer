@@ -1,60 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const variables = [
-  {
-    id: "area",
-    name: "area",
-    label: null,
-    type: "query",
-    current: {
-      text: "2",
-      value: "2",
-      selected: false,
-    },
-    options: [
-      {
-        text: "1",
-        value: "1",
-        selected: true,
-      },
-      {
-        text: "2",
-        value: "2",
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: "scene",
-    name: "scene",
-    label: null,
-    type: "query",
-    options: [
-      {
-        text: "1",
-        value: "1",
-        selected: true,
-      },
-      {
-        text: "2",
-        value: "2",
-        selected: false,
-      },
-      {
-        text: "3",
-        value: "3",
-        selected: false,
-      },
-    ],
-    current: {
-      value: "1",
-    },
-  },
-] as any;
-
 window.getTemplateSrv = (): TemplateSrv => ({
-  getVariables: (): VariableModel[] => variables,
+  getVariables: (): VariableModel[] => window.templateVariableList,
   replace: (target): string =>
-    variables.find((variable) => "$" + variable.name == target).current.value,
+    window.templateVariableList.find(
+      (variable) => "$" + variable.name == target
+    ).current.value,
 });
 
 window.getLocationSrv = (): LocationSrv => ({
@@ -65,7 +15,7 @@ window.getLocationSrv = (): LocationSrv => ({
     }
 
     Object.entries(options.query).map(([variableName, value]) => {
-      const variable = variables.find(
+      const variable = window.templateVariableList.find(
         (variable) => "var-" + variable.name == variableName
       );
 

@@ -7,6 +7,96 @@ function randomValue({ min = 0, max = 1 }): number {
 }
 
 function updateData(): void {
+  const isFirstArea = Math.random() > 0.5;
+
+  window.templateVariableList = isFirstArea
+    ? [
+        {
+          id: "area",
+          name: "area",
+          label: null,
+          type: "query",
+          current: {
+            value: "1",
+          },
+          options: [
+            {
+              text: "1",
+              value: "1",
+              selected: true,
+            },
+            {
+              text: "2",
+              value: "2",
+              selected: false,
+            },
+          ],
+        },
+        {
+          id: "scene",
+          name: "scene",
+          label: null,
+          type: "query",
+          options: [
+            {
+              text: "1",
+              value: "1",
+              selected: true,
+            },
+            {
+              text: "2",
+              value: "2",
+              selected: false,
+            },
+          ],
+          current: {
+            value: "1",
+          },
+        },
+      ]
+    : ([
+        {
+          id: "area",
+          name: "area",
+          label: null,
+          type: "query",
+          current: {
+            text: "2",
+            value: "2",
+            selected: false,
+          },
+          options: [
+            {
+              text: "1",
+              value: "1",
+              selected: false,
+            },
+            {
+              text: "2",
+              value: "2",
+              selected: true,
+            },
+          ],
+        },
+        {
+          id: "scene",
+          name: "scene",
+          label: null,
+          type: "query",
+          options: [
+            {
+              text: "3",
+              value: "3",
+              selected: true,
+            },
+          ],
+          current: {
+            value: "3",
+          },
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ] as any);
+
   window.data = {
     state: "Done",
     series: [
@@ -21,28 +111,45 @@ function updateData(): void {
           { area_key: 4, area_name: "Hehe" },
         ]),
       ]),
-      createJSONDataSeries("scenes", [
-        JSON.stringify([
-          {
-            scene_key: 1,
-            area_key: 1,
-            scene_name: "Office",
-            image: office360image,
-            facing_yaw: 0,
-            facing_pitch: 0,
-            fov: 100,
-          },
-          {
-            scene_key: 2,
-            area_key: 1,
-            scene_name: "Earth",
-            image: earth360image,
-            facing_yaw: 1,
-            facing_pitch: 0,
-            fov: 120,
-          },
-        ]),
-      ]),
+      createJSONDataSeries(
+        "scenes",
+        isFirstArea
+          ? [
+              JSON.stringify([
+                {
+                  scene_key: 1,
+                  area_key: 1,
+                  scene_name: "Office",
+                  image: office360image,
+                  facing_yaw: 0,
+                  facing_pitch: 0,
+                  fov: 100,
+                },
+                {
+                  scene_key: 2,
+                  area_key: 1,
+                  scene_name: "Earth",
+                  image: earth360image,
+                  facing_yaw: 1,
+                  facing_pitch: 0,
+                  fov: 120,
+                },
+              ]),
+            ]
+          : [
+              JSON.stringify([
+                {
+                  scene_key: 3,
+                  area_key: 2,
+                  scene_name: "Office",
+                  image: earth360image,
+                  facing_yaw: 0,
+                  facing_pitch: 0,
+                  fov: 100,
+                },
+              ]),
+            ]
+      ),
       createJSONDataSeries("hotspots", [
         JSON.stringify([
           {
