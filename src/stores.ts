@@ -1,9 +1,10 @@
-import { writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { getConfig } from "./utils/getConfig";
-import type { SceneData } from "./utils/getSceneDataList";
+import { getSceneDataList, SceneData } from "./utils/getSceneDataList";
 
 export const dataStore = writable(data);
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const viewerStore = writable<any>();
 export const configStore = writable(getConfig());
 
 export const currentSceneKeyStore = (() => {
@@ -31,7 +32,26 @@ export const currentSceneKeyStore = (() => {
   };
 })();
 
-export const sceneDataListStore = writable<SceneData[]>();
+export const sceneDataListStore = derived(
+  [configStore, viewerStore],
+  ([$configStore, $viewerStore]) =>
+    $viewerStore && $configStore
+      ? getSceneDataList($configStore, $viewerStore)
+      : []
+);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const viewerStore = writable<any>();
+export const currentSceneDataStore = derived(
+  [viewerStore, sceneDataListStore, currentSceneKeyStore],
+  ([$viewerStore, $sceneDataListStore, $currentSceneKeyStore]) => {
+    if (!$viewerStore) return;
+
+    const scene = $sceneDataListStore.find(
+      (scene) => scene.key === $currentSceneKeyStore
+    );
+
+    if (!scene)
+      throw new Error(`Found no scene with key ${$currentSceneKeyStore}`);
+
+    return scene;
+  }
+);

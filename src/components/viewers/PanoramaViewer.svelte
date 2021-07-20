@@ -7,6 +7,7 @@
     currentSceneKeyStore,
     dataStore,
     configStore,
+    currentSceneDataStore,
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import { getSceneDataList } from "../../utils/getSceneDataList";
@@ -20,8 +21,11 @@
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
-  let config = getConfig();
-  let sceneConfigList = config.scenes;
+  let sceneConfigList = $configStore.scenes;
+  let scenes: SceneData[] = [];
+
+  sceneDataListStore.subscribe((e) => console.log(111111111, e));
+  currentSceneDataStore.subscribe((e) => console.log(2222222, e?.name));
 
   // Update the view size when the panel is resized
   dataStore.subscribe(() => {
@@ -29,22 +33,18 @@
 
     if (!equal($configStore, newConfig)) {
       configStore.set(newConfig);
+      scenes = getSceneDataList(newConfig, $viewerStore);
     }
     $viewerStore && $viewerStore.updateSize();
     currentSceneKeyStore.updateKey();
   });
-
-  let scenes: SceneData[] = [];
 
   function switchScene(scene: any) {
     scene.switchTo();
   }
 
   function findScene(sceneKey: number) {
-    console.log(scenes, sceneKey);
-
     const scene = scenes.find((scene) => scene.key === sceneKey);
-    console.log(scene);
 
     if (!scene) throw new Error(`Found no scene with key ${sceneKey}`);
 
@@ -57,7 +57,7 @@
 
   onMount(async () => {
     viewerStore.set(new Marzipano.Viewer(panoramaContainer));
-    scenes = getSceneDataList(config, $viewerStore);
+    scenes = getSceneDataList($configStore, $viewerStore);
 
     panoramaContainer.addEventListener("click", (event) => {
       const { x: offsetX, y: offsetY } = $viewerStore
@@ -79,21 +79,18 @@
 
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
-  {#if config && scenes.length > 0}
+  {#if $configStore && scenes.length > 0}
     <HotspotContainer
       viewer={$viewerStore}
       currentSceneKey={$currentSceneKeyStore}
       {scenes}
-      hotspotConfigList={config.hotspots}
+      hotspotConfigList={$configStore.hotspots}
     />
   {/if}
 </div>
 
 {#if editable}
-  <SceneEditorContainer
-    bind:sceneConfigList
-    currentSceneKey={$currentSceneKeyStore}
-  />
+  <SceneEditorContainer />
 {/if}
 
 <style>

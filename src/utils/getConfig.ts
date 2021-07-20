@@ -49,7 +49,7 @@ export function getConfig(): Config {
             .values.get(0)
         );
       } catch (e) {
-        throw new Error(`Series "${seriesName}" is not an Array: ${e}`);
+        throw new Error(`Couldn't parse series "${seriesName}": ${e}`);
       }
 
       if (!(value instanceof Array)) {

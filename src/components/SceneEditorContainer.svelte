@@ -1,18 +1,14 @@
 <script lang="ts">
   import EditableSceneList from "./EditableSceneList.svelte";
   import SceneEditor from "./SceneEditor.svelte";
-  import type { SceneConfig } from "../utils/getConfig";
   import DraggableHorizontally from "./DraggableHorizontally.svelte";
-
-  export let sceneConfigList: SceneConfig[];
-  export let currentSceneKey: number;
 
   let width = 400;
 </script>
 
 <div class="scene-container" style={`width: ${width}px`}>
-  <EditableSceneList bind:sceneConfigList bind:currentSceneKey />
-  <SceneEditor bind:sceneConfigList {currentSceneKey} />
+  <EditableSceneList />
+  <SceneEditor />
   <DraggableHorizontally bind:width />
 </div>
 

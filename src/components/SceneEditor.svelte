@@ -1,22 +1,24 @@
 <script lang="ts">
+  import { configStore, currentSceneKeyStore } from "../stores";
+
   import type { SceneConfig } from "../utils/getConfig";
   import NumberInput from "./Inputs/NumberInput.svelte";
   import TextInput from "./Inputs/TextInput.svelte";
 
-  export let sceneConfigList: SceneConfig[];
-  export let currentSceneKey: number;
-
   let currentScene = getCurrentScene();
   let image = currentScene.image;
 
-  $: if (currentSceneKey && sceneConfigList) {
+  $: if ($currentSceneKeyStore && $configStore) {
     currentScene = getCurrentScene();
+    console.log($configStore.scenes, currentScene, $currentSceneKeyStore);
     image = currentScene.image;
   }
 
   function getCurrentScene() {
-    return sceneConfigList[
-      sceneConfigList.findIndex((scene) => scene.scene_key == currentSceneKey)
+    return $configStore.scenes[
+      $configStore.scenes.findIndex(
+        (scene) => scene.scene_key == $currentSceneKeyStore
+      )
     ];
   }
 
@@ -32,7 +34,7 @@
       if (typeof e.target.result == "string") {
         image = e.target.result;
         currentScene.image = image;
-        sceneConfigList = [...sceneConfigList];
+        $configStore.scenes = [...$configStore.scenes];
       } else console.warn("Image is not a string");
     };
   };

@@ -1,18 +1,16 @@
 <script lang="ts">
-  import type { SceneConfig } from "../utils/getConfig";
-
-  export let sceneConfigList: SceneConfig[];
-  export let currentSceneKey: number;
+  import { configStore, currentSceneKeyStore } from "../stores";
 </script>
 
 <div class="scene-list">
   <ul>
-    {#each sceneConfigList as sceneConfig}
+    {#each $configStore.scenes as sceneConfig}
       <li>
-        <label class={sceneConfig.scene_key == currentSceneKey ? "active" : ""}
+        <label
+          class={sceneConfig.scene_key == $currentSceneKeyStore ? "active" : ""}
           ><input
             type="radio"
-            bind:group={currentSceneKey}
+            bind:group={$currentSceneKeyStore}
             value={sceneConfig.scene_key}
           />
           {sceneConfig.scene_name}</label
