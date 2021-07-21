@@ -47,6 +47,7 @@
 
 <div
   data-scene-key={hotspotConfig.scene_key}
+  data-hotspot-key={hotspotConfig.hotspot_key}
   use:addHotspot
   data-yaw={hotspotConfig.yaw}
   data-pitch={hotspotConfig.pitch}

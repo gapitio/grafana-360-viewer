@@ -1,6 +1,6 @@
 import { derived, writable } from "svelte/store";
 import { getConfig } from "./utils/getConfig";
-import { getSceneDataList, SceneData } from "./utils/getSceneDataList";
+import { getSceneDataList } from "./utils/getSceneDataList";
 
 export const dataStore = writable(data);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,7 +43,7 @@ export const sceneDataListStore = derived(
 export const currentSceneDataStore = derived(
   [viewerStore, sceneDataListStore, currentSceneKeyStore],
   ([$viewerStore, $sceneDataListStore, $currentSceneKeyStore]) => {
-    if (!$viewerStore) return;
+    if (!$viewerStore || $sceneDataListStore.length === 0) return;
 
     const scene = $sceneDataListStore.find(
       (scene) => scene.key === $currentSceneKeyStore
@@ -55,3 +55,5 @@ export const currentSceneDataStore = derived(
     return scene;
   }
 );
+
+export const editsStore = writable();

@@ -21,11 +21,10 @@
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
-  let sceneConfigList = $configStore.scenes;
   let scenes: SceneData[] = [];
 
-  sceneDataListStore.subscribe((e) => console.log(111111111, e));
-  currentSceneDataStore.subscribe((e) => console.log(2222222, e?.name));
+  // sceneDataListStore.subscribe((e) => console.log(111111111, e));
+  currentSceneDataStore.subscribe((e) => e?.scene.switchTo());
 
   // Update the view size when the panel is resized
   dataStore.subscribe(() => {
@@ -38,22 +37,6 @@
     $viewerStore && $viewerStore.updateSize();
     currentSceneKeyStore.updateKey();
   });
-
-  function switchScene(scene: any) {
-    scene.switchTo();
-  }
-
-  function findScene(sceneKey: number) {
-    const scene = scenes.find((scene) => scene.key === sceneKey);
-
-    if (!scene) throw new Error(`Found no scene with key ${sceneKey}`);
-
-    return scenes.find((scene) => scene.key == sceneKey);
-  }
-
-  $: if (scenes.length > 0) {
-    switchScene(findScene($currentSceneKeyStore).scene);
-  }
 
   onMount(async () => {
     viewerStore.set(new Marzipano.Viewer(panoramaContainer));
@@ -69,9 +52,7 @@
 
       console.info(
         "Mouse position",
-        findScene($currentSceneKeyStore)
-          .scene.view()
-          .screenToCoordinates({ x, y })
+        $currentSceneDataStore.scene.view().screenToCoordinates({ x, y })
       );
     });
   });
@@ -83,7 +64,7 @@
     <HotspotContainer
       viewer={$viewerStore}
       currentSceneKey={$currentSceneKeyStore}
-      {scenes}
+      scenes={$sceneDataListStore}
       hotspotConfigList={$configStore.hotspots}
     />
   {/if}
