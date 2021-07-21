@@ -10,8 +10,6 @@
     currentSceneDataStore,
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
-  import { getSceneDataList } from "../../utils/getSceneDataList";
-  import type { SceneData } from "../../utils/getSceneDataList";
   import HotspotContainer from "../HotspotContainer.svelte";
   import SceneEditorContainer from "../SceneEditorContainer.svelte";
   import equal from "fast-deep-equal";
@@ -20,8 +18,6 @@
 
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
-
-  let scenes: SceneData[] = [];
 
   // sceneDataListStore.subscribe((e) => console.log(111111111, e));
   currentSceneDataStore.subscribe((e) => e?.scene.switchTo());
@@ -32,7 +28,6 @@
 
     if (!equal($configStore, newConfig)) {
       configStore.set(newConfig);
-      scenes = getSceneDataList(newConfig, $viewerStore);
     }
     $viewerStore && $viewerStore.updateSize();
     currentSceneKeyStore.updateKey();
@@ -40,7 +35,6 @@
 
   onMount(async () => {
     viewerStore.set(new Marzipano.Viewer(panoramaContainer));
-    scenes = getSceneDataList($configStore, $viewerStore);
 
     panoramaContainer.addEventListener("click", (event) => {
       const { x: offsetX, y: offsetY } = $viewerStore
@@ -52,7 +46,7 @@
 
       console.info(
         "Mouse position",
-        $currentSceneDataStore.scene.view().screenToCoordinates({ x, y })
+        $viewerStore.scene().view().screenToCoordinates({ x, y })
       );
     });
   });
@@ -60,7 +54,7 @@
 
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
-  {#if $configStore && scenes.length > 0}
+  {#if $configStore && $sceneDataListStore.length > 0}
     <HotspotContainer
       viewer={$viewerStore}
       currentSceneKey={$currentSceneKeyStore}

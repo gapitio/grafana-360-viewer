@@ -10,6 +10,7 @@
   export let currentSceneKey: number;
   export let viewer: any;
   export let scenes: { name: string; key: number; scene: any }[] = [];
+  export let index: number;
 
   let hotspot: any;
 
@@ -43,39 +44,45 @@
       }
     );
   }
+
+  console.log(hotspotConfig.hotspot_key);
 </script>
 
-<div
-  data-scene-key={hotspotConfig.scene_key}
-  data-hotspot-key={hotspotConfig.hotspot_key}
-  use:addHotspot
-  data-yaw={hotspotConfig.yaw}
-  data-pitch={hotspotConfig.pitch}
-  data-extra-transforms={hotspotConfig.extra_transforms}
->
-  {#if hotspot}
-    <DraggableHotspot {viewer} {hotspot}>
-      {#if hotspotConfig.type == "metric"}
-        <DataHotspot
-          title={hotspotConfig.title}
-          color={hotspotConfig.color}
-          unit={hotspotConfig.unit}
-          value={"No data"}
-        >
-          <tspan slot="title">{hotspotConfig.title}</tspan>
-          <tspan slot="value">
-            <GrafanaData alias={hotspotConfig.metric} />
-          </tspan>
-        </DataHotspot>
-      {:else if hotspotConfig.type == "scene"}
-        <SceneHotspot
-          func={() => {
-            currentSceneKey = hotspotConfig.go_to_scene_key;
-          }}
-        />
-      {:else if hotspotConfig.type == "info"}
-        <InfoHotspot />
-      {/if}
-    </DraggableHotspot>
-  {/if}
+<div>
+  <div
+    data-scene-key={hotspotConfig.scene_key}
+    data-hotspot-key={hotspotConfig.hotspot_key}
+    use:addHotspot
+    data-yaw={hotspotConfig.yaw}
+    data-pitch={hotspotConfig.pitch}
+    data-extra-transforms={hotspotConfig.extra_transforms}
+    style="z-index: {index};"
+  >
+    {#if hotspot}
+      {@debug hotspot}
+      <DraggableHotspot {viewer} {hotspot}>
+        {#if hotspotConfig.type == "metric"}
+          <DataHotspot
+            title={hotspotConfig.title}
+            color={hotspotConfig.color}
+            unit={hotspotConfig.unit}
+            value={"No data"}
+          >
+            <tspan slot="title">{hotspotConfig.title}</tspan>
+            <tspan slot="value">
+              <GrafanaData alias={hotspotConfig.metric} />
+            </tspan>
+          </DataHotspot>
+        {:else if hotspotConfig.type == "scene"}
+          <SceneHotspot
+            func={() => {
+              currentSceneKey = hotspotConfig.go_to_scene_key;
+            }}
+          />
+        {:else if hotspotConfig.type == "info"}
+          <InfoHotspot />
+        {/if}
+      </DraggableHotspot>
+    {/if}
+  </div>
 </div>

@@ -14,6 +14,8 @@ export function getSceneDataList(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   viewer: any
 ): SceneData[] {
+  viewer.destroyAllScenes();
+
   const scenes = config.scenes.map((sceneConfig) => {
     const source = Marzipano.ImageUrlSource.fromString(sceneConfig.image);
 

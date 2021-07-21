@@ -134,6 +134,15 @@ function updateData(): void {
                   facing_pitch: 0,
                   fov: 120,
                 },
+                {
+                  scene_key: 3,
+                  area_key: 1,
+                  scene_name: "Earth",
+                  image: earth360image,
+                  facing_yaw: 1,
+                  facing_pitch: 0,
+                  fov: 120,
+                },
               ]),
             ]
           : [
