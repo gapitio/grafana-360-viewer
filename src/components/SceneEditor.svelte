@@ -1,18 +1,44 @@
 <script lang="ts">
+  import equal from "fast-deep-equal";
+
   import {
     configStore,
-    currentSceneDataStore,
+    sceneEditsStore,
     currentSceneKeyStore,
   } from "../stores";
 
   import NumberInput from "./Inputs/NumberInput.svelte";
   import TextInput from "./Inputs/TextInput.svelte";
 
+  let sceneConfig = {
+    ...$configStore.scenes.find(
+      (scene) => scene.scene_key == $currentSceneKeyStore
+    ),
+  };
+
+  let initSceneConfig = { ...sceneConfig };
+
   let currentScene = getCurrentScene();
   let image = currentScene.image;
-  let key = $configStore.scenes.findIndex(
-    (scene) => scene.scene_key == $currentSceneKeyStore
-  );
+
+  $: {
+    const sceneConfigStore = $configStore.scenes.find(
+      (scene) => scene.scene_key == $currentSceneKeyStore
+    );
+
+    if (!equal(sceneConfig, initSceneConfig)) {
+      const edits = {};
+      for (const key of Object.keys(sceneConfig)) {
+        if (!(sceneConfig[key] === initSceneConfig[key])) {
+          edits[key] = sceneConfig[key];
+        }
+      }
+      sceneEditsStore.update((e) => (e[sceneConfig.scene_key] = edits));
+    }
+  }
+
+  $: console.log(22222, $sceneEditsStore);
+  $: console.log(11111, sceneConfig, $currentSceneKeyStore);
 
   $: if ($currentSceneKeyStore && $configStore) {
     currentScene = getCurrentScene();
@@ -46,22 +72,12 @@
 </script>
 
 <div class="container">
-  <TextInput bind:value={$configStore.scenes[key].scene_name}
-    >Scene name</TextInput
-  >
-  <NumberInput bind:value={$configStore.scenes[key].area_key}
-    >Area key</NumberInput
-  >
-  <NumberInput bind:value={$configStore.scenes[key].scene_key}
-    >Scene key</NumberInput
-  >
-  <NumberInput bind:value={$configStore.scenes[key].facing_pitch}
-    >Facing pitch</NumberInput
-  >
-  <NumberInput bind:value={$configStore.scenes[key].facing_yaw}
-    >Facing yaw</NumberInput
-  >
-  <NumberInput bind:value={$configStore.scenes[key].fov}>FOV</NumberInput>
+  <TextInput bind:value={sceneConfig.scene_name}>Scene name</TextInput>
+  <NumberInput bind:value={sceneConfig.area_key}>Area key</NumberInput>
+  <NumberInput bind:value={sceneConfig.scene_key}>Scene key</NumberInput>
+  <NumberInput bind:value={sceneConfig.facing_pitch}>Facing pitch</NumberInput>
+  <NumberInput bind:value={sceneConfig.facing_yaw}>Facing yaw</NumberInput>
+  <NumberInput bind:value={sceneConfig.fov}>FOV</NumberInput>
   <input type="file" on:change={onFileSelected} />
   <img src={image} alt="" />
 </div>

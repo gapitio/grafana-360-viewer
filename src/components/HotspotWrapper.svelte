@@ -44,11 +44,9 @@
       }
     );
   }
-
-  console.log(hotspotConfig.hotspot_key);
 </script>
 
-<div>
+<div class="wrapper">
   <div
     data-scene-key={hotspotConfig.scene_key}
     data-hotspot-key={hotspotConfig.hotspot_key}
@@ -59,7 +57,6 @@
     style="z-index: {index};"
   >
     {#if hotspot}
-      {@debug hotspot}
       <DraggableHotspot {viewer} {hotspot}>
         {#if hotspotConfig.type == "metric"}
           <DataHotspot
@@ -86,3 +83,9 @@
     {/if}
   </div>
 </div>
+
+<style>
+  .wrapper {
+    display: none;
+  }
+</style>

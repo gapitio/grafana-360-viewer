@@ -56,4 +56,6 @@ export const currentSceneDataStore = derived(
   }
 );
 
-export const editsStore = writable();
+export const areaEditsStore = writable({});
+export const sceneEditsStore = writable({});
+export const hotspotsEditsStore = writable({});
