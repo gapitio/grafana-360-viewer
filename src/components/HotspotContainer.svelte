@@ -6,6 +6,8 @@
   export let currentSceneKey: number;
   export let viewer: any;
   export let scenes: { name: string; key: number; scene: any }[] = [];
+
+  console.log(2);
 </script>
 
 <div class="hotspot-container">

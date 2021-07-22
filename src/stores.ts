@@ -1,5 +1,5 @@
-import { derived, writable } from "svelte/store";
-import { getConfig, SceneConfig } from "./utils/getConfig";
+import { derived, get, writable } from "svelte/store";
+import { getConfig, HotspotConfig, SceneConfig } from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
 
 export const dataStore = writable(data);
@@ -9,6 +9,10 @@ export const configStore = writable(getConfig());
 export const sceneConfigStore = derived(
   configStore,
   ($configStore) => $configStore.scenes
+);
+export const hotspotConfigStore = derived(
+  configStore,
+  ($configStore) => $configStore.hotspots
 );
 
 export const currentSceneKeyStore = (() => {
@@ -37,18 +41,46 @@ export const currentSceneKeyStore = (() => {
 })();
 
 export const areaEditsStore = writable({});
-export const hotspotsEditsStore = writable({});
+
+export const hotspotEditsStore = writable({});
+export const newHotspotStore = writable({});
+
+export const hotspotConfigListEditsStore = derived(
+  [configStore, hotspotEditsStore],
+  ([$configStore, $sceneEditsStore]): HotspotConfig[] => {
+    console.log("AHYDANDUAN");
+    return $configStore.scenes.map((sceneConfig) => ({
+      ...sceneConfig,
+      ...$sceneEditsStore[sceneConfig.scene_key],
+    }));
+  }
+);
+
+export const hotspotConfigListStore = derived(
+  [
+    customProperties.editable
+      ? hotspotConfigListEditsStore
+      : hotspotConfigStore,
+    viewerStore,
+  ],
+  ([$hotspotConfigStore, $viewerStore]) => {
+    console.log("HEYO");
+    return $viewerStore && $hotspotConfigStore ? $hotspotConfigStore : [];
+  }
+);
 
 export const sceneEditsStore = writable({});
 export const newScenesStore = writable([]);
 
 export const sceneConfigListEditsStore = derived(
   [configStore, sceneEditsStore],
-  ([$configStore, $sceneEditsStore]): SceneConfig[] =>
-    $configStore.scenes.map((sceneConfig) => ({
+  ([$configStore, $sceneEditsStore]): SceneConfig[] => {
+    hotspotEditsStore.set(get(hotspotEditsStore));
+    return $configStore.scenes.map((sceneConfig) => ({
       ...sceneConfig,
       ...$sceneEditsStore[sceneConfig.scene_key],
-    }))
+    }));
+  }
 );
 
 export const sceneDataListStore = derived(
