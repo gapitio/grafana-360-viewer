@@ -8,12 +8,14 @@
   export let scenes: { name: string; key: number; scene: any }[] = [];
 </script>
 
-{#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
-  <HotspotWrapper
-    {currentSceneKey}
-    {hotspotConfig}
-    {viewer}
-    {scenes}
-    index={i}
-  />
-{/each}
+<div class="hotspot-container">
+  {#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
+    <HotspotWrapper
+      {currentSceneKey}
+      {hotspotConfig}
+      {viewer}
+      {scenes}
+      index={i}
+    />
+  {/each}
+</div>

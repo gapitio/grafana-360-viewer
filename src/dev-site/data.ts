@@ -7,7 +7,7 @@ function randomValue({ min = 0, max = 1 }): number {
 }
 
 function updateData(): void {
-  const isFirstArea = Math.random() > 0.5;
+  const isFirstArea = true ?? Math.random() > 0.5;
 
   window.templateVariableList = isFirstArea
     ? [

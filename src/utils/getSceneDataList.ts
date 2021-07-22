@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Marzipano from "marzipano";
-import type { Config } from "./getConfig";
+import type { SceneConfig } from "./getConfig";
 
 export interface SceneData {
   name: string;
   key: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scene: any;
 }
 
 export function getSceneDataList(
-  config: Config,
+  sceneConfig: SceneConfig[],
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   viewer: any
 ): SceneData[] {
   viewer.destroyAllScenes();
 
-  const scenes = config.scenes.map((sceneConfig) => {
+  const scenes = sceneConfig.map((sceneConfig) => {
     const source = Marzipano.ImageUrlSource.fromString(sceneConfig.image);
 
     const geometry = new Marzipano.EquirectGeometry([{ width: 4096 }]);

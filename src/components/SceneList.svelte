@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { configStore, currentSceneKeyStore } from "../stores";
+  import { sceneConfigListEditsStore, currentSceneKeyStore } from "../stores";
 </script>
 
 <div class="scene-list">
   <ul>
-    {#each $configStore.scenes as sceneConfig}
+    {#each $sceneConfigListEditsStore as sceneConfig}
       <li>
         <label
           class={sceneConfig.scene_key == $currentSceneKeyStore ? "active" : ""}

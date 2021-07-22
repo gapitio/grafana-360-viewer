@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EditableSceneList from "./EditableSceneList.svelte";
+  import SceneList from "./SceneList.svelte";
   import SceneEditor from "./SceneEditor.svelte";
   import DraggableHorizontally from "./DraggableHorizontally.svelte";
 
@@ -7,7 +7,7 @@
 </script>
 
 <div class="scene-container" style={`width: ${width}px`}>
-  <EditableSceneList />
+  <SceneList />
   <SceneEditor />
   <DraggableHorizontally bind:width />
 </div>

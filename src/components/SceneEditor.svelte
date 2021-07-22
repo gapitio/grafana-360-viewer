@@ -5,70 +5,61 @@
     configStore,
     sceneEditsStore,
     currentSceneKeyStore,
+    sceneConfigListEditsStore,
   } from "../stores";
+  import type { SceneConfig } from "../utils/getConfig";
 
   import NumberInput from "./Inputs/NumberInput.svelte";
   import TextInput from "./Inputs/TextInput.svelte";
 
-  let sceneConfig = {
-    ...$configStore.scenes.find(
-      (scene) => scene.scene_key == $currentSceneKeyStore
-    ),
-  };
+  $: currentSceneKey = $sceneConfigListEditsStore.findIndex(
+    (scene) => scene.scene_key == $currentSceneKeyStore
+  );
 
-  let initSceneConfig = { ...sceneConfig };
+  let sceneConfig = getSceneConfig(
+    $sceneConfigListEditsStore,
+    $currentSceneKeyStore
+  );
 
-  let currentScene = getCurrentScene();
-  let image = currentScene.image;
+  currentSceneKeyStore.subscribe(
+    (sceneKey) =>
+      (sceneConfig = getSceneConfig($sceneConfigListEditsStore, sceneKey))
+  );
+
+  sceneConfigListEditsStore.subscribe(
+    (config) => (sceneConfig = getSceneConfig(config, $currentSceneKeyStore))
+  );
+
+  function getSceneConfig(config: SceneConfig[], sceneKey: number) {
+    return {
+      ...config.find((scene) => scene.scene_key == sceneKey),
+      ...($sceneEditsStore[sceneKey] ?? {}),
+    };
+  }
 
   $: {
-    const sceneConfigStore = $configStore.scenes.find(
-      (scene) => scene.scene_key == $currentSceneKeyStore
-    );
+    const uneditedSceneConfig = $configStore.scenes[currentSceneKey];
 
-    if (!equal(sceneConfig, initSceneConfig)) {
+    console.log(sceneConfig, uneditedSceneConfig, $sceneConfigListEditsStore);
+
+    if (!equal(sceneConfig, uneditedSceneConfig)) {
       const edits = {};
       for (const key of Object.keys(sceneConfig)) {
-        if (!(sceneConfig[key] === initSceneConfig[key])) {
+        if (!(sceneConfig[key] === uneditedSceneConfig[key])) {
           edits[key] = sceneConfig[key];
         }
       }
-      sceneEditsStore.update((e) => (e[sceneConfig.scene_key] = edits));
+      sceneEditsStore.update((e) => {
+        e[sceneConfig.scene_key] = edits;
+        return e;
+      });
+    } else if ($sceneEditsStore[sceneConfig.scene_key]) {
+      $sceneEditsStore =
+        delete $sceneEditsStore[sceneConfig.scene_key] && $sceneEditsStore;
     }
   }
 
-  $: console.log(22222, $sceneEditsStore);
-  $: console.log(11111, sceneConfig, $currentSceneKeyStore);
-
-  $: if ($currentSceneKeyStore && $configStore) {
-    currentScene = getCurrentScene();
-    image = currentScene.image;
-  }
-
-  function getCurrentScene() {
-    return $configStore.scenes[
-      $configStore.scenes.findIndex(
-        (scene) => scene.scene_key == $currentSceneKeyStore
-      )
-    ];
-  }
-
-  const onFileSelected = (
-    e: Event & {
-      currentTarget: EventTarget & HTMLInputElement;
-    }
-  ) => {
-    const imageData = e.currentTarget.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(imageData);
-    reader.onload = (e) => {
-      if (typeof e.target.result == "string") {
-        image = e.target.result;
-        currentScene.image = image;
-        $configStore.scenes = [...$configStore.scenes];
-      } else console.warn("Image is not a string");
-    };
-  };
+  $: console.log(11111, sceneConfig, $currentSceneKeyStore, $sceneEditsStore);
 </script>
 
 <div class="container">
@@ -78,8 +69,6 @@
   <NumberInput bind:value={sceneConfig.facing_pitch}>Facing pitch</NumberInput>
   <NumberInput bind:value={sceneConfig.facing_yaw}>Facing yaw</NumberInput>
   <NumberInput bind:value={sceneConfig.fov}>FOV</NumberInput>
-  <input type="file" on:change={onFileSelected} />
-  <img src={image} alt="" />
 </div>
 
 <style>
@@ -87,10 +76,5 @@
     border-top: 2px solid black;
     padding: 8px 8px 4px 8px;
     background-color: #1b191c55;
-  }
-
-  img {
-    margin-top: 6px;
-    width: 100%;
   }
 </style>

@@ -1,11 +1,15 @@
 import { derived, writable } from "svelte/store";
-import { getConfig } from "./utils/getConfig";
+import { getConfig, SceneConfig } from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
 
 export const dataStore = writable(data);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const viewerStore = writable<any>();
 export const configStore = writable(getConfig());
+export const sceneConfigStore = derived(
+  configStore,
+  ($configStore) => $configStore.scenes
+);
 
 export const currentSceneKeyStore = (() => {
   const getCurrentSceneKey = () =>
@@ -32,11 +36,29 @@ export const currentSceneKeyStore = (() => {
   };
 })();
 
+export const areaEditsStore = writable({});
+export const hotspotsEditsStore = writable({});
+
+export const sceneEditsStore = writable({});
+export const newScenesStore = writable([]);
+
+export const sceneConfigListEditsStore = derived(
+  [configStore, sceneEditsStore],
+  ([$configStore, $sceneEditsStore]): SceneConfig[] =>
+    $configStore.scenes.map((sceneConfig) => ({
+      ...sceneConfig,
+      ...$sceneEditsStore[sceneConfig.scene_key],
+    }))
+);
+
 export const sceneDataListStore = derived(
-  [configStore, viewerStore],
-  ([$configStore, $viewerStore]) =>
-    $viewerStore && $configStore
-      ? getSceneDataList($configStore, $viewerStore)
+  [
+    customProperties.editable ? sceneConfigListEditsStore : sceneConfigStore,
+    viewerStore,
+  ],
+  ([$sceneConfigStore, $viewerStore]) =>
+    $viewerStore && $sceneConfigStore
+      ? getSceneDataList($sceneConfigStore, $viewerStore)
       : []
 );
 
@@ -55,7 +77,3 @@ export const currentSceneDataStore = derived(
     return scene;
   }
 );
-
-export const areaEditsStore = writable({});
-export const sceneEditsStore = writable({});
-export const hotspotsEditsStore = writable({});

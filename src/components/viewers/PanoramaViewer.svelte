@@ -19,16 +19,15 @@
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
-  // sceneDataListStore.subscribe((e) => console.log(111111111, e));
   currentSceneDataStore.subscribe((e) => e?.scene.switchTo());
 
   // Update the view size when the panel is resized
   dataStore.subscribe(() => {
     const newConfig = getConfig();
-
     if (!equal($configStore, newConfig)) {
       configStore.set(newConfig);
     }
+
     $viewerStore && $viewerStore.updateSize();
     currentSceneKeyStore.updateKey();
   });
