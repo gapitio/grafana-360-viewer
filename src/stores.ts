@@ -63,10 +63,8 @@ export const hotspotConfigListStore = derived(
       : hotspotConfigStore,
     viewerStore,
   ],
-  ([$hotspotConfigStore, $viewerStore]) => {
-    console.log("HEYO");
-    return $viewerStore && $hotspotConfigStore ? $hotspotConfigStore : [];
-  }
+  ([$hotspotConfigStore, $viewerStore]) =>
+    $viewerStore && $hotspotConfigStore ? $hotspotConfigStore : []
 );
 
 export const sceneEditsStore = writable({});
@@ -74,13 +72,11 @@ export const newScenesStore = writable([]);
 
 export const sceneConfigListEditsStore = derived(
   [configStore, sceneEditsStore],
-  ([$configStore, $sceneEditsStore]): SceneConfig[] => {
-    hotspotEditsStore.set(get(hotspotEditsStore));
-    return $configStore.scenes.map((sceneConfig) => ({
+  ([$configStore, $sceneEditsStore]): SceneConfig[] =>
+    $configStore.scenes.map((sceneConfig) => ({
       ...sceneConfig,
       ...$sceneEditsStore[sceneConfig.scene_key],
-    }));
-  }
+    }))
 );
 
 export const sceneDataListStore = derived(
@@ -102,6 +98,8 @@ export const currentSceneDataStore = derived(
     const scene = $sceneDataListStore.find(
       (scene) => scene.key === $currentSceneKeyStore
     );
+
+    console.log(444, scene, $sceneDataListStore, $currentSceneKeyStore);
 
     if (!scene)
       throw new Error(`Found no scene with key ${$currentSceneKeyStore}`);

@@ -40,8 +40,6 @@
   $: {
     const uneditedSceneConfig = $configStore.scenes[currentSceneKey];
 
-    console.log(sceneConfig, uneditedSceneConfig, $sceneConfigListEditsStore);
-
     if (!equal(sceneConfig, uneditedSceneConfig)) {
       const edits = {};
       for (const key of Object.keys(sceneConfig)) {
@@ -58,8 +56,6 @@
         delete $sceneEditsStore[sceneConfig.scene_key] && $sceneEditsStore;
     }
   }
-
-  $: console.log(11111, sceneConfig, $currentSceneKeyStore, $sceneEditsStore);
 </script>
 
 <div class="container">
