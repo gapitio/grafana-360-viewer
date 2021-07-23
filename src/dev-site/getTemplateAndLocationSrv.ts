@@ -1,3 +1,5 @@
+import { updateData } from "./data";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 window.getTemplateSrv = (): TemplateSrv => ({
   getVariables: (): VariableModel[] => window.templateVariableList,
@@ -34,5 +36,10 @@ window.getLocationSrv = (): LocationSrv => ({
       ).selected = true;
       variable.current.value = String(value);
     });
+
+    updateData(false, false);
+    const panelUpdateEvent = new CustomEvent("panelupdate");
+    htmlNode.dispatchEvent(panelUpdateEvent);
+    htmlNode.onpanelupdate();
   },
 });

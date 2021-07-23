@@ -4,6 +4,7 @@
   export let hotspot: any;
 
   const viewer = $viewerStore;
+  const { editable } = customProperties;
 
   let element: HTMLElement;
   let lastX: number, lastY: number;
@@ -54,9 +55,13 @@
   }
 </script>
 
-<section bind:this={element} on:mousedown={onMouseDown} class="draggable">
+{#if editable}
+  <section bind:this={element} on:mousedown={onMouseDown} class="draggable">
+    <slot />
+  </section>
+{:else}
   <slot />
-</section>
+{/if}
 
 <style>
   .draggable {

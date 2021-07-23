@@ -1,8 +1,15 @@
 <script lang="ts">
-  export let func: () => void;
+  import { currentSceneKeyStore } from "../../stores";
+
+  export let go_to_scene_key: number;
+
+  function goToScene() {
+    if (!customProperties.editable)
+      currentSceneKeyStore.setKey(go_to_scene_key);
+  }
 </script>
 
-<div class="hotspot" on:click={func}>
+<div class="hotspot" on:click={goToScene}>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"

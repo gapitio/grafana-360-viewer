@@ -8,4 +8,5 @@ interface Window {
   getLocationSrv: typeof getLocationSrv;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   templateVariableList: any;
+  isFirstArea: boolean;
 }

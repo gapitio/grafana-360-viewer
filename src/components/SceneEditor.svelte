@@ -69,6 +69,7 @@
 
 <style>
   .container {
+    color: #fcfcfc;
     border-top: 2px solid black;
     padding: 8px 8px 4px 8px;
     background-color: #1b191c55;

@@ -71,10 +71,7 @@
             </tspan>
           </DataHotspot>
         {:else if hotspotConfig.type == "scene"}
-          <SceneHotspot
-            func={() =>
-              currentSceneKeyStore.setKey(hotspotConfig.go_to_scene_key)}
-          />
+          <SceneHotspot go_to_scene_key={hotspotConfig.go_to_scene_key} />
         {:else if hotspotConfig.type == "info"}
           <InfoHotspot />
         {/if}

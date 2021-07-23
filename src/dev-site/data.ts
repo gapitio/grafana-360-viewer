@@ -6,9 +6,7 @@ function randomValue({ min = 0, max = 1 }): number {
   return Math.random() * (max - min) + min;
 }
 
-function updateData(): void {
-  const isFirstArea = null ?? Math.random() > 0.5;
-
+function updateTemplateVariableList(isFirstArea: boolean) {
   window.templateVariableList = isFirstArea
     ? [
         {
@@ -96,6 +94,12 @@ function updateData(): void {
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any);
+}
+
+function updateData(shouldUpdateVariables = true, randomArea = true): void {
+  if (randomArea) window.isFirstArea = null ?? Math.random() > 0.5;
+
+  if (shouldUpdateVariables) updateTemplateVariableList(window.isFirstArea);
 
   window.data = {
     state: "Done",
@@ -113,7 +117,7 @@ function updateData(): void {
       ]),
       createJSONDataSeries(
         "scenes",
-        isFirstArea
+        window.isFirstArea
           ? [
               JSON.stringify([
                 {
@@ -152,7 +156,7 @@ function updateData(): void {
       ),
       createJSONDataSeries(
         "hotspots",
-        isFirstArea
+        window.isFirstArea
           ? [
               JSON.stringify([
                 {
@@ -221,6 +225,21 @@ function updateData(): void {
                   scene_key: 2,
                   type: "scene",
                   title: "A title text, again",
+                  description: "",
+                  metric: "a-d-c",
+                  unit: "kW",
+                  color: "#531AAA",
+                  go_to_scene_key: 1,
+                  yaw: 1.5,
+                  pitch: 0,
+                  extra_transform: "",
+                },
+                {
+                  area_key: 3,
+                  hotspot_key: 6,
+                  scene_key: 1,
+                  type: "scene",
+                  title: "Go to next scene",
                   description: "",
                   metric: "a-d-c",
                   unit: "kW",
