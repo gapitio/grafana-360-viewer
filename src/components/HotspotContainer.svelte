@@ -22,7 +22,6 @@
 
 <div class="hotspot-container">
   {#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
-    {@debug hotspotConfig}
     <HotspotWrapper
       {currentSceneKey}
       {hotspotConfig}
