@@ -20,7 +20,9 @@
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
-  currentSceneDataStore.subscribe((e) => e?.scene.switchTo());
+  currentSceneDataStore.subscribe(
+    (e) => e?.scene._viewer && e?.scene.switchTo()
+  );
 
   // Update the view size when the panel is resized
   dataStore.subscribe(() => {
@@ -58,7 +60,6 @@
     <HotspotContainer
       viewer={$viewerStore}
       currentSceneKey={$currentSceneKeyStore}
-      scenes={$sceneDataListStore}
       hotspotConfigList={$hotspotConfigStore}
     />
   {/if}

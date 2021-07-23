@@ -1,4 +1,4 @@
-import { derived, get, writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { getConfig, HotspotConfig, SceneConfig } from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
 
@@ -47,13 +47,11 @@ export const newHotspotStore = writable({});
 
 export const hotspotConfigListEditsStore = derived(
   [configStore, hotspotEditsStore],
-  ([$configStore, $sceneEditsStore]): HotspotConfig[] => {
-    console.log("AHYDANDUAN");
-    return $configStore.scenes.map((sceneConfig) => ({
+  ([$configStore, $sceneEditsStore]): HotspotConfig[] =>
+    $configStore.scenes.map((sceneConfig) => ({
       ...sceneConfig,
       ...$sceneEditsStore[sceneConfig.scene_key],
-    }));
-  }
+    }))
 );
 
 export const hotspotConfigListStore = derived(
@@ -84,10 +82,11 @@ export const sceneDataListStore = derived(
     customProperties.editable ? sceneConfigListEditsStore : sceneConfigStore,
     viewerStore,
   ],
-  ([$sceneConfigStore, $viewerStore]) =>
-    $viewerStore && $sceneConfigStore
+  ([$sceneConfigStore, $viewerStore]) => {
+    return $viewerStore && $sceneConfigStore
       ? getSceneDataList($sceneConfigStore, $viewerStore)
-      : []
+      : [];
+  }
 );
 
 export const currentSceneDataStore = derived(
@@ -98,11 +97,6 @@ export const currentSceneDataStore = derived(
     const scene = $sceneDataListStore.find(
       (scene) => scene.key === $currentSceneKeyStore
     );
-
-    console.log(444, scene, $sceneDataListStore, $currentSceneKeyStore);
-
-    if (!scene)
-      throw new Error(`Found no scene with key ${$currentSceneKeyStore}`);
 
     return scene;
   }

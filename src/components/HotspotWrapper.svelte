@@ -5,6 +5,11 @@
   import GrafanaData from "./Data/GrafanaData.svelte";
   import DraggableHotspot from "./DraggableHotspot.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
+  import {
+    currentSceneDataStore,
+    currentSceneKeyStore,
+    sceneDataListStore,
+  } from "../stores";
 
   export let hotspotConfig: HotspotConfig;
   export let currentSceneKey: number;
@@ -13,12 +18,13 @@
   export let index: number;
 
   let hotspot: any;
+  let hotspotElement: HTMLDivElement;
 
   function findScene(sceneKey: number) {
     const scene = scenes.find((scene) => scene.key == sceneKey);
     if (!scene) throw new Error(`Found no scene with key ${sceneKey}`);
 
-    return scenes.find((scene) => scene.key == sceneKey);
+    return scene;
   }
 
   function addHotspot(hotspotElement: HTMLElement) {
@@ -55,6 +61,7 @@
     data-pitch={hotspotConfig.pitch}
     data-extra-transforms={hotspotConfig.extra_transforms}
     style="z-index: {index};"
+    bind:this={hotspotElement}
   >
     {#if hotspot}
       <DraggableHotspot {viewer} {hotspot}>

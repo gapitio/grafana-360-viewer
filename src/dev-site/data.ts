@@ -134,15 +134,6 @@ function updateData(): void {
                   facing_pitch: 0,
                   fov: 120,
                 },
-                {
-                  scene_key: 3,
-                  area_key: 1,
-                  scene_name: "Earth",
-                  image: earth360image,
-                  facing_yaw: 1,
-                  facing_pitch: 0,
-                  fov: 120,
-                },
               ]),
             ]
           : [
@@ -150,7 +141,7 @@ function updateData(): void {
                 {
                   scene_key: 3,
                   area_key: 2,
-                  scene_name: "Office",
+                  scene_name: "An earth image",
                   image: earth360image,
                   facing_yaw: 0,
                   facing_pitch: 0,
@@ -227,7 +218,7 @@ function updateData(): void {
                 {
                   area_key: 3,
                   hotspot_key: 5,
-                  scene_key: 3,
+                  scene_key: 2,
                   type: "scene",
                   title: "A title text, again",
                   description: "",
