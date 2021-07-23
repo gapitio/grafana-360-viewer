@@ -48,10 +48,19 @@ export const newHotspotStore = writable({});
 export const hotspotConfigListEditsStore = derived(
   [configStore, hotspotEditsStore],
   ([$configStore, $hotspotEditsStore]): HotspotConfig[] =>
-    $configStore.hotspots.map((hotspotConfig) => ({
-      ...hotspotConfig,
-      ...$hotspotEditsStore[hotspotConfig.scene_key],
-    }))
+    $configStore.hotspots.map((hotspotConfig) => {
+      console.log(
+        hotspotConfig,
+        $hotspotEditsStore,
+        $hotspotEditsStore[hotspotConfig.hotspot_key],
+        hotspotConfig.hotspot_key
+      );
+
+      return {
+        ...hotspotConfig,
+        ...$hotspotEditsStore[hotspotConfig.hotspot_key],
+      };
+    })
 );
 
 export const hotspotConfigListStore = derived(

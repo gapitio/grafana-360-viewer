@@ -1,10 +1,14 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
   import { viewerStore } from "../stores";
 
   export let hotspot: any;
 
   const viewer = $viewerStore;
   const { editable } = customProperties;
+
+  const dispatch =
+    createEventDispatcher<{ newposition: { yaw: number; pitch: number } }>();
 
   let element: HTMLElement;
   let lastX: number, lastY: number;
@@ -49,6 +53,7 @@
   function onMouseUp() {
     viewer.controls().enable();
     console.info("Hotspot position", hotspot.position());
+    dispatch("newposition", hotspot.position());
 
     window.removeEventListener("mousemove", onMouseMove);
     window.removeEventListener("mouseup", onMouseUp);
