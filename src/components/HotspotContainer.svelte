@@ -4,12 +4,8 @@
   import { sceneDataListStore } from "../stores";
 
   export let hotspotConfigList: HotspotConfig[];
-  export let currentSceneKey: number;
-  export let viewer: any;
 
-  $: scenes = $sceneDataListStore;
-
-  $: if (scenes) {
+  $: if ($sceneDataListStore) {
     /*
       Update hotspotConfig to make a new key based on the object
       since objects are only equal to themself.
@@ -22,12 +18,6 @@
 
 <div class="hotspot-container">
   {#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
-    <HotspotWrapper
-      {currentSceneKey}
-      {hotspotConfig}
-      {viewer}
-      {scenes}
-      index={i}
-    />
+    <HotspotWrapper {hotspotConfig} index={i} />
   {/each}
 </div>

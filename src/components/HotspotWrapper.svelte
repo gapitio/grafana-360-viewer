@@ -5,23 +5,16 @@
   import GrafanaData from "./Data/GrafanaData.svelte";
   import DraggableHotspot from "./DraggableHotspot.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
-  import {
-    currentSceneDataStore,
-    currentSceneKeyStore,
-    sceneDataListStore,
-  } from "../stores";
+  import { currentSceneKeyStore, sceneDataListStore } from "../stores";
 
   export let hotspotConfig: HotspotConfig;
-  export let currentSceneKey: number;
-  export let viewer: any;
-  export let scenes: { name: string; key: number; scene: any }[] = [];
   export let index: number;
 
   let hotspot: any;
   let hotspotElement: HTMLDivElement;
 
   function findScene(sceneKey: number) {
-    const scene = scenes.find((scene) => scene.key == sceneKey);
+    const scene = $sceneDataListStore.find((scene) => scene.key == sceneKey);
     if (!scene) throw new Error(`Found no scene with key ${sceneKey}`);
 
     return scene;
@@ -64,7 +57,7 @@
     bind:this={hotspotElement}
   >
     {#if hotspot}
-      <DraggableHotspot {viewer} {hotspot}>
+      <DraggableHotspot {hotspot}>
         {#if hotspotConfig.type == "metric"}
           <DataHotspot
             title={hotspotConfig.title}
@@ -79,9 +72,8 @@
           </DataHotspot>
         {:else if hotspotConfig.type == "scene"}
           <SceneHotspot
-            func={() => {
-              currentSceneKey = hotspotConfig.go_to_scene_key;
-            }}
+            func={() =>
+              currentSceneKeyStore.setKey(hotspotConfig.go_to_scene_key)}
           />
         {:else if hotspotConfig.type == "info"}
           <InfoHotspot />

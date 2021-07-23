@@ -1,6 +1,9 @@
 <script lang="ts">
-  export let viewer: any;
+  import { viewerStore } from "../stores";
+
   export let hotspot: any;
+
+  const viewer = $viewerStore;
 
   let element: HTMLElement;
   let lastX: number, lastY: number;

@@ -8,7 +8,7 @@
     dataStore,
     configStore,
     currentSceneDataStore,
-    hotspotConfigStore,
+    hotspotConfigListStore,
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
@@ -56,12 +56,8 @@
 
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
-  {#if $hotspotConfigStore && $sceneDataListStore.length > 0}
-    <HotspotContainer
-      viewer={$viewerStore}
-      currentSceneKey={$currentSceneKeyStore}
-      hotspotConfigList={$hotspotConfigStore}
-    />
+  {#if $hotspotConfigListStore && $sceneDataListStore.length > 0}
+    <HotspotContainer hotspotConfigList={$hotspotConfigListStore} />
   {/if}
 </div>
 
