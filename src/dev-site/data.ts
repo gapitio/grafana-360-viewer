@@ -97,7 +97,7 @@ function updateTemplateVariableList(isFirstArea: boolean) {
 }
 
 function updateData(shouldUpdateVariables = true, randomArea = true): void {
-  if (randomArea) window.isFirstArea = null ?? Math.random() > 0.5;
+  if (randomArea) window.isFirstArea = true ?? Math.random() > 0.5;
 
   if (shouldUpdateVariables) updateTemplateVariableList(window.isFirstArea);
 

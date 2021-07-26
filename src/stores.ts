@@ -1,4 +1,4 @@
-import { derived, writable } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 import { getConfig, HotspotConfig, SceneConfig } from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
 
@@ -36,7 +36,10 @@ export const currentSceneKeyStore = (() => {
     subscribe,
     update,
     setKey: setCurrentSceneKey,
-    updateKey: () => set(getCurrentSceneKey()),
+    updateKey: () => {
+      const currentKey = getCurrentSceneKey();
+      if (currentKey != get(currentSceneKeyStore)) set(currentKey);
+    },
   };
 })();
 
