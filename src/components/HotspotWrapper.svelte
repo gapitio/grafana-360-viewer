@@ -45,10 +45,10 @@
   }
 
   function newposition(event: CustomEvent<{ yaw: number; pitch: number }>) {
-    hotspotEditsStore.update((e) => ({
-      ...e,
-      ...{ [hotspotConfig.hotspot_key]: event.detail },
-    }));
+    hotspotEditsStore.update((e) => {
+      e[hotspotConfig.hotspot_key] = event.detail;
+      return e;
+    });
   }
 </script>
 
