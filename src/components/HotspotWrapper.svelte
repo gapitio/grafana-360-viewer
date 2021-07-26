@@ -5,11 +5,7 @@
   import GrafanaData from "./Data/GrafanaData.svelte";
   import DraggableHotspot from "./DraggableHotspot.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
-  import {
-    currentSceneKeyStore,
-    hotspotEditsStore,
-    sceneDataListStore,
-  } from "../stores";
+  import { hotspotEditsStore, sceneDataListStore } from "../stores";
 
   export let hotspotConfig: HotspotConfig;
   export let index: number;
@@ -49,11 +45,10 @@
   }
 
   function newposition(event: CustomEvent<{ yaw: number; pitch: number }>) {
-    console.log(2);
-
-    hotspotEditsStore.update(
-      (e) => (e[hotspotConfig.hotspot_key] = event.detail)
-    );
+    hotspotEditsStore.update((e) => ({
+      ...e,
+      ...{ [hotspotConfig.hotspot_key]: event.detail },
+    }));
   }
 </script>
 

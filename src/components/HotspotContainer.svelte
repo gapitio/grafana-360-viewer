@@ -1,7 +1,7 @@
 <script lang="ts">
   import HotspotWrapper from "./HotspotWrapper.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
-  import { sceneDataListStore } from "../stores";
+  import { currentSceneDataStore, sceneDataListStore } from "../stores";
 
   export let hotspotConfigList: HotspotConfig[];
 
@@ -13,6 +13,12 @@
     hotspotConfigList = hotspotConfigList.map((hotspotConfig) => ({
       ...hotspotConfig,
     }));
+
+    // Remove previous hotspots
+    const hotspotCotainer = $currentSceneDataStore.scene.hotspotContainer();
+    for (const hotspot of hotspotCotainer.listHotspots()) {
+      hotspotCotainer.destroyHotspot(hotspot);
+    }
   }
 </script>
 
