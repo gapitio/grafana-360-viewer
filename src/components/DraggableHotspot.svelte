@@ -1,15 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { sceneDataListStore, viewerStore } from "../stores";
+  import { viewerStore } from "../stores";
 
   export let hotspot: any;
-
-  console.log(
-    $sceneDataListStore[0].scene
-      .hotspotContainer()
-      .listHotspots()[0]
-      .domElement()
-  );
 
   const viewer = $viewerStore;
   const { editable } = customProperties;

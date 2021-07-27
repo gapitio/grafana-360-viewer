@@ -11,12 +11,15 @@
     viewerStore,
   } from "../stores";
   import HotspotEditor from "./HotspotEditor.svelte";
+  import { clickOutside } from "../utils/clickOutside";
 
   export let hotspotConfigUndedited: HotspotConfig;
   export let index: number;
 
+  const { editable } = customProperties;
   const viewer = $viewerStore;
   let hotspotConfig = { ...hotspotConfigUndedited };
+  let editing = false;
 
   let hotspot: any;
   let hotspotElement: HTMLDivElement;
@@ -62,11 +65,16 @@
   function onMouseDown() {
     viewer.controls().disable();
     window.addEventListener("mouseup", onMouseUp);
+    editing = true;
   }
 
   function onMouseUp() {
     viewer.controls().enable();
     window.removeEventListener("mouseup", onMouseUp);
+  }
+
+  function onOutsideClick() {
+    editing = false;
   }
   $: console.log(hotspotConfig);
 </script>
@@ -75,13 +83,16 @@
   <div
     data-scene-key={hotspotConfig.scene_key}
     data-hotspot-key={hotspotConfig.hotspot_key}
-    use:addHotspot
     data-yaw={hotspotConfig.yaw}
     data-pitch={hotspotConfig.pitch}
     data-extra-transforms={hotspotConfig.extra_transforms}
+    class={editing ? "editing" : ""}
     style="z-index: {index};"
+    use:addHotspot
+    use:clickOutside
     bind:this={hotspotElement}
     on:mousedown={onMouseDown}
+    on:outsideclick={onOutsideClick}
   >
     {#if hotspot}
       <DraggableHotspot {hotspot} on:newposition={newposition}>
@@ -103,7 +114,9 @@
           <InfoHotspot />
         {/if}
       </DraggableHotspot>
-      <HotspotEditor bind:hotspotConfig />
+      {#if editable && editing}
+        <HotspotEditor bind:hotspotConfig />
+      {/if}
     {/if}
   </div>
 </div>
@@ -111,5 +124,9 @@
 <style>
   .wrapper {
     display: none;
+  }
+
+  .editing {
+    z-index: -1;
   }
 </style>

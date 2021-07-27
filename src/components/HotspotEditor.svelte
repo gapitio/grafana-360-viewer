@@ -20,8 +20,8 @@
   <NumberInput bind:value={hotspotConfig.go_to_scene_key}
     >go_to_scene_key</NumberInput
   >
-  <NumberInput bind:value={hotspotConfig.yaw}>yaw</NumberInput>
-  <NumberInput bind:value={hotspotConfig.pitch}>pitch</NumberInput>
+  <NumberInput bind:value={hotspotConfig.yaw} step={0.1}>yaw</NumberInput>
+  <NumberInput bind:value={hotspotConfig.pitch} step={0.1}>pitch</NumberInput>
   <TextInput bind:value={hotspotConfig.extra_transforms}
     >extra_transforms</TextInput
   >
