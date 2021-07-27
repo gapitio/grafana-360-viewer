@@ -96,8 +96,13 @@ function updateTemplateVariableList(isFirstArea: boolean) {
       ] as any);
 }
 
+const url = new URL(window.location.href);
+const currentArea = url.searchParams.get("currentArea");
+
 function updateData(shouldUpdateVariables = true, randomArea = true): void {
-  if (randomArea) window.isFirstArea = null ?? Math.random() > 0.5;
+  if (randomArea) {
+    window.isFirstArea = currentArea == "first" || Math.random() > 0.5;
+  }
 
   if (shouldUpdateVariables) updateTemplateVariableList(window.isFirstArea);
 

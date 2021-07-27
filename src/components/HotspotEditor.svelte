@@ -8,10 +8,23 @@
 </script>
 
 <div class="container">
-  <TextInput bind:value={hotspotConfig.title}>Title</TextInput>
-  <NumberInput bind:value={hotspotConfig.yaw}>Yaw</NumberInput>
-  <NumberInput bind:value={hotspotConfig.pitch}>Pitch</NumberInput>
-  <TextInput bind:value={hotspotConfig.extra_transforms}>Transforms</TextInput>
+  <NumberInput bind:value={hotspotConfig.hotspot_key}>hotspot_key</NumberInput>
+  <NumberInput bind:value={hotspotConfig.scene_key}>scene_key</NumberInput>
+  <NumberInput bind:value={hotspotConfig.area_key}>area_key</NumberInput>
+  <TextInput bind:value={hotspotConfig.type}>type</TextInput>
+  <TextInput bind:value={hotspotConfig.title}>title</TextInput>
+  <TextInput bind:value={hotspotConfig.description}>description</TextInput>
+  <TextInput bind:value={hotspotConfig.metric}>metric</TextInput>
+  <TextInput bind:value={hotspotConfig.unit}>unit</TextInput>
+  <TextInput bind:value={hotspotConfig.color}>color</TextInput>
+  <NumberInput bind:value={hotspotConfig.go_to_scene_key}
+    >go_to_scene_key</NumberInput
+  >
+  <NumberInput bind:value={hotspotConfig.yaw}>yaw</NumberInput>
+  <NumberInput bind:value={hotspotConfig.pitch}>pitch</NumberInput>
+  <TextInput bind:value={hotspotConfig.extra_transforms}
+    >extra_transforms</TextInput
+  >
 </div>
 
 <style>

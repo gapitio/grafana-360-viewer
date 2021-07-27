@@ -103,7 +103,7 @@
           <InfoHotspot />
         {/if}
       </DraggableHotspot>
-      <HotspotEditor {hotspotConfig} />
+      <HotspotEditor bind:hotspotConfig />
     {/if}
   </div>
 </div>
