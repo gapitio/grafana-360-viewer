@@ -97,7 +97,7 @@ function updateTemplateVariableList(isFirstArea: boolean) {
 }
 
 function updateData(shouldUpdateVariables = true, randomArea = true): void {
-  if (randomArea) window.isFirstArea = true ?? Math.random() > 0.5;
+  if (randomArea) window.isFirstArea = null ?? Math.random() > 0.5;
 
   if (shouldUpdateVariables) updateTemplateVariableList(window.isFirstArea);
 
@@ -172,7 +172,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 2,
                   yaw: 0.3,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
                 {
                   area_key: 1,
@@ -187,7 +187,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 2,
                   yaw: 0.6,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
                 {
                   area_key: 1,
@@ -202,7 +202,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 1,
                   yaw: 0.9,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
                 {
                   area_key: 1,
@@ -217,7 +217,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 2,
                   yaw: 1.2,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
                 {
                   area_key: 3,
@@ -232,7 +232,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 1,
                   yaw: 1.5,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
                 {
                   area_key: 3,
@@ -247,7 +247,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 2,
                   yaw: 1.5,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
               ]),
             ]
@@ -266,7 +266,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   go_to_scene_key: 2,
                   yaw: -0.2,
                   pitch: 0,
-                  extra_transform: "",
+                  extra_transforms: "",
                 },
               ]),
             ]

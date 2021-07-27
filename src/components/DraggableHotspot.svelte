@@ -1,8 +1,15 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { viewerStore } from "../stores";
+  import { sceneDataListStore, viewerStore } from "../stores";
 
   export let hotspot: any;
+
+  console.log(
+    $sceneDataListStore[0].scene
+      .hotspotContainer()
+      .listHotspots()[0]
+      .domElement()
+  );
 
   const viewer = $viewerStore;
   const { editable } = customProperties;
@@ -20,8 +27,6 @@
   ) {
     lastX = event.x;
     lastY = event.y;
-
-    viewer.controls().disable();
 
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
@@ -51,7 +56,6 @@
   }
 
   function onMouseUp() {
-    viewer.controls().enable();
     console.info("Hotspot position", hotspot.position());
     dispatch("newposition", hotspot.position());
 
@@ -61,18 +65,19 @@
 </script>
 
 {#if editable}
-  <section bind:this={element} on:mousedown={onMouseDown} class="draggable">
+  <div bind:this={element} on:mousedown={onMouseDown} class="draggable">
     <slot />
-  </section>
+  </div>
 {:else}
-  <slot />
+  <div>
+    <slot />
+  </div>
 {/if}
 
 <style>
   .draggable {
     user-select: none;
     cursor: move;
-    border: solid 1px gray;
     position: absolute;
   }
 </style>

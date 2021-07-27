@@ -5,10 +5,18 @@
   import GrafanaData from "./Data/GrafanaData.svelte";
   import DraggableHotspot from "./DraggableHotspot.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
-  import { hotspotEditsStore, sceneDataListStore } from "../stores";
+  import {
+    hotspotEditsStore,
+    sceneDataListStore,
+    viewerStore,
+  } from "../stores";
+  import HotspotEditor from "./HotspotEditor.svelte";
 
-  export let hotspotConfig: HotspotConfig;
+  export let hotspotConfigUndedited: HotspotConfig;
   export let index: number;
+
+  const viewer = $viewerStore;
+  let hotspotConfig = { ...hotspotConfigUndedited };
 
   let hotspot: any;
   let hotspotElement: HTMLDivElement;
@@ -45,11 +53,22 @@
   }
 
   function newposition(event: CustomEvent<{ yaw: number; pitch: number }>) {
-    hotspotEditsStore.update((e) => {
-      e[hotspotConfig.hotspot_key] = event.detail;
-      return e;
-    });
+    hotspotConfig = {
+      ...hotspotConfig,
+      ...event.detail,
+    };
   }
+
+  function onMouseDown() {
+    viewer.controls().disable();
+    window.addEventListener("mouseup", onMouseUp);
+  }
+
+  function onMouseUp() {
+    viewer.controls().enable();
+    window.removeEventListener("mouseup", onMouseUp);
+  }
+  $: console.log(hotspotConfig);
 </script>
 
 <div class="wrapper">
@@ -62,6 +81,7 @@
     data-extra-transforms={hotspotConfig.extra_transforms}
     style="z-index: {index};"
     bind:this={hotspotElement}
+    on:mousedown={onMouseDown}
   >
     {#if hotspot}
       <DraggableHotspot {hotspot} on:newposition={newposition}>
@@ -83,6 +103,7 @@
           <InfoHotspot />
         {/if}
       </DraggableHotspot>
+      <HotspotEditor {hotspotConfig} />
     {/if}
   </div>
 </div>

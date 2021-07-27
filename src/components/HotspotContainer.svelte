@@ -24,6 +24,6 @@
 
 <div class="hotspot-container">
   {#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
-    <HotspotWrapper {hotspotConfig} index={i} />
+    <HotspotWrapper hotspotConfigUndedited={hotspotConfig} index={i} />
   {/each}
 </div>
