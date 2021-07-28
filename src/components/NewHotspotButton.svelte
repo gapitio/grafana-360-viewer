@@ -36,7 +36,6 @@
       return [...e, newHotspotConfig];
     });
   }
-  $: console.log($newHotspotStore);
 </script>
 
 <button on:click={onClick}>New hotspot</button>

@@ -104,8 +104,6 @@
   }
 
   function onOutsideClick() {
-    console.log(2);
-
     if (editing) updateEdits();
     editing = false;
   }
