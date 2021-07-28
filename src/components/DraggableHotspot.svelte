@@ -3,9 +3,9 @@
   import { viewerStore } from "../stores";
 
   export let hotspot: any;
+  export let editable: boolean;
 
   const viewer = $viewerStore;
-  const { editable } = customProperties;
 
   const dispatch =
     createEventDispatcher<{ newposition: { yaw: number; pitch: number } }>();

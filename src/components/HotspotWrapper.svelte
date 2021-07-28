@@ -123,7 +123,11 @@
     on:outsideclick={onOutsideClick}
   >
     {#if hotspot}
-      <DraggableHotspot {hotspot} on:newposition={newposition}>
+      <DraggableHotspot
+        {hotspot}
+        editable={editable && editing}
+        on:newposition={newposition}
+      >
         {#if hotspotConfig.type == "metric"}
           <DataHotspot
             title={hotspotConfig.title}
