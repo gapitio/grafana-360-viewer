@@ -21,12 +21,12 @@ async function getSceneImage(sceneKey: number) {
   url.searchParams.append("select", "image");
 
   const res = await fetch(url.href, {
-    headers: { Accept: "application/vnd.pgrst.object+json" },
+    headers: { Accept: "application/octet-stream" },
   });
 
-  const data = await res.json();
+  const blob = await res.blob();
 
-  return data.image;
+  return URL.createObjectURL(blob);
 }
 
 export async function getSceneDataList(
