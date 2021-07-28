@@ -14,6 +14,7 @@
   import HotspotContainer from "../HotspotContainer.svelte";
   import SceneEditorContainer from "../SceneEditorContainer.svelte";
   import equal from "fast-deep-equal";
+  import NewHotspotButton from "../NewHotspotButton.svelte";
 
   const { editable } = customProperties;
 
@@ -63,6 +64,7 @@
 
 {#if editable}
   <SceneEditorContainer />
+  <NewHotspotButton />
 {/if}
 
 <style>

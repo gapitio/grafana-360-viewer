@@ -46,12 +46,12 @@ export const currentSceneKeyStore = (() => {
 export const areaEditsStore = writable({});
 
 export const hotspotEditsStore = writable({});
-export const newHotspotStore = writable({});
+export const newHotspotStore = writable([]);
 
 export const hotspotConfigListEditsStore = derived(
-  [configStore, hotspotEditsStore],
-  ([$configStore, $hotspotEditsStore]): HotspotConfig[] =>
-    $configStore.hotspots.map((hotspotConfig) => ({
+  [configStore, hotspotEditsStore, newHotspotStore],
+  ([$configStore, $hotspotEditsStore, $newHotspotStore]): HotspotConfig[] =>
+    [...$configStore.hotspots, ...$newHotspotStore].map((hotspotConfig) => ({
       ...hotspotConfig,
       ...$hotspotEditsStore[hotspotConfig.hotspot_key],
     }))

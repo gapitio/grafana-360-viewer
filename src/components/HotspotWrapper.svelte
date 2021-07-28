@@ -9,6 +9,7 @@
     configStore,
     hotspotConfigStore,
     hotspotEditsStore,
+    newHotspotStore,
     sceneDataListStore,
     viewerStore,
   } from "../stores";
@@ -58,9 +59,10 @@
   }
 
   function updateEdits() {
-    const uneditedHotspotConfig = $configStore.hotspots.find(
-      (hotspot) => hotspot.hotspot_key == hotspotConfig.hotspot_key
-    );
+    const uneditedHotspotConfig = [
+      ...$configStore.hotspots,
+      ...$newHotspotStore,
+    ].find((hotspot) => hotspot.hotspot_key == hotspotConfig.hotspot_key);
 
     if (!equal(hotspotConfig, uneditedHotspotConfig)) {
       const edits = {};
@@ -102,6 +104,8 @@
   }
 
   function onOutsideClick() {
+    console.log(2);
+
     if (editing) updateEdits();
     editing = false;
   }
@@ -142,7 +146,7 @@
           </DataHotspot>
         {:else if hotspotConfig.type == "scene"}
           <SceneHotspot go_to_scene_key={hotspotConfig.go_to_scene_key} />
-        {:else if hotspotConfig.type == "info"}
+        {:else}
           <InfoHotspot />
         {/if}
       </DraggableHotspot>

@@ -35,6 +35,7 @@ export interface HotspotConfig {
   yaw: number;
   pitch: number;
   extra_transforms: string;
+  new?: boolean;
 }
 
 export function getConfig(): Config {
