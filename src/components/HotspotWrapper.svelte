@@ -118,12 +118,12 @@
     data-yaw={hotspotConfig.yaw}
     data-pitch={hotspotConfig.pitch}
     data-extra-transforms={hotspotConfig.extra_transforms}
-    class={editing ? "editing" : ""}
+    class="{editing ? 'editing' : ''} {editable ? 'editable' : ''}"
     style="z-index: {index};"
     use:addHotspot
     use:clickOutside
     bind:this={hotspotElement}
-    on:mousedown={onMouseDown}
+    on:mousedown={editable && onMouseDown}
     on:outsideclick={onOutsideClick}
   >
     {#if hotspot}
@@ -164,5 +164,9 @@
 
   .editing {
     z-index: 1000000 !important;
+  }
+
+  .editable {
+    cursor: pointer;
   }
 </style>
