@@ -15,13 +15,10 @@ export const hotspotConfigStore = derived(
   ($configStore) => $configStore.hotspots
 );
 
-export const currentSceneKeyStore = (() => {
-  const getCurrentSceneKey = () =>
-    Number(
-      getTemplateSrv().replace(`$${customProperties.templateVariables.scene}`)
-    );
+const createVariableKeyStore = (variable: string) => {
+  const getKey = () => Number(getTemplateSrv().replace(`$${variable}`));
 
-  const setCurrentSceneKey = (value: number): void =>
+  const setKey = (value: number): void =>
     getLocationSrv().update({
       query: {
         [`var-scene`]: value,
@@ -29,19 +26,29 @@ export const currentSceneKeyStore = (() => {
       partial: true,
     });
 
-  const { set, subscribe, update } = writable(getCurrentSceneKey());
+  const updateKey = () => {
+    const currentKey = getKey();
+    if (currentKey != get(currentSceneKeyStore)) set(currentKey);
+  };
+
+  const { set, subscribe, update } = writable(getKey());
 
   return {
     set,
     subscribe,
     update,
-    setKey: setCurrentSceneKey,
-    updateKey: () => {
-      const currentKey = getCurrentSceneKey();
-      if (currentKey != get(currentSceneKeyStore)) set(currentKey);
-    },
+    setKey,
+    updateKey,
   };
-})();
+};
+
+export const currentAreaKeyStore = createVariableKeyStore(
+  customProperties.templateVariables.area
+);
+
+export const currentSceneKeyStore = createVariableKeyStore(
+  customProperties.templateVariables.scene
+);
 
 export const areaEditsStore = writable({});
 

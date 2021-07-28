@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    currentAreaKeyStore,
     currentSceneKeyStore,
     hotspotConfigListStore,
     newHotspotStore,
@@ -21,15 +22,15 @@
         ...defaultConfig,
         hotspot_key: newHotspotNumber,
         scene_key: $currentSceneKeyStore,
-        area_key: 3,
-        color: "#531AAA",
-        description: "",
-        extra_transforms: "",
+        area_key: $currentAreaKeyStore,
+        color: null,
+        description: null,
+        extra_transforms: null,
         go_to_scene_key: null,
-        metric: "a-d-c",
-        title: "Go to next scene",
-        type: "metric",
-        unit: "kW",
+        metric: null,
+        title: null,
+        type: null,
+        unit: null,
       };
 
       return [...e, newHotspotConfig];
