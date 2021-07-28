@@ -1,11 +1,16 @@
 <script lang="ts">
   import { currentSceneKeyStore } from "../../stores";
 
-  export let go_to_scene_key: number;
+  export let go_to_scene_key: number | null;
 
   function goToScene() {
-    if (!customProperties.editable)
-      currentSceneKeyStore.setKey(go_to_scene_key);
+    if (!go_to_scene_key) {
+      console.warn("Missing go_to_scene_key");
+      return;
+    }
+    if (customProperties.editable) return;
+
+    currentSceneKeyStore.setKey(go_to_scene_key);
   }
 </script>
 

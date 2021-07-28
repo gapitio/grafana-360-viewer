@@ -3,21 +3,13 @@
 
   let offset: number;
 
-  function onMouseDown(
-    event: MouseEvent & {
-      currentTarget: EventTarget & HTMLElement;
-    }
-  ) {
+  function onMouseDown(event: MouseEvent) {
     offset = event.x - width;
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
   }
 
-  function onMouseMove(
-    event: MouseEvent & {
-      currentTarget: EventTarget & HTMLElement;
-    }
-  ) {
+  function onMouseMove(event: MouseEvent) {
     width = event.x - offset;
 
     if (width < 100) width = 100;

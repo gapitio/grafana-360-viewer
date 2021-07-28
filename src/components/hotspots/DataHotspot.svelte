@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let title: string;
-  export let unit: string;
-  export let color: string;
-  export let value: string | number;
+  export let title: string | null;
+  export let unit: string | null;
+  export let color: string | null;
+  export let value: string | number | null;
 </script>
 
 <div class="hotspot">
@@ -16,7 +16,7 @@
       <g
         transform="translate(657 552)"
         fill="#1b191c"
-        stroke={color}
+        stroke={color ?? "#000"}
         stroke-width="5"
         opacity="0.88"
       >

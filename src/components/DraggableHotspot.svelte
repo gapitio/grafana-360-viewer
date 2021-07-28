@@ -13,11 +13,7 @@
   let element: HTMLElement;
   let lastX: number, lastY: number;
 
-  function onMouseDown(
-    event: MouseEvent & {
-      currentTarget: EventTarget & HTMLElement;
-    }
-  ) {
+  function onMouseDown(event: MouseEvent) {
     lastX = event.x;
     lastY = event.y;
 
@@ -25,11 +21,7 @@
     window.addEventListener("mouseup", onMouseUp);
   }
 
-  function onMouseMove(
-    event: MouseEvent & {
-      currentTarget: EventTarget & HTMLElement;
-    }
-  ) {
+  function onMouseMove(event: MouseEvent) {
     const { x: offsetX, y: offsetY } = viewer
       .domElement()
       .getBoundingClientRect();

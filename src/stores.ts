@@ -52,7 +52,9 @@ export const currentSceneKeyStore = createVariableKeyStore(
 
 export const areaEditsStore = writable({});
 
-export const hotspotEditsStore = writable({});
+export const hotspotEditsStore = writable<{
+  [key: number]: Partial<HotspotConfig>;
+}>({});
 export const newHotspotStore = writable([]);
 
 export const hotspotConfigListEditsStore = derived(
@@ -75,7 +77,9 @@ export const hotspotConfigListStore = derived(
     $viewerStore && $hotspotConfigStore ? $hotspotConfigStore : []
 );
 
-export const sceneEditsStore = writable({});
+export const sceneEditsStore = writable<{
+  [key: number]: Partial<SceneConfig>;
+}>({});
 export const newScenesStore = writable([]);
 
 export const sceneConfigListEditsStore = derived(

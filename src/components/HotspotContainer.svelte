@@ -15,9 +15,11 @@
     }));
 
     // Remove previous hotspots
-    const hotspotCotainer = $currentSceneDataStore.scene.hotspotContainer();
-    for (const hotspot of hotspotCotainer.listHotspots()) {
-      hotspotCotainer.destroyHotspot(hotspot);
+    const hotspotCotainer = $currentSceneDataStore?.scene.hotspotContainer();
+    if (hotspotCotainer) {
+      for (const hotspot of hotspotCotainer.listHotspots()) {
+        hotspotCotainer.destroyHotspot(hotspot);
+      }
     }
   }
 </script>

@@ -7,7 +7,6 @@
   import type { HotspotConfig } from "../utils/getConfig";
   import {
     configStore,
-    hotspotConfigStore,
     hotspotEditsStore,
     newHotspotStore,
     sceneDataListStore,
@@ -64,19 +63,22 @@
       ...$newHotspotStore,
     ].find((hotspot) => hotspot.hotspot_key == hotspotConfig.hotspot_key);
 
-    if (!equal(hotspotConfig, uneditedHotspotConfig)) {
+    if (uneditedHotspotConfig && !equal(hotspotConfig, uneditedHotspotConfig)) {
       const edits = {};
-      for (const key of Object.keys(hotspotConfig)) {
+
+      for (const key of Object.keys(hotspotConfig) as Array<
+        keyof HotspotConfig
+      >) {
         if (!(hotspotConfig[key] === uneditedHotspotConfig[key])) {
           edits[key] = hotspotConfig[key];
         }
       }
 
       if (!equal(edits, $hotspotEditsStore[hotspotConfig.hotspot_key])) {
-        hotspotEditsStore.update((e) => {
-          e[hotspotConfig.hotspot_key] = edits;
-          return e;
-        });
+        hotspotEditsStore.update((e) => ({
+          ...e,
+          [hotspotConfig.hotspot_key]: edits,
+        }));
       }
     } else if ($hotspotEditsStore[hotspotConfig.hotspot_key]) {
       $hotspotEditsStore =

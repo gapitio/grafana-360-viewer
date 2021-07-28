@@ -25,16 +25,16 @@ export interface HotspotConfig {
   hotspot_key: number;
   scene_key: number;
   area_key: number;
-  type: string;
-  title: string;
-  description: string;
-  metric: string;
-  unit: string;
-  color: string;
-  go_to_scene_key: number;
+  type: string | null;
+  title: string | null;
+  description: string | null;
+  metric: string | null;
+  unit: string | null;
+  color: string | null;
+  go_to_scene_key: number | null;
   yaw: number;
   pitch: number;
-  extra_transforms: string;
+  extra_transforms: string | null;
   new?: boolean;
 }
 
