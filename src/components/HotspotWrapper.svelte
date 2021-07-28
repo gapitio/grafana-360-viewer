@@ -6,19 +6,21 @@
   import DraggableHotspot from "./DraggableHotspot.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
   import {
+    configStore,
+    hotspotConfigStore,
     hotspotEditsStore,
     sceneDataListStore,
     viewerStore,
   } from "../stores";
   import HotspotEditor from "./HotspotEditor.svelte";
   import { clickOutside } from "../utils/clickOutside";
+  import equal from "fast-deep-equal";
 
-  export let hotspotConfigUndedited: HotspotConfig;
+  export let hotspotConfig: HotspotConfig;
   export let index: number;
 
   const { editable } = customProperties;
   const viewer = $viewerStore;
-  let hotspotConfig = { ...hotspotConfigUndedited };
   let editing = false;
 
   let hotspot: any;
@@ -55,6 +57,32 @@
     );
   }
 
+  function updateEdits() {
+    const uneditedHotspotConfig = $configStore.hotspots.find(
+      (hotspot) => hotspot.hotspot_key == hotspotConfig.hotspot_key
+    );
+
+    if (!equal(hotspotConfig, uneditedHotspotConfig)) {
+      const edits = {};
+      for (const key of Object.keys(hotspotConfig)) {
+        if (!(hotspotConfig[key] === uneditedHotspotConfig[key])) {
+          edits[key] = hotspotConfig[key];
+        }
+      }
+
+      if (!equal(edits, $hotspotEditsStore[hotspotConfig.hotspot_key])) {
+        hotspotEditsStore.update((e) => {
+          e[hotspotConfig.hotspot_key] = edits;
+          return e;
+        });
+      }
+    } else if ($hotspotEditsStore[hotspotConfig.hotspot_key]) {
+      $hotspotEditsStore =
+        delete $hotspotEditsStore[hotspotConfig.hotspot_key] &&
+        $hotspotEditsStore;
+    }
+  }
+
   function newposition(event: CustomEvent<{ yaw: number; pitch: number }>) {
     hotspotConfig = {
       ...hotspotConfig,
@@ -74,9 +102,9 @@
   }
 
   function onOutsideClick() {
+    if (editing) updateEdits();
     editing = false;
   }
-  $: console.log(hotspotConfig);
 </script>
 
 <div class="wrapper">
@@ -127,6 +155,6 @@
   }
 
   .editing {
-    z-index: -1;
+    z-index: 1000000 !important;
   }
 </style>

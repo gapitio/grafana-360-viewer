@@ -12,7 +12,7 @@
   import NumberInput from "./Inputs/NumberInput.svelte";
   import TextInput from "./Inputs/TextInput.svelte";
 
-  $: currentSceneKey = $sceneConfigListEditsStore.findIndex(
+  $: currentSceneIndex = $sceneConfigListEditsStore.findIndex(
     (scene) => scene.scene_key == $currentSceneKeyStore
   );
 
@@ -38,7 +38,8 @@
   }
 
   $: {
-    const uneditedSceneConfig = $configStore.scenes[currentSceneKey];
+    const uneditedSceneConfig = $configStore.scenes[currentSceneIndex];
+    console.log(uneditedSceneConfig, sceneConfig);
 
     if (!equal(sceneConfig, uneditedSceneConfig)) {
       const edits = {};
