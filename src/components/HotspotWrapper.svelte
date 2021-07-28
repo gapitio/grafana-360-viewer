@@ -1,4 +1,5 @@
 <script lang="ts">
+  import equal from "fast-deep-equal";
   import DataHotspot from "./hotspots/DataHotspot.svelte";
   import InfoHotspot from "./hotspots/InfoHotspot.svelte";
   import SceneHotspot from "./hotspots/SceneHotspot.svelte";
@@ -9,14 +10,14 @@
     configStore,
     hotspotEditsStore,
     newHotspotStore,
-    sceneDataListStore,
     viewerStore,
   } from "../stores";
   import HotspotEditor from "./HotspotEditor.svelte";
   import { clickOutside } from "../utils/clickOutside";
-  import equal from "fast-deep-equal";
+  import type { SceneData } from "../utils/getSceneDataList";
 
   export let hotspotConfig: HotspotConfig;
+  export let sceneDataList: SceneData[];
   export let index: number;
 
   const { editable } = customProperties;
@@ -27,7 +28,7 @@
   let hotspotElement: HTMLDivElement;
 
   function findScene(sceneKey: number) {
-    const scene = $sceneDataListStore.find((scene) => scene.key == sceneKey);
+    const scene = sceneDataList.find((scene) => scene.key == sceneKey);
     if (!scene) throw new Error(`Found no scene with key ${sceneKey}`);
 
     return scene;

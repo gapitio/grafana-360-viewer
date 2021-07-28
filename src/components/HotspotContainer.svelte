@@ -1,11 +1,25 @@
 <script lang="ts">
   import HotspotWrapper from "./HotspotWrapper.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
-  import { currentSceneDataStore, sceneDataListStore } from "../stores";
+  import { currentSceneKeyStore } from "../stores";
+  import type { SceneData } from "../utils/getSceneDataList";
 
   export let hotspotConfigList: HotspotConfig[];
+  export let sceneDataList: SceneData[];
 
-  $: if ($sceneDataListStore) {
+  async function removePreviousHotspots() {
+    const scene = sceneDataList.find(
+      (scene) => scene.key == $currentSceneKeyStore
+    );
+    const hotspotCotainer = scene?.scene.hotspotContainer();
+    if (hotspotCotainer) {
+      for (const hotspot of hotspotCotainer.listHotspots()) {
+        hotspotCotainer.destroyHotspot(hotspot);
+      }
+    }
+  }
+
+  $: if (sceneDataList) {
     /*
       Update hotspotConfig to make a new key based on the object
       since objects are only equal to themself.
@@ -14,18 +28,12 @@
       ...hotspotConfig,
     }));
 
-    // Remove previous hotspots
-    const hotspotCotainer = $currentSceneDataStore?.scene.hotspotContainer();
-    if (hotspotCotainer) {
-      for (const hotspot of hotspotCotainer.listHotspots()) {
-        hotspotCotainer.destroyHotspot(hotspot);
-      }
-    }
+    removePreviousHotspots();
   }
 </script>
 
 <div class="hotspot-container">
   {#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
-    <HotspotWrapper {hotspotConfig} index={i} />
+    <HotspotWrapper {hotspotConfig} {sceneDataList} index={i} />
   {/each}
 </div>

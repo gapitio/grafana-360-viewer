@@ -21,9 +21,10 @@
   let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
-  currentSceneDataStore.subscribe(
-    (e) => e?.scene._viewer && e?.scene.switchTo()
-  );
+  currentSceneDataStore.subscribe(async (e) => {
+    const sceneData = await e;
+    sceneData?.scene?._viewer && sceneData.scene.switchTo();
+  });
 
   // Update the view size when the panel is resized
   dataStore.subscribe(() => {
@@ -57,9 +58,14 @@
 
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
-  {#if $hotspotConfigListStore && $sceneDataListStore.length > 0}
-    <HotspotContainer hotspotConfigList={$hotspotConfigListStore} />
-  {/if}
+  {#await $sceneDataListStore then sceneDataList}
+    {#if $hotspotConfigListStore && sceneDataList.length > 0}
+      <HotspotContainer
+        hotspotConfigList={$hotspotConfigListStore}
+        {sceneDataList}
+      />
+    {/if}
+  {/await}
 </div>
 
 {#if editable}

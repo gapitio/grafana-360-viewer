@@ -96,19 +96,19 @@ export const sceneDataListStore = derived(
     customProperties.editable ? sceneConfigListEditsStore : sceneConfigStore,
     viewerStore,
   ],
-  ([$sceneConfigStore, $viewerStore]) => {
+  async ([$sceneConfigStore, $viewerStore]) => {
     return $viewerStore && $sceneConfigStore
-      ? getSceneDataList($sceneConfigStore, $viewerStore)
+      ? await getSceneDataList($sceneConfigStore, $viewerStore)
       : [];
   }
 );
 
 export const currentSceneDataStore = derived(
   [viewerStore, sceneDataListStore, currentSceneKeyStore],
-  ([$viewerStore, $sceneDataListStore, $currentSceneKeyStore]) => {
-    if (!$viewerStore || $sceneDataListStore.length === 0) return;
+  async ([$viewerStore, $sceneDataListStore, $currentSceneKeyStore]) => {
+    if (!$viewerStore || (await $sceneDataListStore).length === 0) return;
 
-    const scene = $sceneDataListStore.find(
+    const scene = (await $sceneDataListStore).find(
       (scene) => scene.key === $currentSceneKeyStore
     );
 
