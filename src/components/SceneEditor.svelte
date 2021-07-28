@@ -39,7 +39,6 @@
 
   $: {
     const uneditedSceneConfig = $configStore.scenes[currentSceneIndex];
-    console.log(uneditedSceneConfig, sceneConfig);
 
     if (!equal(sceneConfig, uneditedSceneConfig)) {
       const edits = {};
