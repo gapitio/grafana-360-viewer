@@ -6,13 +6,14 @@ export const dataStore = writable(data);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const viewerStore = writable<any>();
 export const configStore = writable(getConfig());
-export const sceneConfigStore = derived(
+
+export const uneditedSceneConfigListStore = derived(
   configStore,
-  ($configStore) => $configStore.scenes
+  ({ scenes }) => scenes
 );
-export const hotspotConfigStore = derived(
+export const uneditedHotspotConfigListStore = derived(
   configStore,
-  ($configStore) => $configStore.hotspots
+  ({ hotspots }) => hotspots
 );
 
 const createVariableKeyStore = (variable: string) => {
@@ -21,7 +22,7 @@ const createVariableKeyStore = (variable: string) => {
   const setKey = (value: number): void =>
     getLocationSrv().update({
       query: {
-        [`var-scene`]: value,
+        [`var-${variable}`]: value,
       },
       partial: true,
     });
@@ -59,10 +60,10 @@ export const newHotspotStore = writable([]);
 
 export const hotspotConfigListEditsStore = derived(
   [configStore, hotspotEditsStore, newHotspotStore],
-  ([$configStore, $hotspotEditsStore, $newHotspotStore]): HotspotConfig[] =>
-    [...$configStore.hotspots, ...$newHotspotStore].map((hotspotConfig) => ({
+  ([{ hotspots }, hotspotEdits, newHotspots]): HotspotConfig[] =>
+    [...hotspots, ...newHotspots].map((hotspotConfig) => ({
       ...hotspotConfig,
-      ...$hotspotEditsStore[hotspotConfig.hotspot_key],
+      ...hotspotEdits[hotspotConfig.hotspot_key],
     }))
 );
 
@@ -70,11 +71,10 @@ export const hotspotConfigListStore = derived(
   [
     customProperties.editable
       ? hotspotConfigListEditsStore
-      : hotspotConfigStore,
+      : uneditedHotspotConfigListStore,
     viewerStore,
   ],
-  ([$hotspotConfigStore, $viewerStore]) =>
-    $viewerStore && $hotspotConfigStore ? $hotspotConfigStore : []
+  ([hotspotConfig, viewer]) => (viewer && hotspotConfig ? hotspotConfig : [])
 );
 
 export const sceneEditsStore = writable<{
@@ -84,35 +84,35 @@ export const newScenesStore = writable([]);
 
 export const sceneConfigListEditsStore = derived(
   [configStore, sceneEditsStore],
-  ([$configStore, $sceneEditsStore]): SceneConfig[] =>
-    $configStore.scenes.map((sceneConfig) => ({
+  ([{ scenes }, sceneEdits]): SceneConfig[] =>
+    scenes.map((sceneConfig) => ({
       ...sceneConfig,
-      ...$sceneEditsStore[sceneConfig.scene_key],
+      ...sceneEdits[sceneConfig.scene_key],
     }))
 );
 
 export const sceneDataListStore = derived(
   [
-    customProperties.editable ? sceneConfigListEditsStore : sceneConfigStore,
+    customProperties.editable
+      ? sceneConfigListEditsStore
+      : uneditedSceneConfigListStore,
     viewerStore,
   ],
-  async ([$sceneConfigStore, $viewerStore]) => {
-    return $viewerStore && $sceneConfigStore
-      ? await getSceneDataList($sceneConfigStore, $viewerStore)
+  async ([sceneConfig, viewer]) => {
+    return viewer && sceneConfig
+      ? await getSceneDataList(sceneConfig, viewer)
       : [];
   }
 );
 
 export const currentSceneDataStore = derived(
   [viewerStore, sceneDataListStore, currentSceneKeyStore],
-  async ([$viewerStore, $sceneDataListStore, $currentSceneKeyStore]) => {
-    if (!$viewerStore || (await $sceneDataListStore).length === 0) return;
+  async ([viewer, sceneDataListPromise, currentSceneKey]) => {
+    const sceneDataList = await sceneDataListPromise;
 
-    const scene = (await $sceneDataListStore).find(
-      (scene) => scene.key === $currentSceneKeyStore
-    );
+    if (!viewer || sceneDataList.length === 0) return;
 
-    return scene;
+    return sceneDataList.find((scene) => scene.key === currentSceneKey);
   }
 );
 
@@ -124,7 +124,7 @@ export const imageURLObjectsStore = (() => {
     set({});
   };
 
-  const { set, subscribe, update } = writable<{ [key: string]: string }>({});
+  const { set, subscribe, update } = writable<{ [key: number]: string }>({});
   return {
     set,
     subscribe,
