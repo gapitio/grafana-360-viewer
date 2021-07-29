@@ -97,17 +97,14 @@
 
   function onMouseDown() {
     viewer.controls().disable();
-    window.addEventListener("mouseup", onMouseUp);
     editing = true;
   }
 
-  function onMouseUp() {
-    viewer.controls().enable();
-    window.removeEventListener("mouseup", onMouseUp);
-  }
-
   function onOutsideClick() {
-    if (editing) updateEdits();
+    if (editing) {
+      viewer.controls().enable();
+      updateEdits();
+    }
     editing = false;
   }
 </script>
