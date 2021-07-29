@@ -114,7 +114,8 @@
     padding: 8px;
     position: absolute;
     z-index: 1;
-    top: 40px;
+    top: 25px;
+    left: 65px;
     background: white;
     border: 1px solid #ccc;
     border-radius: 0.3rem;
