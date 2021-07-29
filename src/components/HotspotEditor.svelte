@@ -1,6 +1,7 @@
 <script lang="ts">
   import { sceneConfigListEditsStore } from "../stores";
   import type { HotspotConfig } from "../utils/getConfig";
+  import ColorPicker from "./ColorPicker.svelte";
 
   import NumberInput from "./Inputs/NumberInput.svelte";
   import SelectInput from "./Inputs/SelectInput.svelte";
@@ -32,7 +33,7 @@
   <TextInput bind:value={hotspotConfig.description}>description</TextInput>
   <TextInput bind:value={hotspotConfig.metric}>metric</TextInput>
   <TextInput bind:value={hotspotConfig.unit}>unit</TextInput>
-  <TextInput bind:value={hotspotConfig.color}>color</TextInput>
+  <ColorPicker bind:value={hotspotConfig.color} />
   <SelectInput
     bind:value={hotspotConfig.go_to_scene_key}
     items={goToSceneKeyItems()}>go_to_scene_key</SelectInput
