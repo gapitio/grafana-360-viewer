@@ -115,3 +115,20 @@ export const currentSceneDataStore = derived(
     return scene;
   }
 );
+
+export const imageURLObjectsStore = (() => {
+  const clear = () => {
+    for (const imageURLObject of Object.values(get(imageURLObjectsStore))) {
+      URL.revokeObjectURL(imageURLObject);
+    }
+    set({});
+  };
+
+  const { set, subscribe, update } = writable<{ [key: string]: string }>({});
+  return {
+    set,
+    subscribe,
+    update,
+    clear,
+  };
+})();

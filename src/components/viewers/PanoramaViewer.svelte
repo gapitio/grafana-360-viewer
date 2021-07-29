@@ -9,6 +9,7 @@
     configStore,
     currentSceneDataStore,
     hotspotConfigListStore,
+    imageURLObjectsStore,
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
@@ -30,6 +31,7 @@
   dataStore.subscribe(() => {
     const newConfig = getConfig();
     if (!equal($configStore, newConfig)) {
+      imageURLObjectsStore.clear();
       configStore.set(newConfig);
     }
 

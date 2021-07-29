@@ -128,6 +128,22 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                 {
                   scene_key: 1,
                   area_key: 1,
+                  scene_name: "Something",
+                  facing_yaw: 0,
+                  facing_pitch: 0,
+                  fov: 100,
+                },
+                {
+                  scene_key: 2,
+                  area_key: 1,
+                  scene_name: "Something else",
+                  facing_yaw: 1,
+                  facing_pitch: 0,
+                  fov: 120,
+                },
+                {
+                  scene_key: 4,
+                  area_key: 1,
                   scene_name: "Office",
                   image: office360image,
                   facing_yaw: 0,
@@ -135,7 +151,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   fov: 100,
                 },
                 {
-                  scene_key: 2,
+                  scene_key: 5,
                   area_key: 1,
                   scene_name: "Earth",
                   image: earth360image,

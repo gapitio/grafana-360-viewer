@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Marzipano from "marzipano";
+import { get } from "svelte/store";
+import { imageURLObjectsStore } from "../stores";
 import type { SceneConfig } from "./getConfig";
 
 export interface SceneData {
@@ -26,7 +28,14 @@ async function getSceneImage(sceneKey: number) {
 
   const blob = await res.blob();
 
-  return URL.createObjectURL(blob);
+  const imageURL = URL.createObjectURL(blob);
+
+  imageURLObjectsStore.update((e) => ({
+    ...e,
+    ...{ [sceneKey]: imageURL },
+  }));
+
+  return imageURL;
 }
 
 export async function getSceneDataList(
@@ -38,15 +47,18 @@ export async function getSceneDataList(
 
   const scenes = Promise.all(
     sceneConfig.map(async (sceneConfig) => {
-      const image = await getSceneImage(sceneConfig.scene_key);
+      const image =
+        get(imageURLObjectsStore)[sceneConfig.scene_key] ||
+        sceneConfig.image ||
+        (await getSceneImage(sceneConfig.scene_key));
 
       const source = Marzipano.ImageUrlSource.fromString(image);
 
       const geometry = new Marzipano.EquirectGeometry([{ width: 4096 }]);
 
       const limiter = Marzipano.util.compose(
-        Marzipano.RectilinearView.limit.vfov(0, 3),
-        Marzipano.RectilinearView.limit.hfov(0, 3),
+        Marzipano.RectilinearView.limit.vfov(0.1, 3),
+        Marzipano.RectilinearView.limit.hfov(0.1, 3),
         Marzipano.RectilinearView.limit.pitch(-Math.PI / 2, Math.PI / 2)
       );
       const view = new Marzipano.RectilinearView(
