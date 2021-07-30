@@ -31,6 +31,7 @@
         title: null,
         type: null,
         unit: null,
+        link: null,
       };
 
       return [...e, newHotspotConfig];

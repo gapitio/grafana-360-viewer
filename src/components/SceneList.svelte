@@ -2,7 +2,7 @@
   import { sceneConfigListEditsStore, currentSceneKeyStore } from "../stores";
 
   $: selectedScene = $currentSceneKeyStore;
-  $: currentSceneKeyStore.setKey(selectedScene);
+  $: currentSceneKeyStore.setVariable(selectedScene);
 </script>
 
 <div class="scene-list">

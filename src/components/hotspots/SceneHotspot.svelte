@@ -10,7 +10,7 @@
     }
     if (customProperties.editable) return;
 
-    currentSceneKeyStore.setKey(go_to_scene_key);
+    currentSceneKeyStore.setVariable(go_to_scene_key);
   }
 </script>
 

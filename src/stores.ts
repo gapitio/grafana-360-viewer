@@ -16,10 +16,17 @@ export const uneditedHotspotConfigListStore = derived(
   ({ hotspots }) => hotspots
 );
 
-const createVariableKeyStore = (variable: string) => {
-  const getKey = () => Number(getTemplateSrv().replace(`$${variable}`));
+const createTemplateVariableStore = <B extends boolean>(
+  variable: string,
+  number: B
+) => {
+  function getValue(): B extends true ? number : string;
+  function getValue(): number | string {
+    const value = getTemplateSrv().replace(`$${variable}`);
+    return number ? Number(value) : value;
+  }
 
-  const setKey = (value: number): void =>
+  const setVariable = (value: string | number): void =>
     getLocationSrv().update({
       query: {
         [`var-${variable}`]: value,
@@ -27,28 +34,30 @@ const createVariableKeyStore = (variable: string) => {
       partial: true,
     });
 
-  const updateKey = () => {
-    const currentKey = getKey();
+  const updateVariable = () => {
+    const currentKey = getValue();
     if (currentKey != get(currentSceneKeyStore)) set(currentKey);
   };
 
-  const { set, subscribe, update } = writable(getKey());
+  const { set, subscribe, update } = writable(getValue());
 
   return {
     set,
     subscribe,
     update,
-    setKey,
-    updateKey,
+    setVariable,
+    updateVariable,
   };
 };
 
-export const currentAreaKeyStore = createVariableKeyStore(
-  customProperties.templateVariables.area
+export const currentAreaKeyStore = createTemplateVariableStore(
+  customProperties.templateVariables.area,
+  true
 );
 
-export const currentSceneKeyStore = createVariableKeyStore(
-  customProperties.templateVariables.scene
+export const currentSceneKeyStore = createTemplateVariableStore(
+  customProperties.templateVariables.scene,
+  true
 );
 
 export const areaEditsStore = writable({});

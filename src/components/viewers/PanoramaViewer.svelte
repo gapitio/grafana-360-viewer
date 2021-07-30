@@ -10,12 +10,14 @@
     currentSceneDataStore,
     hotspotConfigListStore,
     imageURLObjectsStore,
+    currentAreaKeyStore,
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
   import SceneEditorContainer from "../SceneEditorContainer.svelte";
   import equal from "fast-deep-equal";
   import NewHotspotButton from "../NewHotspotButton.svelte";
+  import { enableAutoRotation } from "../../utils/autorotate";
 
   const { editable } = customProperties;
 
@@ -36,7 +38,14 @@
     }
 
     $viewerStore && $viewerStore.updateSize();
-    currentSceneKeyStore.updateKey();
+
+    if ($viewerStore) {
+      $viewerStore.updateSize();
+      enableAutoRotation($viewerStore);
+    }
+
+    currentSceneKeyStore.updateVariable();
+    currentAreaKeyStore.updateVariable();
   });
 
   onMount(async () => {
