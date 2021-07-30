@@ -7,6 +7,6 @@
   "database": {
     "apia": "/grafana/api/datasources/proxy/2/",
     "api": "http://0.0.0.0:3202/",
-    "imageTypeIsBytes": false
+    "imageTypeIsBytes": true
   }
 }

@@ -46,6 +46,16 @@ function updateTemplateVariableList(isFirstArea: boolean) {
               value: "2",
               selected: false,
             },
+            {
+              text: "4",
+              value: "4",
+              selected: true,
+            },
+            {
+              text: "5",
+              value: "5",
+              selected: false,
+            },
           ],
           current: {
             value: "1",
