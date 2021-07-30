@@ -7,13 +7,12 @@ export const dataStore = writable(data);
 export const viewerStore = writable<any>();
 export const configStore = writable(getConfig());
 
-export const uneditedSceneConfigListStore = derived(
-  configStore,
-  ({ scenes }) => scenes
+export const uneditedSceneConfigListStore = derived(configStore, ({ scenes }) =>
+  scenes.sort((a, b) => a.scene_key - b.scene_key)
 );
 export const uneditedHotspotConfigListStore = derived(
   configStore,
-  ({ hotspots }) => hotspots
+  ({ hotspots }) => hotspots.sort((a, b) => a.hotspot_key - b.hotspot_key)
 );
 
 const createVariableKeyStore = (variable: string) => {
@@ -59,8 +58,8 @@ export const hotspotEditsStore = writable<{
 export const newHotspotStore = writable([]);
 
 export const hotspotConfigListEditsStore = derived(
-  [configStore, hotspotEditsStore, newHotspotStore],
-  ([{ hotspots }, hotspotEdits, newHotspots]): HotspotConfig[] =>
+  [uneditedHotspotConfigListStore, hotspotEditsStore, newHotspotStore],
+  ([hotspots, hotspotEdits, newHotspots]): HotspotConfig[] =>
     [...hotspots, ...newHotspots].map((hotspotConfig) => ({
       ...hotspotConfig,
       ...hotspotEdits[hotspotConfig.hotspot_key],
@@ -83,8 +82,8 @@ export const sceneEditsStore = writable<{
 export const newScenesStore = writable([]);
 
 export const sceneConfigListEditsStore = derived(
-  [configStore, sceneEditsStore],
-  ([{ scenes }, sceneEdits]): SceneConfig[] =>
+  [uneditedSceneConfigListStore, sceneEditsStore],
+  ([scenes, sceneEdits]): SceneConfig[] =>
     scenes.map((sceneConfig) => ({
       ...sceneConfig,
       ...sceneEdits[sceneConfig.scene_key],
