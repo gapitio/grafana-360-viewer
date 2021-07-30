@@ -7,12 +7,13 @@ export const dataStore = writable(data);
 export const viewerStore = writable<any>();
 export const configStore = writable(getConfig());
 
-export const uneditedSceneConfigListStore = derived(configStore, ({ scenes }) =>
-  scenes.sort((a, b) => a.scene_key - b.scene_key)
+export const uneditedSceneConfigListStore = derived(
+  configStore,
+  ({ scenes }) => scenes
 );
 export const uneditedHotspotConfigListStore = derived(
   configStore,
-  ({ hotspots }) => hotspots.sort((a, b) => a.hotspot_key - b.hotspot_key)
+  ({ hotspots }) => hotspots
 );
 
 const createVariableKeyStore = (variable: string) => {

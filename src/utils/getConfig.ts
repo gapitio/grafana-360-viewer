@@ -41,7 +41,7 @@ export interface HotspotConfig {
 export function getConfig(): Config {
   const [areas, scenes, hotspots] = ["areas", "scenes", "hotspots"].map(
     (seriesName) => {
-      let value: unknown[];
+      let value: AreaConfig[] | SceneConfig[] | HotspotConfig[];
 
       try {
         value = JSON.parse(
@@ -59,7 +59,11 @@ export function getConfig(): Config {
 
       return value;
     }
-  );
+  ) as [AreaConfig[], SceneConfig[], HotspotConfig[]];
+
+  areas.sort((a, b) => a.area_key - b.area_key);
+  scenes.sort((a, b) => a.scene_key - b.scene_key);
+  hotspots.sort((a, b) => a.hotspot_key - b.hotspot_key);
 
   return { areas, scenes, hotspots };
 }
