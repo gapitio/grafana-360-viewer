@@ -2,10 +2,15 @@
   export let title: string | null;
   export let unit: string | null;
   export let color: string | null;
+  export let link: string | null = "";
   export let value: string | number | null;
+
+  function onClick(event: MouseEvent) {
+    window.open(link, event.ctrlKey ? "_blank" : "_self");
+  }
 </script>
 
-<div class="hotspot">
+<div class="hotspot" on:click={onClick} class:link>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"
@@ -57,6 +62,10 @@
     color: white;
     width: 200px;
     transform: translate(-50%, -50%);
+  }
+
+  .link {
+    cursor: pointer;
   }
   .type {
     text-transform: uppercase;

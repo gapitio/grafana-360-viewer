@@ -204,6 +204,7 @@ function updateData(shouldUpdateVariables = true, randomArea = true): void {
                   yaw: 0.3,
                   pitch: 0,
                   extra_transforms: "",
+                  link: "/a",
                 },
                 {
                   area_key: 1,

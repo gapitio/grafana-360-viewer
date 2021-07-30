@@ -137,6 +137,7 @@
             title={hotspotConfig.title}
             color={hotspotConfig.color}
             unit={hotspotConfig.unit}
+            link={hotspotConfig.link}
             value={"No data"}
           >
             <tspan slot="title">{hotspotConfig.title}</tspan>

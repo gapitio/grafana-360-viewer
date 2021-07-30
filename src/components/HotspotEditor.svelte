@@ -43,6 +43,7 @@
   <TextInput bind:value={hotspotConfig.extra_transforms}
     >extra_transforms</TextInput
   >
+  <TextInput bind:value={hotspotConfig.link}>link</TextInput>
 </div>
 
 <style>
