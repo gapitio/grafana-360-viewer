@@ -96,8 +96,10 @@
   }
 
   function onMouseDown() {
-    viewer.controls().disable();
-    editing = true;
+    if (editable) {
+      viewer.controls().disable();
+      editing = true;
+    }
   }
 
   function onOutsideClick() {
@@ -121,7 +123,7 @@
     use:addHotspot
     use:clickOutside
     bind:this={hotspotElement}
-    on:mousedown={editable && onMouseDown}
+    on:mousedown={onMouseDown}
     on:outsideclick={onOutsideClick}
   >
     {#if hotspot}
