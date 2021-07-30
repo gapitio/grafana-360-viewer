@@ -6,7 +6,7 @@
   export let value: string | number | null;
 
   function onClick(event: MouseEvent) {
-    window.open(link, event.ctrlKey ? "_blank" : "_self");
+    link && window.open(link, event.ctrlKey ? "_blank" : "_self");
   }
 </script>
 
