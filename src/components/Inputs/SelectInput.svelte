@@ -7,7 +7,7 @@
   let selectedOption =
     items.find((option) => option.value == value) ?? items[0];
 
-  $: value = selectedOption.value;
+  $: value = selectedOption?.value;
 </script>
 
 <div>
@@ -30,6 +30,8 @@
     --inputFontSize: 13.3333px;
     --border-radius: 2px;
     --margin: 1px 0 0 1px;
+    --clearSelectTop: 1px;
+    --clearSelectBottom: 0;
 
     display: inline-block;
     color: black;

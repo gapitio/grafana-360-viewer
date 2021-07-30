@@ -19,7 +19,7 @@
   };
 
   $: {
-    const rgb = hexToRGB(value);
+    const rgb = value && hexToRGB(value);
 
     const brightness =
       rgb && Math.round((rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000);
@@ -82,7 +82,8 @@
   .select-color {
     border: 1px solid transparent;
     border-radius: 4px;
-    margin-right: 0.4rem;
+    margin-right: 4px;
+    background-color: #000;
   }
 
   .caret {
@@ -92,8 +93,6 @@
   }
 
   .caret.toggled {
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
     border-bottom: 4px solid #000;
     border-top: none;
   }
@@ -103,22 +102,19 @@
   }
 
   .color-block {
-    border-radius: 0.2rem;
+    border-radius: 2px;
     width: 24px;
     height: 24px;
-    line-height: 0;
-    font-size: 0;
   }
 
   .values-dropdown {
     padding: 8px;
     position: absolute;
-    z-index: 1;
     top: 25px;
     left: 65px;
     background: white;
     border: 1px solid #ccc;
-    border-radius: 0.3rem;
+    border-radius: 2px;
     cursor: default;
   }
 
