@@ -11,31 +11,47 @@ export interface SceneData {
 }
 
 async function getSceneImage(sceneKey: number) {
-  const r = new RegExp("^(?:[a-z]+:)?//", "i");
-  const isRelativeURL = !r.test(customProperties.api);
+  const {
+    database: { api, imageTypeIsBytes },
+  } = customProperties;
 
-  const url = new URL(
-    (isRelativeURL ? window.location.origin : "") +
-      customProperties.api +
-      "scenes"
-  );
+  const r = new RegExp("^(?:[a-z]+:)?//", "i");
+  const isRelativeURL = !r.test(api);
+
+  const fullAPIPath = (isRelativeURL ? window.location.origin : "") + api;
+
+  const url = new URL(fullAPIPath + "scenes");
   url.searchParams.append("scene_key", `eq.${sceneKey}`);
   url.searchParams.append("select", "image");
 
-  const res = await fetch(url.href, {
-    headers: { Accept: "application/octet-stream" },
-  });
+  const getBase64Image = async () => {
+    const res = await fetch(url.href, {
+      headers: { Accept: "application/vnd.pgrst.object+json" },
+    });
 
-  const blob = await res.blob();
+    const data = await res.json();
 
-  const imageURL = URL.createObjectURL(blob);
+    return data.image;
+  };
 
-  imageURLObjectsStore.update((e) => ({
-    ...e,
-    ...{ [sceneKey]: imageURL },
-  }));
+  const getBlobImage = async () => {
+    const res = await fetch(url.href, {
+      headers: { Accept: "application/octet-stream" },
+    });
 
-  return imageURL;
+    const blob = await res.blob();
+
+    const imageURL = URL.createObjectURL(blob);
+
+    imageURLObjectsStore.update((e) => ({
+      ...e,
+      ...{ [sceneKey]: imageURL },
+    }));
+
+    return imageURL;
+  };
+
+  return imageTypeIsBytes ? getBlobImage() : getBase64Image();
 }
 
 export async function getSceneDataList(
