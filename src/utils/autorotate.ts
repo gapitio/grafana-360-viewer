@@ -16,4 +16,5 @@ export function enableAutoRotation(viewer): void {
 export function disableAutoRotation(viewer) {
   // Disable idle movement
   viewer.setIdleMovement(Infinity);
+  viewer.stopMovement();
 }

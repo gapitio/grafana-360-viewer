@@ -2,6 +2,10 @@ import { createSeries, createJSONDataSeries } from "./create-series";
 import office360image from "../../public/office-360.jpg";
 import earth360image from "../../public/earth.jpg";
 
+const url = new URL(window.location.href);
+const currentArea = url.searchParams.get("currentArea");
+const autoRotate = url.searchParams.get("autoRotate");
+
 function randomValue({ min = 0, max = 1 }): number {
   return Math.random() * (max - min) + min;
 }
@@ -107,27 +111,51 @@ function updateTemplateVariableList(isFirstArea: boolean) {
 
   window.templateVariableList = [
     ...window.templateVariableList,
-    {
-      id: "autoRotate",
-      name: "autoRotate",
-      label: null,
-      type: "query",
-      options: [
-        {
-          text: "true",
-          value: "true",
-          selected: true,
+    autoRotate == "false"
+      ? {
+          id: "autoRotate",
+          name: "autoRotate",
+          label: null,
+          type: "query",
+          options: [
+            {
+              text: "true",
+              value: "true",
+              selected: false,
+            },
+            {
+              text: "false",
+              value: "false",
+              selected: true,
+            },
+          ],
+          current: {
+            value: "false",
+          },
+        }
+      : {
+          id: "autoRotate",
+          name: "autoRotate",
+          label: null,
+          type: "query",
+          options: [
+            {
+              text: "true",
+              value: "true",
+              selected: true,
+            },
+            {
+              text: "false",
+              value: "false",
+              selected: false,
+            },
+          ],
+          current: {
+            value: "true",
+          },
         },
-      ],
-      current: {
-        value: "true",
-      },
-    },
   ];
 }
-
-const url = new URL(window.location.href);
-const currentArea = url.searchParams.get("currentArea");
 
 function updateData(shouldUpdateVariables = true, randomArea = true): void {
   if (randomArea) {
