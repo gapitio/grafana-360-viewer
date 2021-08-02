@@ -3,6 +3,7 @@ import Marzipano from "marzipano";
 import { get } from "svelte/store";
 import { imageURLObjectsStore } from "../stores";
 import type { SceneConfig } from "./getConfig";
+import { getFullAPIPath } from "./apiPath";
 
 export interface SceneData {
   name: string;
@@ -15,12 +16,7 @@ async function getSceneImage(sceneKey: number) {
     database: { api, imageTypeIsBytes },
   } = customProperties;
 
-  const r = new RegExp("^(?:[a-z]+:)?//", "i");
-  const isRelativeURL = !r.test(api);
-
-  const fullAPIPath = (isRelativeURL ? window.location.origin : "") + api;
-
-  const url = new URL(fullAPIPath + "scenes");
+  const url = new URL(getFullAPIPath(api) + "scenes");
   url.searchParams.append("scene_key", `eq.${sceneKey}`);
   url.searchParams.append("select", "image");
 

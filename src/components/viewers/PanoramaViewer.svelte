@@ -15,13 +15,14 @@
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
-  import SceneEditorContainer from "../SceneEditorContainer.svelte";
   import equal from "fast-deep-equal";
   import NewHotspotButton from "../NewHotspotButton.svelte";
   import {
     disableAutoRotation,
     enableAutoRotation,
   } from "../../utils/autorotate";
+  import SaveButton from "../SaveButton.svelte";
+  import Sidebar from "../Sidebar.svelte";
 
   const { editable } = customProperties;
 
@@ -47,9 +48,9 @@
       $viewerStore.updateSize();
     }
 
-    currentSceneKeyStore.updateVariable();
-    currentAreaKeyStore.updateVariable();
-    autoRotateStore.updateVariable();
+    currentAreaKeyStore.updateVariable($currentAreaKeyStore);
+    currentSceneKeyStore.updateVariable($currentSceneKeyStore);
+    autoRotateStore.updateVariable($autoRotateStore);
   });
 
   $: if ($viewerStore) {
@@ -92,8 +93,9 @@
 </div>
 
 {#if editable}
-  <SceneEditorContainer />
+  <Sidebar />
   <NewHotspotButton />
+  <SaveButton />
 {/if}
 
 <style>

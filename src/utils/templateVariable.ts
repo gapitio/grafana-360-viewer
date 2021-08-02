@@ -1,5 +1,4 @@
-import { get, writable } from "svelte/store";
-import { currentSceneKeyStore } from "../stores";
+import { writable } from "svelte/store";
 
 export const getTemplateVariable = (variable: string): string =>
   getTemplateSrv().replace(`$${variable}`);
@@ -26,9 +25,9 @@ export const createTemplateVariableStore = <B extends boolean>(
   const setVariable = (value: string | number): void =>
     updateTemplateVariable(variable, String(value));
 
-  const updateVariable = () => {
+  const updateVariable = (currentValue: B extends true ? number : string) => {
     const currentKey = getValue();
-    if (currentKey != get(currentSceneKeyStore)) set(currentKey);
+    if (currentKey != currentValue) set(currentKey);
   };
 
   const { set, subscribe, update } = writable(getValue());
