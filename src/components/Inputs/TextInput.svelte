@@ -15,5 +15,6 @@
 
   input {
     margin-left: 10px;
+    width: 150px;
   }
 </style>

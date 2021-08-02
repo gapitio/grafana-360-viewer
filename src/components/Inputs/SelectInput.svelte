@@ -37,6 +37,7 @@
     color: black;
     width: 158px;
     font-size: var(--inputFontSize);
+    margin-left: 10px;
   }
 
   :global(.selectContainer) {

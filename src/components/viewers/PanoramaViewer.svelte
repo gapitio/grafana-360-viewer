@@ -11,13 +11,17 @@
     hotspotConfigListStore,
     imageURLObjectsStore,
     currentAreaKeyStore,
+    autoRotateStore,
   } from "../../stores";
   import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
   import SceneEditorContainer from "../SceneEditorContainer.svelte";
   import equal from "fast-deep-equal";
   import NewHotspotButton from "../NewHotspotButton.svelte";
-  import { enableAutoRotation } from "../../utils/autorotate";
+  import {
+    disableAutoRotation,
+    enableAutoRotation,
+  } from "../../utils/autorotate";
 
   const { editable } = customProperties;
 
@@ -41,12 +45,20 @@
 
     if ($viewerStore) {
       $viewerStore.updateSize();
-      enableAutoRotation($viewerStore);
     }
 
     currentSceneKeyStore.updateVariable();
     currentAreaKeyStore.updateVariable();
+    autoRotateStore.updateVariable();
   });
+
+  $: if ($viewerStore) {
+    if ($autoRotateStore == "false") {
+      enableAutoRotation($viewerStore);
+    } else {
+      disableAutoRotation($viewerStore);
+    }
+  }
 
   onMount(async () => {
     viewerStore.set(new Marzipano.Viewer(panoramaContainer));

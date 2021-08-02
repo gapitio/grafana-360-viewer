@@ -1,6 +1,12 @@
 import { derived, get, writable } from "svelte/store";
 import { getConfig, HotspotConfig, SceneConfig } from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
+import { createTemplateVariableStore } from "./utils/templateVariable";
+
+const {
+  editable,
+  templateVariables: { area, autoRotate, scene },
+} = customProperties;
 
 export const dataStore = writable(data);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,49 +22,9 @@ export const uneditedHotspotConfigListStore = derived(
   ({ hotspots }) => hotspots
 );
 
-const createTemplateVariableStore = <B extends boolean>(
-  variable: string,
-  number: B
-) => {
-  function getValue(): B extends true ? number : string;
-  function getValue(): number | string {
-    const value = getTemplateSrv().replace(`$${variable}`);
-    return number ? Number(value) : value;
-  }
-
-  const setVariable = (value: string | number): void =>
-    getLocationSrv().update({
-      query: {
-        [`var-${variable}`]: value,
-      },
-      partial: true,
-    });
-
-  const updateVariable = () => {
-    const currentKey = getValue();
-    if (currentKey != get(currentSceneKeyStore)) set(currentKey);
-  };
-
-  const { set, subscribe, update } = writable(getValue());
-
-  return {
-    set,
-    subscribe,
-    update,
-    setVariable,
-    updateVariable,
-  };
-};
-
-export const currentAreaKeyStore = createTemplateVariableStore(
-  customProperties.templateVariables.area,
-  true
-);
-
-export const currentSceneKeyStore = createTemplateVariableStore(
-  customProperties.templateVariables.scene,
-  true
-);
+export const currentAreaKeyStore = createTemplateVariableStore(area, true);
+export const currentSceneKeyStore = createTemplateVariableStore(scene, true);
+export const autoRotateStore = createTemplateVariableStore(autoRotate, false);
 
 export const areaEditsStore = writable({});
 
@@ -78,9 +44,7 @@ export const hotspotConfigListEditsStore = derived(
 
 export const hotspotConfigListStore = derived(
   [
-    customProperties.editable
-      ? hotspotConfigListEditsStore
-      : uneditedHotspotConfigListStore,
+    editable ? hotspotConfigListEditsStore : uneditedHotspotConfigListStore,
     viewerStore,
   ],
   ([hotspotConfig, viewer]) => (viewer && hotspotConfig ? hotspotConfig : [])
@@ -102,9 +66,7 @@ export const sceneConfigListEditsStore = derived(
 
 export const sceneDataListStore = derived(
   [
-    customProperties.editable
-      ? sceneConfigListEditsStore
-      : uneditedSceneConfigListStore,
+    editable ? sceneConfigListEditsStore : uneditedSceneConfigListStore,
     viewerStore,
   ],
   async ([sceneConfig, viewer]) => {

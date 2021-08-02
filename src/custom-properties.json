@@ -1,8 +1,9 @@
 {
-  "editable": false,
+  "editable": true,
   "templateVariables": {
     "area": "area",
-    "scene": "scene"
+    "scene": "scene",
+    "autoRotate": "autoRotate"
   },
   "database": {
     "apia": "/grafana/api/datasources/proxy/2/",

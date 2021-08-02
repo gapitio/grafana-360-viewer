@@ -104,6 +104,26 @@ function updateTemplateVariableList(isFirstArea: boolean) {
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any);
+
+  window.templateVariableList = [
+    ...window.templateVariableList,
+    {
+      id: "autoRotate",
+      name: "autoRotate",
+      label: null,
+      type: "query",
+      options: [
+        {
+          text: "true",
+          value: "true",
+          selected: true,
+        },
+      ],
+      current: {
+        value: "true",
+      },
+    },
+  ];
 }
 
 const url = new URL(window.location.href);
