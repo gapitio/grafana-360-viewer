@@ -54,9 +54,9 @@
 
   $: if ($viewerStore) {
     if ($autoRotateStore == "false") {
-      enableAutoRotation($viewerStore);
-    } else {
       disableAutoRotation($viewerStore);
+    } else {
+      enableAutoRotation($viewerStore);
     }
   }
 
