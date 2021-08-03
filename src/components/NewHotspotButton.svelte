@@ -42,9 +42,4 @@
 <button on:click={onClick}>New hotspot</button>
 
 <style>
-  button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
 </style>

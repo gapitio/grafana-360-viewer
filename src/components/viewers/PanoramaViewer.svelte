@@ -16,12 +16,10 @@
   import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
   import equal from "fast-deep-equal";
-  import NewHotspotButton from "../NewHotspotButton.svelte";
   import {
     disableAutoRotation,
     enableAutoRotation,
   } from "../../utils/autorotate";
-  import SaveButton from "../SaveButton.svelte";
   import Sidebar from "../Sidebar.svelte";
 
   const { editable } = customProperties;
@@ -94,8 +92,6 @@
 
 {#if editable}
   <Sidebar />
-  <NewHotspotButton />
-  <SaveButton />
 {/if}
 
 <style>

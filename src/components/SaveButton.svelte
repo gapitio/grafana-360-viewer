@@ -27,9 +27,4 @@
 <button on:click={save}>Save</button>
 
 <style>
-  button {
-    position: absolute;
-    bottom: 20px;
-    right: 0;
-  }
 </style>

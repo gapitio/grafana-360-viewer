@@ -2,14 +2,18 @@
   import DraggableHorizontally from "./DraggableHorizontally.svelte";
   import SceneList from "./SceneList.svelte";
   import SceneEditor from "./SceneEditor.svelte";
+  import NewHotspotButton from "./NewHotspotButton.svelte";
+  import SaveButton from "./SaveButton.svelte";
 
   let width = 400;
 </script>
 
 <div class="sidebar" style={`width: ${width}px`}>
+  <DraggableHorizontally bind:width />
   <SceneList />
   <SceneEditor />
-  <DraggableHorizontally bind:width />
+  <NewHotspotButton />
+  <SaveButton />
 </div>
 
 <style>
