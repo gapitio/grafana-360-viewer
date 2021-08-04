@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { sceneConfigListEditsStore } from "../stores";
-  import type { HotspotConfig } from "../utils/getConfig";
-  import ColorPicker from "./ColorPicker.svelte";
+  import { sceneConfigListEditsStore } from "../../stores";
+  import type { HotspotConfig } from "../../utils/getConfig";
+  import ColorPicker from "../ColorPicker.svelte";
 
-  import NumberInput from "./Inputs/NumberInput.svelte";
-  import SelectInput from "./Inputs/SelectInput.svelte";
-  import TextInput from "./Inputs/TextInput.svelte";
+  import NumberInput from "../Inputs/NumberInput.svelte";
+  import SelectInput from "../Inputs/SelectInput.svelte";
+  import TextInput from "../Inputs/TextInput.svelte";
 
   export let hotspotConfig: HotspotConfig;
 

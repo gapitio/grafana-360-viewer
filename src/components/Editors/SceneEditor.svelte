@@ -6,11 +6,11 @@
     sceneEditsStore,
     currentSceneKeyStore,
     sceneConfigListEditsStore,
-  } from "../stores";
-  import type { SceneConfig } from "../utils/getConfig";
+  } from "../../stores";
+  import type { SceneConfig } from "../../utils/getConfig";
 
-  import NumberInput from "./Inputs/NumberInput.svelte";
-  import TextInput from "./Inputs/TextInput.svelte";
+  import NumberInput from "../Inputs/NumberInput.svelte";
+  import TextInput from "../Inputs/TextInput.svelte";
 
   $: currentSceneIndex = $sceneConfigListEditsStore.findIndex(
     (scene) => scene.scene_key == $currentSceneKeyStore
@@ -72,6 +72,5 @@
     color: #fcfcfc;
     border-top: 2px solid black;
     padding: 8px 8px 4px 8px;
-    background-color: #1b191c55;
   }
 </style>

@@ -12,7 +12,7 @@
     newHotspotStore,
     viewerStore,
   } from "../stores";
-  import HotspotEditor from "./HotspotEditor.svelte";
+  import HotspotEditor from "./Editors/HotspotEditor.svelte";
   import { clickOutside } from "../utils/clickOutside";
   import type { SceneData } from "../utils/getSceneDataList";
 

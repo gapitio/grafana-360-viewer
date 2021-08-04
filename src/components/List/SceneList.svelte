@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { sceneConfigListEditsStore, currentSceneKeyStore } from "../stores";
+  import {
+    sceneConfigListEditsStore,
+    currentSceneKeyStore,
+  } from "../../stores";
 
   $: selectedScene = $currentSceneKeyStore;
   $: currentSceneKeyStore.setVariable(selectedScene);

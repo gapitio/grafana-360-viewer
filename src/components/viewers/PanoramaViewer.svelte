@@ -20,7 +20,7 @@
     disableAutoRotation,
     enableAutoRotation,
   } from "../../utils/autorotate";
-  import Sidebar from "../Sidebar.svelte";
+  import Sidebar from "../Sidebar/Sidebar.svelte";
 
   const { editable } = customProperties;
 

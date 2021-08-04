@@ -4,8 +4,7 @@
   export let items: { label: string; value: string | number }[];
   export let value: string | number;
 
-  let selectedOption =
-    items.find((option) => option.value == value) ?? items[0];
+  let selectedOption = items.find((option) => option.value == value);
 
   $: value = selectedOption?.value;
 </script>
