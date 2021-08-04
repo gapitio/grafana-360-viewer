@@ -111,7 +111,7 @@ function updateTemplateVariableList(isFirstArea: boolean) {
 
   window.templateVariableList = [
     ...window.templateVariableList,
-    autoRotate == "false"
+    autoRotate == "False"
       ? {
           id: "autoRotate",
           name: "autoRotate",
@@ -119,18 +119,18 @@ function updateTemplateVariableList(isFirstArea: boolean) {
           type: "query",
           options: [
             {
-              text: "true",
-              value: "true",
+              text: "True",
+              value: "True",
               selected: false,
             },
             {
-              text: "false",
-              value: "false",
+              text: "False",
+              value: "False",
               selected: true,
             },
           ],
           current: {
-            value: "false",
+            value: "False",
           },
         }
       : {
@@ -140,18 +140,18 @@ function updateTemplateVariableList(isFirstArea: boolean) {
           type: "query",
           options: [
             {
-              text: "true",
-              value: "true",
+              text: "True",
+              value: "True",
               selected: true,
             },
             {
-              text: "false",
-              value: "false",
+              text: "False",
+              value: "False",
               selected: false,
             },
           ],
           current: {
-            value: "true",
+            value: "True",
           },
         },
   ];

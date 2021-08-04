@@ -52,7 +52,7 @@
   });
 
   $: if ($viewerStore) {
-    if ($autoRotateStore == "false") {
+    if ($autoRotateStore == "False") {
       disableAutoRotation($viewerStore);
     } else {
       enableAutoRotation($viewerStore);
