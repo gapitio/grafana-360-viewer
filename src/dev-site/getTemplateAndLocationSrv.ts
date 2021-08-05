@@ -26,14 +26,16 @@ window.getLocationSrv = (): LocationSrv => ({
         return;
       }
 
-      variable.options.find((options) => options.selected).selected = false;
-      variable.options.find(
-        (options) => options.value == String(value)
-      ).selected = true;
+      const currentlySelectedVariable = variable.options.find(
+        (options) => options.selected
+      );
+      if (currentlySelectedVariable) currentlySelectedVariable.selected = false;
 
-      variable.options.find(
+      const selectedVariable = variable.options.find(
         (options) => options.value == String(value)
-      ).selected = true;
+      );
+      if (selectedVariable) selectedVariable.selected = true;
+
       variable.current.value = String(value);
     });
 
