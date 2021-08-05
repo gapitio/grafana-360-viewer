@@ -45,11 +45,13 @@ export function getConfig(): Config {
       let value: AreaConfig[] | SceneConfig[] | HotspotConfig[];
 
       try {
-        value = JSON.parse(
-          getSeriesFromName(seriesName)
-            .fields.find((field: Field) => field.name == "Value")
-            .values.get(0)
-        );
+        value = customProperties.editable
+          ? []
+          : JSON.parse(
+              getSeriesFromName(seriesName)
+                .fields.find((field: Field) => field.name == "Value")
+                .values.get(0)
+            );
       } catch (e) {
         throw new Error(`Couldn't parse series "${seriesName}": ${e}`);
       }

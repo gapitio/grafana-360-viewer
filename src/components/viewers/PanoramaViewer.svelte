@@ -4,23 +4,18 @@
   import {
     sceneDataListStore,
     viewerStore,
-    currentSceneKeyStore,
     dataStore,
-    configStore,
     currentSceneDataStore,
     hotspotConfigListStore,
-    imageURLObjectsStore,
-    currentAreaKeyStore,
     autoRotateStore,
   } from "../../stores";
-  import { getConfig } from "../../utils/getConfig";
   import HotspotContainer from "../HotspotContainer.svelte";
-  import equal from "fast-deep-equal";
   import {
     disableAutoRotation,
     enableAutoRotation,
   } from "../../utils/autorotate";
   import Sidebar from "../Sidebar/Sidebar.svelte";
+  import { update } from "../../utils/update";
 
   const { editable } = customProperties;
 
@@ -33,22 +28,8 @@
   });
 
   // Update the view size when the panel is resized
-  dataStore.subscribe(() => {
-    const newConfig = getConfig();
-    if (!equal($configStore, newConfig)) {
-      imageURLObjectsStore.clear();
-      configStore.set(newConfig);
-    }
-
-    $viewerStore && $viewerStore.updateSize();
-
-    if ($viewerStore) {
-      $viewerStore.updateSize();
-    }
-
-    currentAreaKeyStore.updateVariable($currentAreaKeyStore);
-    currentSceneKeyStore.updateVariable($currentSceneKeyStore);
-    autoRotateStore.updateVariable($autoRotateStore);
+  dataStore.subscribe(async () => {
+    update();
   });
 
   $: if ($viewerStore) {
@@ -81,12 +62,11 @@
 <div bind:this={container}>
   <div bind:this={panoramaContainer} class="panorama-container" />
   {#await $sceneDataListStore then sceneDataList}
-    {#if $hotspotConfigListStore && sceneDataList.length > 0}
-      <HotspotContainer
-        hotspotConfigList={$hotspotConfigListStore}
-        {sceneDataList}
-      />
-    {/if}
+    {#await $hotspotConfigListStore then hotspotConfigList}
+      {#if $hotspotConfigListStore && sceneDataList.length > 0}
+        <HotspotContainer {hotspotConfigList} {sceneDataList} />
+      {/if}
+    {/await}
   {/await}
 </div>
 

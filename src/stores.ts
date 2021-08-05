@@ -8,6 +8,27 @@ const {
   templateVariables: { area, autoRotate, scene },
 } = customProperties;
 
+export const currentAreaKeyStore = createTemplateVariableStore(area, true);
+export const currentSceneKeyStore = createTemplateVariableStore(scene, true);
+export const autoRotateStore = createTemplateVariableStore(autoRotate, false);
+
+export const imageURLObjectsStore = (() => {
+  const clear = () => {
+    for (const imageURLObject of Object.values(get(imageURLObjectsStore))) {
+      URL.revokeObjectURL(imageURLObject);
+    }
+    set({});
+  };
+
+  const { set, subscribe, update } = writable<{ [key: number]: string }>({});
+  return {
+    set,
+    subscribe,
+    update,
+    clear,
+  };
+})();
+
 export const dataStore = writable(data);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const viewerStore = writable<any>();
@@ -21,10 +42,6 @@ export const uneditedHotspotConfigListStore = derived(
   configStore,
   ({ hotspots }) => hotspots
 );
-
-export const currentAreaKeyStore = createTemplateVariableStore(area, true);
-export const currentSceneKeyStore = createTemplateVariableStore(scene, true);
-export const autoRotateStore = createTemplateVariableStore(autoRotate, false);
 
 export const areaEditsStore = writable({});
 
@@ -71,7 +88,7 @@ export const sceneDataListStore = derived(
   ],
   async ([sceneConfig, viewer]) => {
     return viewer && sceneConfig
-      ? await getSceneDataList(sceneConfig, viewer)
+      ? await getSceneDataList(sceneConfig, viewer, imageURLObjectsStore)
       : [];
   }
 );
@@ -86,20 +103,3 @@ export const currentSceneDataStore = derived(
     return sceneDataList.find((scene) => scene.key === currentSceneKey);
   }
 );
-
-export const imageURLObjectsStore = (() => {
-  const clear = () => {
-    for (const imageURLObject of Object.values(get(imageURLObjectsStore))) {
-      URL.revokeObjectURL(imageURLObject);
-    }
-    set({});
-  };
-
-  const { set, subscribe, update } = writable<{ [key: number]: string }>({});
-  return {
-    set,
-    subscribe,
-    update,
-    clear,
-  };
-})();
