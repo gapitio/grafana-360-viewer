@@ -27,11 +27,12 @@
     position: absolute;
     top: 0;
     left: 0;
-
-    max-height: 100%;
+    bottom: 0;
 
     display: flex;
     flex-direction: column;
     background-color: #1b191c55;
+
+    border-right: 2px solid black;
   }
 </style>

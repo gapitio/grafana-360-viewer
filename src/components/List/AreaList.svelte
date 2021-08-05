@@ -1,25 +1,22 @@
 <script lang="ts">
-  import {
-    sceneConfigListEditsStore,
-    currentSceneKeyStore,
-  } from "../../stores";
+  import { currentAreaKeyStore, configStore } from "../../stores";
 
-  $: selectedScene = $currentSceneKeyStore;
-  $: currentSceneKeyStore.setVariable(selectedScene);
+  $: selectedArea = $currentAreaKeyStore;
+  $: currentAreaKeyStore.setVariable(selectedArea);
 </script>
 
 <div class="scene-list">
   <ul>
-    {#each $sceneConfigListEditsStore as sceneConfig}
+    {#each $configStore.areas as areaConfig}
       <li>
-        <label class={sceneConfig.scene_key == selectedScene ? "active" : ""}
+        <label class={areaConfig.area_key == selectedArea ? "active" : ""}
           ><input
             type="radio"
-            bind:group={selectedScene}
-            value={sceneConfig.scene_key}
+            bind:group={selectedArea}
+            value={areaConfig.area_key}
           />
-          ({sceneConfig.scene_key})
-          {sceneConfig.scene_name}</label
+          ({areaConfig.area_key})
+          {areaConfig.area_name}</label
         >
       </li>
     {/each}
