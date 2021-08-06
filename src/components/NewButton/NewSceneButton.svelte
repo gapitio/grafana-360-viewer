@@ -4,8 +4,8 @@
     currentSceneKeyStore,
     hotspotConfigListStore,
     newScenesStore,
-  } from "../stores";
-  import type { HotspotConfig } from "../utils/getConfig";
+  } from "../../stores";
+  import type { HotspotConfig } from "../../utils/getConfig";
 
   const defaultConfig = {
     yaw: 0,
@@ -39,7 +39,7 @@
   }
 </script>
 
-<button on:click={onClick}>New hotspot</button>
+<button on:click={onClick}>New scene</button>
 
 <style>
 </style>

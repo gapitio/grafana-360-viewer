@@ -4,4 +4,3 @@
 </script>
 
 <SceneList />
-<SceneEditor />

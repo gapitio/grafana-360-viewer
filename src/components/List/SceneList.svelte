@@ -3,6 +3,7 @@
     sceneConfigListEditsStore,
     currentSceneKeyStore,
   } from "../../stores";
+  import SceneEditor from "../Editors/SceneEditor.svelte";
 
   $: selectedScene = $currentSceneKeyStore;
   $: currentSceneKeyStore.setVariable(selectedScene);
@@ -21,6 +22,9 @@
           ({sceneConfig.scene_key})
           {sceneConfig.scene_name}</label
         >
+        {#if sceneConfig.scene_key == selectedScene}
+          <SceneEditor {sceneConfig} />
+        {/if}
       </li>
     {/each}
   </ul>

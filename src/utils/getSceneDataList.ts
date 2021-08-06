@@ -66,8 +66,8 @@ export async function getSceneDataList(
   const scenes = Promise.all(
     sceneConfig.map(async (sceneConfig) => {
       const image =
-        imageURLObjects[sceneConfig.scene_key] ??
         sceneConfig.image ??
+        imageURLObjects[sceneConfig.scene_key] ??
         (await getSceneImage(sceneConfig.scene_key, imageURLObjectsStore));
 
       const source = Marzipano.ImageUrlSource.fromString(image);

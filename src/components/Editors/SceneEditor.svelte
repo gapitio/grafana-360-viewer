@@ -4,38 +4,22 @@
   import {
     configStore,
     sceneEditsStore,
-    currentSceneKeyStore,
     sceneConfigListEditsStore,
+    imageURLObjectsStore,
   } from "../../stores";
   import type { SceneConfig } from "../../utils/getConfig";
+  import ImageInput from "../Inputs/ImageInput.svelte";
 
   import NumberInput from "../Inputs/NumberInput.svelte";
   import TextInput from "../Inputs/TextInput.svelte";
 
+  export let sceneConfig: SceneConfig;
+
+  $: image = $imageURLObjectsStore[sceneConfig.scene_key];
+
   $: currentSceneIndex = $sceneConfigListEditsStore.findIndex(
-    (scene) => scene.scene_key == $currentSceneKeyStore
+    (scene) => scene.scene_key == sceneConfig.scene_key
   );
-
-  let sceneConfig = getSceneConfig(
-    $sceneConfigListEditsStore,
-    $currentSceneKeyStore
-  );
-
-  currentSceneKeyStore.subscribe(
-    (sceneKey) =>
-      (sceneConfig = getSceneConfig($sceneConfigListEditsStore, sceneKey))
-  );
-
-  sceneConfigListEditsStore.subscribe(
-    (config) => (sceneConfig = getSceneConfig(config, $currentSceneKeyStore))
-  );
-
-  function getSceneConfig(config: SceneConfig[], sceneKey: number) {
-    return {
-      ...config.find((scene) => scene.scene_key == sceneKey),
-      ...($sceneEditsStore[sceneKey] ?? {}),
-    };
-  }
 
   $: {
     const uneditedSceneConfig = $configStore.scenes[currentSceneIndex];
@@ -47,10 +31,13 @@
           edits[key] = sceneConfig[key];
         }
       }
-      sceneEditsStore.update((e) => {
-        e[sceneConfig.scene_key] = edits;
-        return e;
-      });
+
+      const sceneConfigEdits = $sceneEditsStore[sceneConfig.scene_key];
+      if (!equal(sceneConfigEdits, edits))
+        sceneEditsStore.update((e) => ({
+          ...e,
+          ...{ [sceneConfig.scene_key]: edits },
+        }));
     } else if ($sceneEditsStore[sceneConfig.scene_key]) {
       $sceneEditsStore =
         delete $sceneEditsStore[sceneConfig.scene_key] && $sceneEditsStore;
@@ -65,12 +52,13 @@
   <NumberInput bind:value={sceneConfig.facing_pitch}>Facing pitch</NumberInput>
   <NumberInput bind:value={sceneConfig.facing_yaw}>Facing yaw</NumberInput>
   <NumberInput bind:value={sceneConfig.fov}>FOV</NumberInput>
+  <ImageInput bind:image />
 </div>
 
 <style>
   .container {
     color: #fcfcfc;
-    border-top: 2px solid black;
+    border-bottom: 2px solid black;
     padding: 8px 8px 4px 8px;
   }
 </style>
