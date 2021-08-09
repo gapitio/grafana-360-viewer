@@ -2,12 +2,12 @@
   import { getFullAPIPath } from "../utils/apiPath";
 
   const {
-    database: { api, apiKey },
+    database: { apiKey },
   } = customProperties;
 
   async function save() {
     console.log(2);
-    const url = new URL(getFullAPIPath(api) + "scenes");
+    const url = new URL(`${getFullAPIPath()}scenes`);
     const res = await fetch(url.href, {
       method: "POST",
       body: JSON.stringify([{ scene_name: "a", area_key: 1 }]),

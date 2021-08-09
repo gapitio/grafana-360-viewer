@@ -27,10 +27,7 @@
     sceneData?.scene?._viewer && sceneData.scene.switchTo();
   });
 
-  // Update the view size when the panel is resized
-  dataStore.subscribe(async () => {
-    update();
-  });
+  dataStore.subscribe(update);
 
   $: if ($viewerStore) {
     if ($autoRotateStore == "False") {

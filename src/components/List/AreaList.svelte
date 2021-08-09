@@ -3,6 +3,7 @@
 
   $: selectedArea = $currentAreaKeyStore;
   $: currentAreaKeyStore.setVariable(selectedArea);
+  $: console.log($currentAreaKeyStore);
 </script>
 
 <div class="scene-list">

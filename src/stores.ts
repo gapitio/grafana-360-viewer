@@ -1,4 +1,4 @@
-import { derived, get, writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { getConfig, HotspotConfig, SceneConfig } from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
 import { createTemplateVariableStore } from "./utils/templateVariable";
@@ -11,23 +11,6 @@ const {
 export const currentAreaKeyStore = createTemplateVariableStore(area, true);
 export const currentSceneKeyStore = createTemplateVariableStore(scene, true);
 export const autoRotateStore = createTemplateVariableStore(autoRotate, false);
-
-export const imageURLObjectsStore = (() => {
-  const clear = () => {
-    for (const imageURLObject of Object.values(get(imageURLObjectsStore))) {
-      URL.revokeObjectURL(imageURLObject);
-    }
-    set({});
-  };
-
-  const { set, subscribe, update } = writable<{ [key: number]: string }>({});
-  return {
-    set,
-    subscribe,
-    update,
-    clear,
-  };
-})();
 
 export const dataStore = writable(data);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +71,7 @@ export const sceneDataListStore = derived(
   ],
   async ([sceneConfig, viewer]) => {
     return viewer && sceneConfig
-      ? await getSceneDataList(sceneConfig, viewer, imageURLObjectsStore)
+      ? await getSceneDataList(sceneConfig, viewer)
       : [];
   }
 );

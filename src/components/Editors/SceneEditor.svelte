@@ -5,8 +5,8 @@
     configStore,
     sceneEditsStore,
     sceneConfigListEditsStore,
-    imageURLObjectsStore,
   } from "../../stores";
+  import { getFileURL } from "../../utils/apiPath";
   import type { SceneConfig } from "../../utils/getConfig";
   import ImageInput from "../Inputs/ImageInput.svelte";
 
@@ -15,7 +15,7 @@
 
   export let sceneConfig: SceneConfig;
 
-  $: image = $imageURLObjectsStore[sceneConfig.scene_key];
+  $: image = getFileURL(sceneConfig.file_id);
 
   $: currentSceneIndex = $sceneConfigListEditsStore.findIndex(
     (scene) => scene.scene_key == sceneConfig.scene_key

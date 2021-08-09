@@ -15,7 +15,7 @@ export interface SceneConfig {
   scene_key: number;
   area_key: number;
   scene_name: string;
-  image: string;
+  file_id: number;
   facing_yaw: number;
   facing_pitch: number;
   fov: number;
