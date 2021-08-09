@@ -5,8 +5,11 @@
   } from "../../stores";
   import SceneEditor from "../Editors/SceneEditor.svelte";
 
-  $: selectedScene = $currentSceneKeyStore;
-  $: currentSceneKeyStore.setVariable(selectedScene);
+  $: selectedScene = $sceneConfigListEditsStore.find(
+    (sceneConfig) => sceneConfig.scene_key == $currentSceneKeyStore
+  )
+    ? $currentSceneKeyStore
+    : null;
 </script>
 
 <div class="scene-list">
@@ -18,6 +21,8 @@
             type="radio"
             bind:group={selectedScene}
             value={sceneConfig.scene_key}
+            on:change={() =>
+              currentSceneKeyStore.setVariable(sceneConfig.scene_key)}
           />
           ({sceneConfig.scene_key})
           {sceneConfig.scene_name}</label

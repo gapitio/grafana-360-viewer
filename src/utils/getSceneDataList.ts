@@ -2,8 +2,6 @@
 import Marzipano from "marzipano";
 import type { SceneConfig } from "./getConfig";
 import { getFileURL } from "./apiPath";
-import { currentAreaKeyStore } from "../stores";
-import { get } from "svelte/store";
 
 export interface SceneData {
   name: string;
@@ -16,7 +14,6 @@ export async function getSceneDataList(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   viewer: any
 ): Promise<SceneData[]> {
-  console.log(get(currentAreaKeyStore));
   viewer.destroyAllScenes();
 
   const scenes = Promise.all(

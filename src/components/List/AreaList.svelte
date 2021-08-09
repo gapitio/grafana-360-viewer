@@ -1,9 +1,11 @@
 <script lang="ts">
   import { currentAreaKeyStore, configStore } from "../../stores";
 
-  $: selectedArea = $currentAreaKeyStore;
-  $: currentAreaKeyStore.setVariable(selectedArea);
-  $: console.log($currentAreaKeyStore);
+  $: selectedArea = $configStore.areas.find(
+    (sceneConfig) => sceneConfig.area_key == $currentAreaKeyStore
+  )
+    ? $currentAreaKeyStore
+    : null;
 </script>
 
 <div class="scene-list">
@@ -15,6 +17,8 @@
             type="radio"
             bind:group={selectedArea}
             value={areaConfig.area_key}
+            on:change={() =>
+              currentAreaKeyStore.setVariable(areaConfig.area_key)}
           />
           ({areaConfig.area_key})
           {areaConfig.area_name}</label
