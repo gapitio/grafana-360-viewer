@@ -3,6 +3,7 @@
     sceneConfigListEditsStore,
     currentSceneKeyStore,
   } from "../../stores";
+  import { getFileURL } from "../../utils/apiPath";
   import SceneEditor from "../Editors/SceneEditor.svelte";
 
   $: selectedScene = $sceneConfigListEditsStore.find(
@@ -25,7 +26,8 @@
               currentSceneKeyStore.setVariable(sceneConfig.scene_key)}
           />
           ({sceneConfig.scene_key})
-          {sceneConfig.scene_name}</label
+          {sceneConfig.scene_name}
+          <img src={getFileURL(sceneConfig.file_id)} alt="Scene" /></label
         >
         {#if sceneConfig.scene_key == selectedScene}
           <SceneEditor {sceneConfig} />
@@ -49,6 +51,14 @@
   .scene-list label {
     display: block;
     padding: 10px 16px;
+    height: 22px;
+    position: relative;
+  }
+  .scene-list img {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
   .scene-list label:hover {
     background-color: #1b191ce0;
