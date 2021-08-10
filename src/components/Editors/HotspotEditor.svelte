@@ -23,9 +23,14 @@
 </script>
 
 <div class="container">
-  <NumberInput bind:value={hotspotConfig.hotspot_key}>hotspot_key</NumberInput>
-  <NumberInput bind:value={hotspotConfig.scene_key}>scene_key</NumberInput>
-  <NumberInput bind:value={hotspotConfig.area_key}>area_key</NumberInput>
+  <NumberInput bind:value={hotspotConfig.hotspot_key} min={1}
+    >hotspot_key</NumberInput
+  >
+  <NumberInput bind:value={hotspotConfig.scene_key} min={1}
+    >scene_key</NumberInput
+  >
+  <NumberInput bind:value={hotspotConfig.area_key} min={1}>area_key</NumberInput
+  >
   <SelectInput bind:value={hotspotConfig.type} items={typeItems}
     >type</SelectInput
   >

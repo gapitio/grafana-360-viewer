@@ -47,11 +47,17 @@
 
 <div class="container">
   <TextInput bind:value={sceneConfig.scene_name}>Scene name</TextInput>
-  <NumberInput bind:value={sceneConfig.area_key}>Area key</NumberInput>
-  <NumberInput bind:value={sceneConfig.scene_key}>Scene key</NumberInput>
-  <NumberInput bind:value={sceneConfig.facing_pitch}>Facing pitch</NumberInput>
-  <NumberInput bind:value={sceneConfig.facing_yaw}>Facing yaw</NumberInput>
+  <NumberInput bind:value={sceneConfig.area_key} min={1}>Area key</NumberInput>
+  <NumberInput bind:value={sceneConfig.scene_key} min={1}>Scene key</NumberInput
+  >
+  <NumberInput bind:value={sceneConfig.facing_pitch} step={0.1}
+    >Facing pitch</NumberInput
+  >
+  <NumberInput bind:value={sceneConfig.facing_yaw} step={0.1}
+    >Facing yaw</NumberInput
+  >
   <NumberInput bind:value={sceneConfig.fov}>FOV</NumberInput>
+  <NumberInput bind:value={sceneConfig.file_id} min={1}>File ID</NumberInput>
   <ImageInput bind:image />
 </div>
 

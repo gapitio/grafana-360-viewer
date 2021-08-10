@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let image;
+  export let image: string;
 
   const onFileSelected = (
     e: Event & {
@@ -10,14 +10,13 @@
     const reader = new FileReader();
     reader.readAsDataURL(imageData);
     reader.onload = (e) => {
-      console.log(e);
-    };
-    const reader2 = new FileReader();
-    reader2.readAsArrayBuffer(imageData);
-    reader2.onload = (e) => {
-      console.log(e);
+      const result = e.target.result;
+
+      if (typeof result == "string") image = result;
     };
   };
+
+  $: console.log(image);
 </script>
 
 <div>

@@ -1,12 +1,7 @@
 <script lang="ts">
   import { getFullAPIPath } from "../utils/apiPath";
 
-  const {
-    api: { url },
-  } = customProperties;
-
   async function save() {
-    console.log(2);
     const url = new URL(`${getFullAPIPath()}scenes`);
     const res = await fetch(url.href, {
       method: "POST",
