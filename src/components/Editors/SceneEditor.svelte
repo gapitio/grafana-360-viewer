@@ -1,13 +1,15 @@
 <script lang="ts">
   import equal from "fast-deep-equal";
+  import { get } from "svelte/store";
 
   import {
     configStore,
     sceneEditsStore,
     sceneConfigListEditsStore,
   } from "../../stores";
-  import { getFileURL } from "../../utils/apiPath";
+  import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
   import type { SceneConfig } from "../../utils/getConfig";
+  import { update } from "../../utils/update";
   import ImageInput from "../Inputs/ImageInput.svelte";
 
   import NumberInput from "../Inputs/NumberInput.svelte";
@@ -43,6 +45,34 @@
         delete $sceneEditsStore[sceneConfig.scene_key] && $sceneEditsStore;
     }
   }
+
+  async function onNewImage(
+    event: CustomEvent<{ name: string; type: string; dataURLs: string }>
+  ) {
+    const {
+      api: { token },
+    } = customProperties;
+
+    const { name, type, dataURLs } = event.detail;
+    const [, base64] = dataURLs.split(",");
+
+    const url = new URL(`http://localhost:3202/rpc/update_file`);
+    const res = await fetch(url.href, {
+      method: "POST",
+      body: JSON.stringify([
+        { file_id: sceneConfig.file_id, name, type, base64 },
+      ]),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        Prefer: "return=representation",
+      },
+    })
+      .then(() => configStore.set(get(configStore)))
+      .catch((err) => console.error(err));
+
+    console.log(res);
+  }
 </script>
 
 <div class="container">
@@ -58,7 +88,7 @@
   >
   <NumberInput bind:value={sceneConfig.fov}>FOV</NumberInput>
   <NumberInput bind:value={sceneConfig.file_id} min={1}>File ID</NumberInput>
-  <ImageInput bind:image />
+  <ImageInput bind:image on:newimage={onNewImage} />
 </div>
 
 <style>

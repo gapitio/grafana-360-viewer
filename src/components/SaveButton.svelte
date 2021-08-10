@@ -2,13 +2,16 @@
   import { getFullAPIPath } from "../utils/apiPath";
 
   async function save() {
+    const {
+      api: { token },
+    } = customProperties;
     const url = new URL(`${getFullAPIPath()}scenes`);
     const res = await fetch(url.href, {
       method: "POST",
       body: JSON.stringify([{ scene_name: "a", area_key: 1 }]),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${url}`,
+        Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
       },
     });
