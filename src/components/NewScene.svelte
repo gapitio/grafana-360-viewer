@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { currentAreaKeyStore } from "../stores";
+  import { get } from "svelte/store";
+
+  import { configStore, currentAreaKeyStore } from "../stores";
   import { getFileURL, getFullAPIPath } from "../utils/apiPath";
+  import { update } from "../utils/update";
 
   import ImageInput from "./Inputs/ImageInput.svelte";
   import NumberInput from "./Inputs/NumberInput.svelte";
@@ -57,7 +60,10 @@
       },
     })
       .then((res) =>
-        res.json().then((data) => console.info("Created scene:", data))
+        res.json().then((data) => {
+          console.info("Created scene:", data);
+          update();
+        })
       )
       .catch((err) => console.error(err));
   }
