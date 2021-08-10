@@ -53,7 +53,6 @@ export const hotspotConfigListStore = derived(
 export const sceneEditsStore = writable<{
   [key: number]: Partial<SceneConfig>;
 }>({});
-export const newScenesStore = writable([]);
 
 export const sceneConfigListEditsStore = derived(
   [uneditedSceneConfigListStore, sceneEditsStore],

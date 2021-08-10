@@ -3,6 +3,7 @@
     sceneConfigListEditsStore,
     currentSceneKeyStore,
   } from "../../stores";
+  import NewScene from "../NewScene.svelte";
   import SceneItem from "./SceneItem.svelte";
 
   $: selectedScene = $sceneConfigListEditsStore.find(
@@ -19,6 +20,8 @@
     {/each}
   </ul>
 </div>
+
+<NewScene />
 
 <style>
   div {

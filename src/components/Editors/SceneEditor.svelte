@@ -7,11 +7,10 @@
     sceneEditsStore,
     sceneConfigListEditsStore,
   } from "../../stores";
-  import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
+  import { getFileURL } from "../../utils/apiPath";
   import type { SceneConfig } from "../../utils/getConfig";
-  import { update } from "../../utils/update";
-  import ImageInput from "../Inputs/ImageInput.svelte";
 
+  import ImageInput from "../Inputs/ImageInput.svelte";
   import NumberInput from "../Inputs/NumberInput.svelte";
   import TextInput from "../Inputs/TextInput.svelte";
 

@@ -35,10 +35,8 @@
 
 <style>
   input {
-    margin-left: 10px;
-    width: 150px;
+    width: 100%;
   }
-
   img {
     width: 100%;
   }
