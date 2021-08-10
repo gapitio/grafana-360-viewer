@@ -7,7 +7,7 @@
     sceneEditsStore,
     sceneConfigListEditsStore,
   } from "../../stores";
-  import { getFileURL } from "../../utils/apiPath";
+  import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
   import type { SceneConfig } from "../../utils/getConfig";
 
   import ImageInput from "../Inputs/ImageInput.svelte";
@@ -55,7 +55,7 @@
     const { name, type, dataURLs } = event.detail;
     const [, base64] = dataURLs.split(",");
 
-    const url = new URL(`http://localhost:3202/rpc/update_file`);
+    const url = new URL(`${getFullAPIPath()}rpc/update_file`);
     const res = await fetch(url.href, {
       method: "POST",
       body: JSON.stringify([
@@ -65,6 +65,7 @@
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
+        mode: "no-cors",
       },
     })
       .then(() => configStore.set(get(configStore)))

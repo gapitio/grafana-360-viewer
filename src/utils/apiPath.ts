@@ -4,4 +4,4 @@ export const getFullAPIPath = (): string => {
 };
 
 export const getFileURL = (id: number): string =>
-  `${getFullAPIPath()}file/${id}`;
+  id ? `${getFullAPIPath()}file/${id}` : "";
