@@ -15,8 +15,6 @@
       if (typeof result == "string") image = result;
     };
   };
-
-  $: console.log(image);
 </script>
 
 <div>
