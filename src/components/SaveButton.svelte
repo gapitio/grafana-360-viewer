@@ -2,7 +2,7 @@
   import { getFullAPIPath } from "../utils/apiPath";
 
   const {
-    database: { apiKey },
+    api: { url },
   } = customProperties;
 
   async function save() {
@@ -13,7 +13,7 @@
       body: JSON.stringify([{ scene_name: "a", area_key: 1 }]),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${url}`,
         Prefer: "return=representation",
       },
     });

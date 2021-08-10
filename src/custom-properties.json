@@ -5,10 +5,8 @@
     "scene": "scene",
     "autoRotate": "autoRotate"
   },
-  "database": {
-    "apia": "/grafana/api/datasources/proxy/2/",
-    "api": "http://0.0.0.0:3203",
-    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZWRpdG9yIn0.stQJ7LYL1J_Apq65n-hA9PiyrLhWs8FLy9g1WcmAnYA",
-    "imageTypeIsBytes": true
+  "api": {
+    "url": "http://0.0.0.0:3203",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZWRpdG9yIn0.stQJ7LYL1J_Apq65n-hA9PiyrLhWs8FLy9g1WcmAnYA"
   }
 }

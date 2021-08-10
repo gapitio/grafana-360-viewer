@@ -1,5 +1,5 @@
 export const getFullAPIPath = (): string => {
-  const url = new URL(customProperties.database.api, window.location.origin);
+  const url = new URL(customProperties.api.url, window.location.origin);
   return url.href;
 };
 
