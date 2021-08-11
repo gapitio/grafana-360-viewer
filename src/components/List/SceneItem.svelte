@@ -11,8 +11,8 @@
 </script>
 
 <li>
-  <label class={sceneConfig.scene_key == selectedScene ? "active" : ""}
-    ><input
+  <label class={sceneConfig.scene_key == selectedScene ? "active" : ""}>
+    <input
       type="radio"
       bind:group={selectedScene}
       value={sceneConfig.scene_key}
@@ -20,8 +20,8 @@
     />
     ({sceneConfig.scene_key})
     {sceneConfig.scene_name}
-    <img src={getFileURL(sceneConfig.file_id)} alt="Scene" /></label
-  >
+    <img src={getFileURL(sceneConfig.file_id)} alt="Scene" />
+  </label>
   {#if sceneConfig.scene_key == selectedScene}
     <SceneEditor {sceneConfig} />
   {/if}

@@ -6,9 +6,12 @@
     configStore,
     sceneEditsStore,
     sceneConfigListEditsStore,
+    currentSceneKeyStore,
   } from "../../stores";
   import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
   import type { SceneConfig } from "../../utils/getConfig";
+  import { update } from "../../utils/update";
+  import DeleteButton from "../DeleteButton.svelte";
 
   import ImageInput from "../Inputs/ImageInput.svelte";
   import NumberInput from "../Inputs/NumberInput.svelte";
@@ -25,7 +28,7 @@
   $: {
     const uneditedSceneConfig = $configStore.scenes[currentSceneIndex];
 
-    if (!equal(sceneConfig, uneditedSceneConfig)) {
+    if (uneditedSceneConfig && !equal(sceneConfig, uneditedSceneConfig)) {
       const edits = {};
       for (const key of Object.keys(sceneConfig)) {
         if (!(sceneConfig[key] === uneditedSceneConfig[key])) {
@@ -45,7 +48,7 @@
     }
   }
 
-  async function onNewImage(
+  function onNewImage(
     event: CustomEvent<{ name: string; type: string; dataURLs: string }>
   ) {
     const {
@@ -56,7 +59,7 @@
     const [, base64] = dataURLs.split(",");
 
     const url = new URL(`${getFullAPIPath()}rpc/update_file`);
-    const res = await fetch(url.href, {
+    fetch(url.href, {
       method: "POST",
       body: JSON.stringify([
         { file_id: sceneConfig.file_id, name, type, base64 },
@@ -70,8 +73,37 @@
     })
       .then(() => configStore.set(get(configStore)))
       .catch((err) => console.error(err));
+  }
 
-    console.log(res);
+  function deleteFunc() {
+    const {
+      api: { token },
+    } = customProperties;
+
+    const url = new URL(
+      `${getFullAPIPath()}scenes?scene_key=eq.${sceneConfig.scene_key}`
+    );
+    fetch(url.href, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        Prefer: "return=representation",
+        mode: "no-cors",
+      },
+    })
+      .then(() => {
+        const { scenes } = $configStore;
+        let sceneKey = null;
+
+        if (scenes.length > currentSceneIndex + 1)
+          sceneKey = scenes[currentSceneIndex + 1].scene_key;
+        else if (scenes.length > 2)
+          sceneKey = scenes[currentSceneIndex - 1].scene_key;
+
+        currentSceneKeyStore.setVariable(sceneKey);
+      })
+      .catch((err) => console.error(err));
   }
 </script>
 
@@ -89,6 +121,7 @@
   <NumberInput bind:value={sceneConfig.fov}>FOV</NumberInput>
   <NumberInput bind:value={sceneConfig.file_id} min={1}>File ID</NumberInput>
   <ImageInput bind:image on:newimage={onNewImage} />
+  <DeleteButton {deleteFunc} />
 </div>
 
 <style>

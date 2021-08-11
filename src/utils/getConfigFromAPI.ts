@@ -1,13 +1,18 @@
 import { get } from "svelte/store";
 import { currentAreaKeyStore } from "../stores";
 import { getFullAPIPath } from "./apiPath";
-import type { Config } from "./getConfig";
+import type {
+  AreaConfig,
+  Config,
+  HotspotConfig,
+  SceneConfig,
+} from "./getConfig";
 
 async function getAreaConfig() {
   const url = new URL(`${getFullAPIPath()}areas`);
 
   const res = await fetch(url.href);
-  const data = await res.json();
+  const data: AreaConfig[] = await res.json();
   return data;
 }
 
@@ -16,7 +21,7 @@ async function getSceneConfig(areaKey: number) {
   url.searchParams.append("area_key", `eq.${areaKey}`);
 
   const res = await fetch(url.href);
-  const data = await res.json();
+  const data: SceneConfig[] = await res.json();
   return data;
 }
 
@@ -25,20 +30,24 @@ async function getHotspotConfig(areaKey: number) {
   url.searchParams.append("area_key", `eq.${areaKey}`);
 
   const res = await fetch(url.href);
-  const data = await res.json();
+  const data: HotspotConfig[] = await res.json();
   return data;
 }
 
 export async function getConfigFromAPI(): Promise<Config> {
   const areaKey = get(currentAreaKeyStore);
 
-  const areaConfig = await getAreaConfig();
-  const sceneConfig = await getSceneConfig(areaKey);
-  const hotspotConfig = await getHotspotConfig(areaKey);
+  const areas = await getAreaConfig();
+  const scenes = await getSceneConfig(areaKey);
+  const hotspots = await getHotspotConfig(areaKey);
+
+  areas.sort((a, b) => a.area_key - b.area_key);
+  scenes.sort((a, b) => a.scene_key - b.scene_key);
+  hotspots.sort((a, b) => a.hotspot_key - b.hotspot_key);
 
   return {
-    areas: areaConfig,
-    scenes: sceneConfig,
-    hotspots: hotspotConfig,
+    areas,
+    scenes,
+    hotspots,
   };
 }

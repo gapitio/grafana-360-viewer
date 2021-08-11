@@ -15,7 +15,7 @@
 
 <div>
   <ul>
-    {#each $sceneConfigListEditsStore as sceneConfig}
+    {#each $sceneConfigListEditsStore as sceneConfig (sceneConfig)}
       <SceneItem bind:selectedScene {sceneConfig} />
     {/each}
   </ul>
