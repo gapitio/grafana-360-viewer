@@ -1,28 +1,8 @@
 <script lang="ts">
-  import { getFullAPIPath } from "../utils/apiPath";
-
-  async function save() {
-    const {
-      api: { token },
-    } = customProperties;
-    const url = new URL(`${getFullAPIPath()}scenes`);
-    const res = await fetch(url.href, {
-      method: "POST",
-      body: JSON.stringify([{ scene_name: "a", area_key: 1 }]),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        Prefer: "return=representation",
-      },
-    });
-
-    const data = await res.json();
-
-    console.log(data, res);
-  }
+  export let saveFunc: () => void;
 </script>
 
-<button on:click={save}>Save</button>
+<button on:click={saveFunc}>Save</button>
 
 <style>
 </style>

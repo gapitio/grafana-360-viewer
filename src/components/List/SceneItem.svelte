@@ -1,17 +1,20 @@
 <script lang="ts">
   import SceneEditor from "../Editors/SceneEditor.svelte";
 
-  import { currentSceneKeyStore } from "../../stores";
+  import { currentSceneKeyStore, sceneEditsStore } from "../../stores";
   import { getFileURL } from "../../utils/apiPath";
 
   import type { SceneConfig } from "../../utils/getConfig";
 
   export let sceneConfig: SceneConfig;
   export let selectedScene: number;
+
+  $: isActive = sceneConfig.scene_key == selectedScene;
+  $: isEdited = sceneConfig.scene_key in $sceneEditsStore;
 </script>
 
 <li>
-  <label class={sceneConfig.scene_key == selectedScene ? "active" : ""}>
+  <label class:active={isActive} class:edited={isEdited}>
     <input
       type="radio"
       bind:group={selectedScene}
@@ -22,7 +25,7 @@
     {sceneConfig.scene_name}
     <img src={getFileURL(sceneConfig.file_id)} alt="Scene" />
   </label>
-  {#if sceneConfig.scene_key == selectedScene}
+  {#if isActive}
     <SceneEditor {sceneConfig} />
   {/if}
 </li>
@@ -40,6 +43,10 @@
   label.active {
     background-color: #1b191cbb;
   }
+  label.edited {
+    font-style: italic;
+  }
+
   img {
     height: 100%;
     position: absolute;

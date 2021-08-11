@@ -1,6 +1,5 @@
 <script lang="ts">
   import DraggableHorizontally from "../DraggableHorizontally.svelte";
-  import SaveButton from "../SaveButton.svelte";
   import Tabs from "../Tabs.svelte";
   import SceneTab from "./SidebarTabs/SceneTab.svelte";
   import AreaTab from "./SidebarTabs/AreaTab.svelte";
@@ -19,7 +18,6 @@
     ]}
     initSelectedNr={1}
   />
-  <SaveButton />
 </div>
 
 <style>
