@@ -3,9 +3,9 @@
     currentAreaKeyStore,
     currentSceneKeyStore,
     hotspotConfigListStore,
-    newScenesStore,
-  } from "../../stores";
-  import type { HotspotConfig } from "../../utils/getConfig";
+    newHotspotStore,
+  } from "../stores";
+  import type { HotspotConfig } from "../utils/getConfig";
 
   const defaultConfig = {
     yaw: 0,
@@ -13,7 +13,7 @@
   };
 
   function onClick() {
-    newScenesStore.update((e) => {
+    newHotspotStore.update((e) => {
       const hotspotKeysList = $hotspotConfigListStore.map((e) => e.hotspot_key);
       const newHotspotNumber =
         hotspotKeysList.length > 0 ? Math.max(...hotspotKeysList) + 1 : 1;
@@ -39,7 +39,10 @@
   }
 </script>
 
-<button on:click={onClick}>New scene</button>
+<button on:click={onClick}>New hotspot</button>
 
 <style>
+  button {
+    width: 100%;
+  }
 </style>
