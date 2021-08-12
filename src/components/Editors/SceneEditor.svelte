@@ -20,6 +20,10 @@
 
   export let sceneConfig: SceneConfig;
 
+  const {
+    api: { token },
+  } = customProperties;
+
   $: image = getFileURL(sceneConfig.file_id);
 
   $: currentSceneIndex = $sceneConfigListEditsStore.findIndex(
@@ -51,26 +55,22 @@
   function onNewImage(
     event: CustomEvent<{ name: string; type: string; dataURLs: string }>
   ) {
-    const {
-      api: { token },
-    } = customProperties;
-
     const { name, type, dataURLs } = event.detail;
     const [, base64] = dataURLs.split(",");
 
-    const url = new URL(`${getFullAPIPath()}rpc/update_file`);
+    const url = new URL(`${getFullAPIPath()}rpc/insert_file`);
     fetch(url.href, {
       method: "POST",
-      body: JSON.stringify([
-        { file_id: sceneConfig.file_id, name, type, base64 },
-      ]),
+      body: JSON.stringify([{ name, type, base64 }]),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
       },
     })
-      .then(() => configStore.set(get(configStore)))
+      .then((res) =>
+        res.text().then((data) => (sceneConfig.file_id = Number(data)))
+      )
       .catch((err) => console.error(err));
   }
 
