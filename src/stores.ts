@@ -1,5 +1,10 @@
 import { derived, writable } from "svelte/store";
-import { getConfig, HotspotConfig, SceneConfig } from "./utils/getConfig";
+import {
+  getConfig,
+  HotspotConfig,
+  SceneConfig,
+  AreaConfig,
+} from "./utils/getConfig";
 import { getSceneDataList } from "./utils/getSceneDataList";
 import { createTemplateVariableStore } from "./utils/templateVariable";
 
@@ -17,6 +22,10 @@ export const dataStore = writable(data);
 export const viewerStore = writable<any>();
 export const configStore = writable(getConfig());
 
+export const uneditedAreaConfigListStore = derived(
+  configStore,
+  ({ areas }) => areas
+);
 export const uneditedSceneConfigListStore = derived(
   configStore,
   ({ scenes }) => scenes
@@ -26,8 +35,24 @@ export const uneditedHotspotConfigListStore = derived(
   ({ hotspots }) => hotspots
 );
 
+// AreaStores
 export const areaEditsStore = writable({});
 
+export const areaConfigListEditsStore = derived(
+  [uneditedAreaConfigListStore, areaEditsStore],
+  ([areas, areaEdits]): AreaConfig[] =>
+    areas.map((areaConfig) => ({
+      ...areaConfig,
+      ...areaEdits[areaConfig.area_key],
+    }))
+);
+
+export const areaConfigListStore = derived(
+  editable ? areaConfigListEditsStore : uneditedAreaConfigListStore,
+  (areaConfig) => areaConfig
+);
+
+// HotspotStores
 export const hotspotEditsStore = writable<{
   [key: number]: Partial<HotspotConfig>;
 }>({});
@@ -50,6 +75,7 @@ export const hotspotConfigListStore = derived(
   ([hotspotConfig, viewer]) => (viewer && hotspotConfig ? hotspotConfig : [])
 );
 
+// SceneStores
 export const sceneEditsStore = writable<{
   [key: number]: Partial<SceneConfig>;
 }>({});
@@ -68,11 +94,8 @@ export const sceneDataListStore = derived(
     editable ? sceneConfigListEditsStore : uneditedSceneConfigListStore,
     viewerStore,
   ],
-  async ([sceneConfig, viewer]) => {
-    return viewer && sceneConfig
-      ? await getSceneDataList(sceneConfig, viewer)
-      : [];
-  }
+  async ([sceneConfig, viewer]) =>
+    viewer && sceneConfig ? await getSceneDataList(sceneConfig, viewer) : []
 );
 
 export const currentSceneDataStore = derived(

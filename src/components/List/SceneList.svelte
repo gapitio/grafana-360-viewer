@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { get } from "svelte/store";
-
   import {
     sceneConfigListEditsStore,
     currentSceneKeyStore,
     sceneEditsStore,
-    configStore,
   } from "../../stores";
   import { getFullAPIPath } from "../../utils/apiPath";
   import { update } from "../../utils/update";
@@ -23,19 +20,6 @@
     const {
       api: { token },
     } = customProperties;
-    for (const [sceneKey, sceneConfig] of Object.entries($sceneEditsStore)) {
-      const url = new URL(`${getFullAPIPath()}scenes`);
-      url.searchParams.append("scene_key", `eq.${sceneKey}`);
-      fetch(url.href, {
-        method: "PATCH",
-        body: JSON.stringify(sceneConfig),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          Prefer: "return=representation",
-        },
-      }).catch((err) => console.error(err));
-    }
 
     Promise.all(
       Object.entries($sceneEditsStore).map(async ([sceneKey, sceneConfig]) => {
@@ -77,7 +61,7 @@
     overflow-y: auto;
     flex: 1;
   }
-  div ul {
+  ul {
     list-style: none;
     margin: 0;
     padding: 0;

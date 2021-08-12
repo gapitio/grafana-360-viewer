@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { get } from "svelte/store";
-
-  import { configStore, currentAreaKeyStore } from "../stores";
+  import { currentAreaKeyStore } from "../stores";
   import { getFileURL, getFullAPIPath } from "../utils/apiPath";
   import { update } from "../utils/update";
 
@@ -38,7 +36,6 @@
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
-        mode: "no-cors",
       },
     })
       .then((res) =>
@@ -51,16 +48,15 @@
     const url = new URL(`${getFullAPIPath()}scenes`);
     fetch(url.href, {
       method: "POST",
-      body: JSON.stringify([sceneConfig]),
+      body: JSON.stringify(sceneConfig),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
-        mode: "no-cors",
       },
     })
       .then((res) =>
-        res.json().then((data) => {
+        res.json().then(([data]) => {
           console.info("Created scene:", data);
           update();
         })

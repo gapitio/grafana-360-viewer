@@ -2,20 +2,21 @@
   import equal from "fast-deep-equal";
   import { get } from "svelte/store";
 
+  import DeleteButton from "../DeleteButton.svelte";
+  import ImageInput from "../Inputs/ImageInput.svelte";
+  import NumberInput from "../Inputs/NumberInput.svelte";
+  import TextInput from "../Inputs/TextInput.svelte";
+
   import {
     configStore,
     sceneEditsStore,
     sceneConfigListEditsStore,
     currentSceneKeyStore,
+    uneditedSceneConfigListStore,
   } from "../../stores";
   import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
-  import type { SceneConfig } from "../../utils/getConfig";
-  import { update } from "../../utils/update";
-  import DeleteButton from "../DeleteButton.svelte";
 
-  import ImageInput from "../Inputs/ImageInput.svelte";
-  import NumberInput from "../Inputs/NumberInput.svelte";
-  import TextInput from "../Inputs/TextInput.svelte";
+  import type { SceneConfig } from "../../utils/getConfig";
 
   export let sceneConfig: SceneConfig;
 
@@ -26,15 +27,15 @@
   );
 
   $: {
-    const uneditedSceneConfig = $configStore.scenes[currentSceneIndex];
+    const uneditedSceneConfig =
+      $uneditedSceneConfigListStore[currentSceneIndex];
 
-    if (uneditedSceneConfig && !equal(sceneConfig, uneditedSceneConfig)) {
-      const edits = {};
-      for (const key of Object.keys(sceneConfig)) {
-        if (!(sceneConfig[key] === uneditedSceneConfig[key])) {
-          edits[key] = sceneConfig[key];
-        }
-      }
+    if (!equal(sceneConfig, uneditedSceneConfig)) {
+      const edits = Object.fromEntries(
+        Object.keys(sceneConfig)
+          .filter((key) => sceneConfig[key] !== uneditedSceneConfig[key])
+          .map((key) => [key, sceneConfig[key]])
+      );
 
       const sceneConfigEdits = $sceneEditsStore[sceneConfig.scene_key];
       if (!equal(sceneConfigEdits, edits))
@@ -42,10 +43,9 @@
           ...e,
           ...{ [sceneConfig.scene_key]: edits },
         }));
-    } else if ($sceneEditsStore[sceneConfig.scene_key]) {
+    } else if ($sceneEditsStore[sceneConfig.scene_key])
       $sceneEditsStore =
         delete $sceneEditsStore[sceneConfig.scene_key] && $sceneEditsStore;
-    }
   }
 
   function onNewImage(
@@ -68,7 +68,6 @@
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
-        mode: "no-cors",
       },
     })
       .then(() => configStore.set(get(configStore)))
@@ -80,20 +79,18 @@
       api: { token },
     } = customProperties;
 
-    const url = new URL(
-      `${getFullAPIPath()}scenes?scene_key=eq.${sceneConfig.scene_key}`
-    );
+    const url = new URL(`${getFullAPIPath()}scenes`);
+    url.searchParams.append("scene_key", `eq.${sceneConfig.scene_key}`);
     fetch(url.href, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         Prefer: "return=representation",
-        mode: "no-cors",
       },
     })
       .then(() => {
-        const { scenes } = $configStore;
+        const scenes = $uneditedSceneConfigListStore;
         let sceneKey = null;
 
         if (scenes.length > currentSceneIndex + 1)
