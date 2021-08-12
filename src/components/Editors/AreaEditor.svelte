@@ -76,7 +76,6 @@
 
 <div class="container">
   <TextInput bind:value={areaConfig.area_name}>Area name</TextInput>
-  <NumberInput bind:value={areaConfig.area_key} min={1}>Area key</NumberInput>
   <DeleteButton {deleteFunc} />
 </div>
 

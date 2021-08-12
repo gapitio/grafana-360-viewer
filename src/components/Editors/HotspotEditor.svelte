@@ -1,7 +1,10 @@
 <script lang="ts">
   import { sceneConfigListEditsStore } from "../../stores";
+  import { getFullAPIPath } from "../../utils/apiPath";
   import type { HotspotConfig } from "../../utils/getConfig";
+  import { update } from "../../utils/update";
   import ColorPicker from "../ColorPicker.svelte";
+  import DeleteButton from "../DeleteButton.svelte";
 
   import NumberInput from "../Inputs/NumberInput.svelte";
   import SelectInput from "../Inputs/SelectInput.svelte";
@@ -20,35 +23,54 @@
     { label: "scene", value: "scene" },
     { label: "info", value: "info" },
   ];
+
+  function deleteFunc() {
+    const {
+      api: { token },
+    } = customProperties;
+
+    const url = new URL(`${getFullAPIPath()}hotspots`);
+    url.searchParams.append("hotspot_key", `eq.${hotspotConfig.hotspot_key}`);
+    fetch(url.href, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        Prefer: "return=representation",
+      },
+    })
+      .then(() => update())
+      .catch((err) => console.error(err));
+  }
 </script>
 
 <div class="container">
-  <NumberInput bind:value={hotspotConfig.hotspot_key} min={1}
-    >hotspot_key</NumberInput
+  <NumberInput bind:value={hotspotConfig.scene_key} min={1}>
+    Scene key
+  </NumberInput>
+  <NumberInput bind:value={hotspotConfig.area_key} min={1}>Area key</NumberInput
   >
-  <NumberInput bind:value={hotspotConfig.scene_key} min={1}
-    >scene_key</NumberInput
-  >
-  <NumberInput bind:value={hotspotConfig.area_key} min={1}>area_key</NumberInput
-  >
-  <SelectInput bind:value={hotspotConfig.type} items={typeItems}
-    >type</SelectInput
-  >
-  <TextInput bind:value={hotspotConfig.title}>title</TextInput>
-  <TextInput bind:value={hotspotConfig.description}>description</TextInput>
-  <TextInput bind:value={hotspotConfig.metric}>metric</TextInput>
-  <TextInput bind:value={hotspotConfig.unit}>unit</TextInput>
+  <SelectInput bind:value={hotspotConfig.type} items={typeItems}>
+    Type
+  </SelectInput>
+  <TextInput bind:value={hotspotConfig.title}>Title</TextInput>
+  <TextInput bind:value={hotspotConfig.description}>Description</TextInput>
+  <TextInput bind:value={hotspotConfig.metric}>Metric</TextInput>
+  <TextInput bind:value={hotspotConfig.unit}>Unit</TextInput>
   <ColorPicker bind:value={hotspotConfig.color} />
   <SelectInput
     bind:value={hotspotConfig.go_to_scene_key}
-    items={goToSceneKeyItems()}>go_to_scene_key</SelectInput
+    items={goToSceneKeyItems()}
   >
-  <NumberInput bind:value={hotspotConfig.yaw} step={0.1}>yaw</NumberInput>
-  <NumberInput bind:value={hotspotConfig.pitch} step={0.1}>pitch</NumberInput>
-  <TextInput bind:value={hotspotConfig.extra_transforms}
-    >extra_transforms</TextInput
-  >
-  <TextInput bind:value={hotspotConfig.link}>link</TextInput>
+    Go to scene key
+  </SelectInput>
+  <NumberInput bind:value={hotspotConfig.yaw} step={0.1}>Yaw</NumberInput>
+  <NumberInput bind:value={hotspotConfig.pitch} step={0.1}>Pitch</NumberInput>
+  <TextInput bind:value={hotspotConfig.extra_transforms}>
+    Extra transforms
+  </TextInput>
+  <TextInput bind:value={hotspotConfig.link}>Link</TextInput>
+  <DeleteButton {deleteFunc} />
 </div>
 
 <style>

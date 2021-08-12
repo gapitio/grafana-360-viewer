@@ -11,6 +11,7 @@
   div {
     display: flex;
     justify-content: space-between;
+    white-space: pre;
   }
 
   input {
