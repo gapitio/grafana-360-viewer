@@ -15,6 +15,7 @@
   import HotspotEditor from "./Editors/HotspotEditor.svelte";
   import { clickOutside } from "../utils/clickOutside";
   import type { SceneData } from "../utils/getSceneDataList";
+  import { onDestroy } from "svelte";
 
   export let hotspotConfig: HotspotConfig;
   export let sceneDataList: SceneData[];
@@ -109,6 +110,8 @@
     }
     editing = false;
   }
+
+  onDestroy(() => editing && viewer.controls().enable());
 </script>
 
 <div class="wrapper">

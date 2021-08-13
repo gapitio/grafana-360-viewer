@@ -1,5 +1,6 @@
 <script lang="ts">
   import { sceneConfigListEditsStore } from "../../stores";
+  import { headers } from "../../utils/apiHeaders";
   import { getFullAPIPath } from "../../utils/apiPath";
   import type { HotspotConfig } from "../../utils/getConfig";
   import { update } from "../../utils/update";
@@ -25,19 +26,11 @@
   ];
 
   function deleteFunc() {
-    const {
-      api: { authorizationHeader },
-    } = customProperties;
-
     const url = new URL(`${getFullAPIPath()}hotspots`);
     url.searchParams.append("hotspot_key", `eq.${hotspotConfig.hotspot_key}`);
     fetch(url.href, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then(() => update())
       .catch((err) => console.error(err));

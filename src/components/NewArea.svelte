@@ -1,12 +1,9 @@
 <script lang="ts">
+  import { headers } from "../utils/apiHeaders";
   import { getFullAPIPath } from "../utils/apiPath";
   import { update } from "../utils/update";
 
   import TextInput from "./Inputs/TextInput.svelte";
-
-  const {
-    api: { authorizationHeader },
-  } = customProperties;
 
   let areaConfig = {
     area_name: "New area",
@@ -17,11 +14,7 @@
     fetch(url.href, {
       method: "POST",
       body: JSON.stringify(areaConfig),
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then((res) =>
         res.json().then(([data]) => {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import equal from "fast-deep-equal";
 
-  import NumberInput from "../Inputs/NumberInput.svelte";
+  import { headers } from "../../utils/apiHeaders";
   import TextInput from "../Inputs/TextInput.svelte";
 
   import {
@@ -43,19 +43,11 @@
   }
 
   function deleteFunc() {
-    const {
-      api: { authorizationHeader },
-    } = customProperties;
-
     const url = new URL(`${getFullAPIPath()}areas`);
     url.searchParams.append("area_key", `eq.${areaConfig.area_key}`);
     fetch(url.href, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then(() => {
         const areas = $uneditedAreaConfigListStore;

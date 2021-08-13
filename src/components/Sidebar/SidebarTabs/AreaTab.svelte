@@ -1,5 +1,6 @@
 <script lang="ts">
   import { areaEditsStore } from "../../../stores";
+  import { headers } from "../../../utils/apiHeaders";
   import { getFullAPIPath } from "../../../utils/apiPath";
   import { update } from "../../../utils/update";
 
@@ -8,10 +9,6 @@
   import SaveButton from "../../SaveButton.svelte";
 
   async function saveFunc() {
-    const {
-      api: { authorizationHeader },
-    } = customProperties;
-
     Promise.all(
       Object.entries($areaEditsStore).map(async ([areaKey, areaConfig]) => {
         const url = new URL(`${getFullAPIPath()}areas`);
@@ -21,11 +18,7 @@
           return fetch(url.href, {
             method: "PATCH",
             body: JSON.stringify(areaConfig),
-            headers: {
-              "Content-Type": "application/json",
-              ...authorizationHeader,
-              Prefer: "return=representation",
-            },
+            headers,
           });
         } catch (err) {
           return console.error(err);

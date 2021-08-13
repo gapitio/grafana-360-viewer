@@ -1,15 +1,12 @@
 <script lang="ts">
   import { currentAreaKeyStore } from "../stores";
+  import { headers } from "../utils/apiHeaders";
   import { getFileURL, getFullAPIPath } from "../utils/apiPath";
   import { update } from "../utils/update";
 
   import ImageInput from "./Inputs/ImageInput.svelte";
   import NumberInput from "./Inputs/NumberInput.svelte";
   import TextInput from "./Inputs/TextInput.svelte";
-
-  const {
-    api: { authorizationHeader },
-  } = customProperties;
 
   let sceneConfig = {
     area_key: $currentAreaKeyStore,
@@ -32,11 +29,7 @@
     fetch(url.href, {
       method: "POST",
       body: JSON.stringify([{ name, type, base64 }]),
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then((res) =>
         res.text().then((data) => (sceneConfig.file_id = Number(data)))
@@ -49,11 +42,7 @@
     fetch(url.href, {
       method: "POST",
       body: JSON.stringify(sceneConfig),
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then((res) =>
         res.json().then(([data]) => {

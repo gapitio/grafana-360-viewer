@@ -1,6 +1,5 @@
 <script lang="ts">
   import equal from "fast-deep-equal";
-  import { get } from "svelte/store";
 
   import DeleteButton from "../DeleteButton.svelte";
   import ImageInput from "../Inputs/ImageInput.svelte";
@@ -8,21 +7,17 @@
   import TextInput from "../Inputs/TextInput.svelte";
 
   import {
-    configStore,
     sceneEditsStore,
     sceneConfigListEditsStore,
     currentSceneKeyStore,
     uneditedSceneConfigListStore,
   } from "../../stores";
+  import { headers } from "../../utils/apiHeaders";
   import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
 
   import type { SceneConfig } from "../../utils/getConfig";
 
   export let sceneConfig: SceneConfig;
-
-  const {
-    api: { authorizationHeader },
-  } = customProperties;
 
   $: image = getFileURL(sceneConfig.file_id);
 
@@ -62,11 +57,7 @@
     fetch(url.href, {
       method: "POST",
       body: JSON.stringify([{ name, type, base64 }]),
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then((res) =>
         res.text().then((data) => (sceneConfig.file_id = Number(data)))
@@ -79,11 +70,7 @@
     url.searchParams.append("scene_key", `eq.${sceneConfig.scene_key}`);
     fetch(url.href, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        ...authorizationHeader,
-        Prefer: "return=representation",
-      },
+      headers,
     })
       .then(() => {
         const scenes = $uneditedSceneConfigListStore;

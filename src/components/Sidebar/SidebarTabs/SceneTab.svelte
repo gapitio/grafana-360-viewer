@@ -5,12 +5,9 @@
   import NewScene from "../../NewScene.svelte";
   import SaveButton from "../../SaveButton.svelte";
   import { sceneEditsStore } from "../../../stores";
+  import { headers } from "../../../utils/apiHeaders";
 
   async function saveFunc() {
-    const {
-      api: { authorizationHeader },
-    } = customProperties;
-
     Promise.all(
       Object.entries($sceneEditsStore).map(async ([sceneKey, sceneConfig]) => {
         const url = new URL(`${getFullAPIPath()}scenes`);
@@ -20,11 +17,7 @@
           return fetch(url.href, {
             method: "PATCH",
             body: JSON.stringify(sceneConfig),
-            headers: {
-              "Content-Type": "application/json",
-              ...authorizationHeader,
-              Prefer: "return=representation",
-            },
+            headers,
           });
         } catch (err) {
           return console.error(err);
