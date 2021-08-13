@@ -8,7 +8,7 @@
 
   async function saveFunc() {
     const {
-      api: { token },
+      api: { authorizationHeader },
     } = customProperties;
 
     Promise.all(
@@ -22,7 +22,7 @@
             body: JSON.stringify(sceneConfig),
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              ...authorizationHeader,
               Prefer: "return=representation",
             },
           });

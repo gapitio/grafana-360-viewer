@@ -8,7 +8,7 @@
   import TextInput from "./Inputs/TextInput.svelte";
 
   const {
-    api: { token },
+    api: { authorizationHeader },
   } = customProperties;
 
   let sceneConfig = {
@@ -34,7 +34,7 @@
       body: JSON.stringify([{ name, type, base64 }]),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })
@@ -51,7 +51,7 @@
       body: JSON.stringify(sceneConfig),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })

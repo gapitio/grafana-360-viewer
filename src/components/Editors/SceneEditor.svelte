@@ -21,7 +21,7 @@
   export let sceneConfig: SceneConfig;
 
   const {
-    api: { token },
+    api: { authorizationHeader },
   } = customProperties;
 
   $: image = getFileURL(sceneConfig.file_id);
@@ -64,7 +64,7 @@
       body: JSON.stringify([{ name, type, base64 }]),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })
@@ -75,17 +75,13 @@
   }
 
   function deleteFunc() {
-    const {
-      api: { token },
-    } = customProperties;
-
     const url = new URL(`${getFullAPIPath()}scenes`);
     url.searchParams.append("scene_key", `eq.${sceneConfig.scene_key}`);
     fetch(url.href, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })

@@ -5,7 +5,7 @@
   import TextInput from "./Inputs/TextInput.svelte";
 
   const {
-    api: { token },
+    api: { authorizationHeader },
   } = customProperties;
 
   let areaConfig = {
@@ -19,7 +19,7 @@
       body: JSON.stringify(areaConfig),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })

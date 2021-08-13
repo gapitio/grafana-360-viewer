@@ -6,14 +6,18 @@
   import NewHotspot from "../../NewHotspot.svelte";
   import SaveButton from "../../SaveButton.svelte";
 
-  async function saveNewHotspots(token: string) {
+  const {
+    api: { authorizationHeader },
+  } = customProperties;
+
+  async function saveNewHotspots() {
     const url = new URL(`${getFullAPIPath()}hotspots`);
     await fetch(url.href, {
       method: "POST",
       body: JSON.stringify($newHotspotStore),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })
@@ -29,11 +33,7 @@
   }
 
   async function saveFunc() {
-    const {
-      api: { token },
-    } = customProperties;
-
-    await saveNewHotspots(token);
+    await saveNewHotspots();
 
     Promise.all(
       Object.entries($hotspotEditsStore).map(
@@ -47,7 +47,7 @@
               body: JSON.stringify(hotspotConfig),
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                ...authorizationHeader,
                 Prefer: "return=representation",
               },
             });

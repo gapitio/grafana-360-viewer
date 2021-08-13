@@ -26,7 +26,7 @@
 
   function deleteFunc() {
     const {
-      api: { token },
+      api: { authorizationHeader },
     } = customProperties;
 
     const url = new URL(`${getFullAPIPath()}hotspots`);
@@ -35,7 +35,7 @@
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })

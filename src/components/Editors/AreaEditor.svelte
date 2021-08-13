@@ -44,7 +44,7 @@
 
   function deleteFunc() {
     const {
-      api: { token },
+      api: { authorizationHeader },
     } = customProperties;
 
     const url = new URL(`${getFullAPIPath()}areas`);
@@ -53,7 +53,7 @@
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...authorizationHeader,
         Prefer: "return=representation",
       },
     })
