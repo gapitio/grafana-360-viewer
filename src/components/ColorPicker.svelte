@@ -68,6 +68,10 @@
 </div>
 
 <style>
+  input {
+    width: 150px;
+  }
+
   .color-picker-holder {
     display: flex;
     justify-content: space-between;
