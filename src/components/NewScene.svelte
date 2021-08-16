@@ -70,6 +70,7 @@
 
 <style>
   div {
+    color: #fcfcfc;
     border-top: 2px solid black;
   }
   button {
