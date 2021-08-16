@@ -48,6 +48,7 @@
   </SelectInput>
   <TextInput bind:value={hotspotConfig.title}>Title</TextInput>
   <TextInput bind:value={hotspotConfig.description}>Description</TextInput>
+  <NumberInput bind:value={hotspotConfig.decimals}>Decimals</NumberInput>
   <TextInput bind:value={hotspotConfig.metric}>Metric</TextInput>
   <TextInput bind:value={hotspotConfig.unit}>Unit</TextInput>
   <ColorPicker bind:value={hotspotConfig.color} />
