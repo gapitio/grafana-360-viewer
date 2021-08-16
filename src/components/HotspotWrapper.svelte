@@ -121,7 +121,8 @@
     data-yaw={hotspotConfig.yaw}
     data-pitch={hotspotConfig.pitch}
     data-extra-transforms={hotspotConfig.extra_transforms}
-    class="{editing ? 'editing' : ''} {editable ? 'editable' : ''}"
+    class:editing
+    class:editable
     style="z-index: {index};"
     use:addHotspot
     use:clickOutside
@@ -139,13 +140,16 @@
           <DataHotspot
             title={hotspotConfig.title}
             color={hotspotConfig.color}
-            unit={hotspotConfig.unit}
             link={hotspotConfig.link}
             value={"No data"}
           >
             <tspan slot="title">{hotspotConfig.title}</tspan>
             <tspan slot="value">
-              <GrafanaData alias={hotspotConfig.metric} />
+              <GrafanaData
+                alias={hotspotConfig.metric}
+                unit={hotspotConfig.unit}
+                decimals={hotspotConfig.decimals}
+              />
             </tspan>
           </DataHotspot>
         {:else if hotspotConfig.type == "scene"}

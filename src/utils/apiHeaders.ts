@@ -4,7 +4,7 @@ const {
 } = customProperties;
 
 const authorizationHeader = {
-  [`${isGrafana ? "X-DS" : ""}Authorization`]: `Bearer ${token}`,
+  [`${isGrafana ? "X-DS-" : ""}Authorization`]: `Bearer ${token}`,
 };
 
 export const headers = {

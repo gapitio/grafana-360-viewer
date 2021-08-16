@@ -1,6 +1,5 @@
 <script lang="ts">
   export let title: string | null;
-  export let unit: string | null;
   export let color: string | null;
   export let link: string | null = "";
   export let value: string | number | null;
@@ -47,7 +46,6 @@
         font-weight="600"
       >
         <slot name="value">{value}</slot>
-        <slot name="unit">{` ${unit}`}</slot>
         <slot />
       </text>
     </g>

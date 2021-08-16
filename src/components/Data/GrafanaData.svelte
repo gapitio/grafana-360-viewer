@@ -1,5 +1,7 @@
 <script lang="ts">
   export let alias: string | null;
+  export let unit = "";
+  export let decimals = 1;
 
   import { dataStore } from "../../stores";
   import { getMetricValue } from "@gapit/grafana-metric";
@@ -9,11 +11,11 @@
   dataStore.subscribe((_run) => {
     if (!alias) return;
 
-    value = getMetricValue(alias, { noDataValue: "No data" });
+    const metricValue = getMetricValue(alias, { noDataValue: "No data" });
 
-    if (typeof value == "number") {
-      value = Number(value).toFixed(2);
-    }
+    if (typeof metricValue == "number")
+      value = `${metricValue.toFixed(decimals)} ${unit}`;
+    else value = "No data";
   });
 </script>
 

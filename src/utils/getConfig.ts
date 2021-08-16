@@ -30,6 +30,7 @@ export interface HotspotConfig {
   description: string | null;
   metric: string | null;
   unit: string | null;
+  decimals: number | null;
   color: string | null;
   go_to_scene_key: number | null;
   yaw: number;
