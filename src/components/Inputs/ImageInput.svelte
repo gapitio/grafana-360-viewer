@@ -30,7 +30,7 @@
 
 <div>
   <input type="file" on:change={onFileSelected} />
-  <img src={image} alt="Scene" />
+  <img src={image} alt="Scene" crossorigin="anonymous" />
 </div>
 
 <style>

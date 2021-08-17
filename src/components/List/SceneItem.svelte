@@ -23,7 +23,11 @@
     />
     ({sceneConfig.scene_key})
     {sceneConfig.scene_name}
-    <img src={getFileURL(sceneConfig.file_id)} alt="Scene" />
+    <img
+      src={getFileURL(sceneConfig.file_id)}
+      alt="Scene"
+      crossorigin="anonymous"
+    />
   </label>
   {#if isActive}
     <SceneEditor {sceneConfig} />
