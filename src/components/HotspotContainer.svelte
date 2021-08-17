@@ -19,21 +19,21 @@
     }
   }
 
-  $: if (sceneDataList) {
-    /*
-      Update hotspotConfig to make a new key based on the object
-      since objects are only equal to themself.
-     */
-    hotspotConfigList = hotspotConfigList.map((hotspotConfig) => ({
-      ...hotspotConfig,
-    }));
+  // $: if (sceneDataList) {
+  //   /*
+  //     Update hotspotConfig to make a new key based on the object
+  //     since objects are only equal to themself.
+  //    */
+  //   hotspotConfigList = hotspotConfigList.map((hotspotConfig) => ({
+  //     ...hotspotConfig,
+  //   }));
 
-    removePreviousHotspots();
-  }
+  //   removePreviousHotspots();
+  // }
 </script>
 
 <div class="hotspot-container">
-  {#each hotspotConfigList as hotspotConfig, i (hotspotConfig)}
+  {#each hotspotConfigList as hotspotConfig, i (hotspotConfig.hotspot_key)}
     <HotspotWrapper {hotspotConfig} {sceneDataList} index={i} />
   {/each}
 </div>

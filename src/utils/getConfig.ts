@@ -22,7 +22,7 @@ export interface SceneConfig {
 }
 
 export interface HotspotConfig {
-  hotspot_key: number;
+  hotspot_key: number | string;
   scene_key: number;
   area_key: number;
   type: string | null;
@@ -37,7 +37,6 @@ export interface HotspotConfig {
   pitch: number;
   extra_transforms: string | null;
   link: string | null;
-  new?: boolean;
 }
 
 export function getConfig(): Config {
@@ -67,7 +66,7 @@ export function getConfig(): Config {
 
   areas.sort((a, b) => a.area_key - b.area_key);
   scenes.sort((a, b) => a.scene_key - b.scene_key);
-  hotspots.sort((a, b) => a.hotspot_key - b.hotspot_key);
+  hotspots.sort((a, b) => Number(a.hotspot_key) - Number(b.hotspot_key));
 
   return { areas, scenes, hotspots };
 }
