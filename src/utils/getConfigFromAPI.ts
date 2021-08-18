@@ -43,7 +43,7 @@ export async function getConfigFromAPI(): Promise<Config> {
 
   areas.sort((a, b) => a.area_key - b.area_key);
   scenes.sort((a, b) => a.scene_key - b.scene_key);
-  hotspots.sort((a, b) => a.hotspot_key - b.hotspot_key);
+  hotspots.sort((a, b) => Number(a.hotspot_key) - Number(b.hotspot_key));
 
   return {
     areas,

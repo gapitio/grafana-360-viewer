@@ -4,7 +4,6 @@
   import { getFullAPIPath } from "../../../utils/apiPath";
   import type { HotspotConfig } from "../../../utils/getConfig";
   import { update } from "../../../utils/update";
-  import HotspotList from "../../List/HotspotList.svelte";
 
   import NewHotspot from "../../NewHotspot.svelte";
   import SaveButton from "../../SaveButton.svelte";
@@ -70,6 +69,5 @@
   }
 </script>
 
-<HotspotList />
 <NewHotspot />
 <SaveButton {saveFunc} />
