@@ -59,8 +59,6 @@
         else if (areas.length > 2)
           areaKey = areas[currentAreaIndex - 1].area_key;
 
-        console.log(areaKey);
-
         currentAreaKeyStore.setVariable(areaKey);
       })
       .catch((err) => console.error(err));
