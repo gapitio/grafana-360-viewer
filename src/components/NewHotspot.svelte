@@ -4,6 +4,7 @@
     currentSceneKeyStore,
     hotspotConfigListStore,
     newHotspotStore,
+    viewerStore,
   } from "../stores";
   import type { HotspotConfig } from "../utils/getConfig";
 
@@ -19,8 +20,8 @@
         hotspot_key: "new" + newHotspotNumber,
         scene_key: $currentSceneKeyStore,
         area_key: $currentAreaKeyStore,
-        yaw: 0,
-        pitch: 0,
+        yaw: $viewerStore.view().yaw(),
+        pitch: $viewerStore.view().pitch(),
         color: null,
         description: null,
         extra_transforms: null,
