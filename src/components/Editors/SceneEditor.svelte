@@ -16,6 +16,7 @@
   import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
 
   import type { SceneConfig } from "../../utils/getConfig";
+  import EditorContainer from "./EditorContainer.svelte";
 
   export let sceneConfig: SceneConfig;
 
@@ -87,7 +88,7 @@
   }
 </script>
 
-<div class="container">
+<EditorContainer>
   <TextInput bind:value={sceneConfig.scene_name}>Scene name</TextInput>
   <NumberInput bind:value={sceneConfig.area_key} min={1}>Area key</NumberInput>
   <NumberInput bind:value={sceneConfig.facing_pitch} step={0.1}>
@@ -100,12 +101,4 @@
   <NumberInput bind:value={sceneConfig.file_id} min={1}>File ID</NumberInput>
   <ImageInput bind:image on:newimage={onNewImage} />
   <DeleteButton {deleteFunc} />
-</div>
-
-<style>
-  .container {
-    color: #fcfcfc;
-    border-bottom: 2px solid black;
-    padding: 8px 8px 4px 8px;
-  }
-</style>
+</EditorContainer>

@@ -10,6 +10,7 @@
   import NumberInput from "../Inputs/NumberInput.svelte";
   import SelectInput from "../Inputs/SelectInput.svelte";
   import TextInput from "../Inputs/TextInput.svelte";
+  import EditorContainer from "./EditorContainer.svelte";
 
   export let hotspotConfig: HotspotConfig;
 
@@ -37,7 +38,7 @@
   }
 </script>
 
-<div class="container">
+<EditorContainer>
   <NumberInput bind:value={hotspotConfig.scene_key} min={1}>
     Scene key
   </NumberInput>
@@ -65,16 +66,4 @@
   </TextInput>
   <TextInput bind:value={hotspotConfig.link}>Link</TextInput>
   <DeleteButton {deleteFunc} />
-</div>
-
-<style>
-  .container {
-    color: #fcfcfc;
-    border: 5px solid #1b191c;
-    padding: 8px 8px 4px 8px;
-    background-color: #1b191c55;
-    position: absolute;
-    top: 40px;
-    transform: translateX(-50%);
-  }
-</style>
+</EditorContainer>
