@@ -13,12 +13,15 @@
     for (const i in $newHotspotStore) {
       const oldKey = $newHotspotStore[i].hotspot_key;
       const newKey = keys[i];
-      hotspotEditsStore.update(({ [oldKey]: h, ...rest }) => {
-        return {
-          [newKey]: h,
-          ...rest,
-        };
-      });
+
+      if ($hotspotEditsStore[oldKey]) {
+        hotspotEditsStore.update(({ [oldKey]: h, ...rest }) => {
+          return {
+            [newKey]: h,
+            ...rest,
+          };
+        });
+      }
     }
   }
 
@@ -65,7 +68,10 @@
           }
         }
       )
-    ).then(() => update());
+    ).then(() => {
+      hotspotEditsStore.update(() => ({}));
+      update();
+    });
   }
 </script>
 
