@@ -55,11 +55,9 @@ export const areaConfigListStore = derived(
 );
 
 // HotspotStores
-export const hotspotEditsStore = writable<
-  {
-    [key in number | string]: Partial<HotspotConfig>;
-  }
->({});
+export const hotspotEditsStore = writable<{
+  [key in number | string]: Partial<HotspotConfig>;
+}>({});
 export const newHotspotStore = writable<HotspotConfig[]>([]);
 
 export const hotspotConfigListEditsStore = derived(
