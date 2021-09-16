@@ -14,6 +14,7 @@
   import type { AreaConfig } from "../../utils/getConfig";
   import { getFullAPIPath } from "../../utils/apiPath";
   import DeleteButton from "../DeleteButton.svelte";
+  import EditorContainer from "./EditorContainer.svelte";
 
   export let areaConfig: AreaConfig;
 
@@ -66,15 +67,7 @@
   }
 </script>
 
-<div class="container">
+<EditorContainer>
   <TextInput bind:value={areaConfig.area_name}>Area name</TextInput>
   <DeleteButton {deleteFunc} />
-</div>
-
-<style>
-  .container {
-    color: #fcfcfc;
-    border-bottom: 2px solid black;
-    padding: 8px 8px 4px 8px;
-  }
-</style>
+</EditorContainer>
