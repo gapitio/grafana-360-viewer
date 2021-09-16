@@ -8,6 +8,7 @@
   import type { HotspotConfig } from "../utils/getConfig";
   import {
     configStore,
+    currentEditableHotspotStore,
     hotspotEditsStore,
     newHotspotStore,
     viewerStore,
@@ -27,6 +28,9 @@
 
   let hotspot: any;
   let hotspotElement: HTMLDivElement;
+
+  $: if ($currentEditableHotspotStore === hotspotConfig.hotspot_key)
+    editing = true;
 
   function findScene(sceneKey: number) {
     const scene = sceneDataList.find((scene) => scene.key == sceneKey);
@@ -99,6 +103,7 @@
   function onMouseDown() {
     if (editable) {
       viewer.controls().disable();
+      $currentEditableHotspotStore = hotspotConfig.hotspot_key;
       editing = true;
     }
   }
@@ -108,6 +113,7 @@
       viewer.controls().enable();
       updateEdits();
     }
+    $currentEditableHotspotStore = null;
     editing = false;
   }
 
@@ -159,7 +165,9 @@
         {/if}
       </DraggableHotspot>
       {#if editable && editing}
-        <HotspotEditor bind:hotspotConfig />
+        <div class="editor-container">
+          <HotspotEditor bind:hotspotConfig />
+        </div>
       {/if}
     {/if}
   </div>
@@ -176,5 +184,13 @@
 
   .editable {
     cursor: pointer;
+  }
+
+  .editor-container {
+    border: 5px solid #1b191c;
+    background-color: #1b191c55;
+    position: absolute;
+    top: 40px;
+    transform: translateX(-50%);
   }
 </style>

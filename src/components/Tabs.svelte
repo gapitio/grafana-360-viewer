@@ -2,21 +2,18 @@
   import type { SvelteComponent } from "svelte";
 
   export let tabs: { label: string; component: typeof SvelteComponent }[];
-  export let initSelectedNr = 0;
-
-  let selected = tabs[initSelectedNr];
+  export let currentTab = 0;
 </script>
 
 <div class="tabs">
-  {#each tabs as tab}
-    <button
-      class={tab === selected ? "active" : ""}
-      on:click={() => (selected = tab)}>{tab.label}</button
+  {#each tabs as tab, i}
+    <button class:active={currentTab === i} on:click={() => (currentTab = i)}
+      >{tab.label}</button
     >
   {/each}
 </div>
 
-<svelte:component this={selected.component} />
+<svelte:component this={tabs[currentTab].component} />
 
 <style>
   /* Style the tab */

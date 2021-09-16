@@ -110,3 +110,8 @@ export const currentSceneDataStore = derived(
     return sceneDataList.find((scene) => scene.key === currentSceneKey);
   }
 );
+
+export const currentEditableHotspotStore = writable<number | string | null>(
+  null
+);
+export const currentTabStore = writable(1);
