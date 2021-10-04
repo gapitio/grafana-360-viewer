@@ -4,7 +4,7 @@
   import { sceneEditsStore } from "~/stores";
   import { headers } from "~/utils/apiHeaders";
 
-  import NewScene from "../../NewScene.svelte";
+  import NewScene from "../../New/NewScene.svelte";
   import SaveButton from "../../SaveButton.svelte";
   import SceneList from "../../List/SceneList.svelte";
 

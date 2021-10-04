@@ -1,21 +1,21 @@
 <script lang="ts">
   import equal from "fast-deep-equal";
-  import DataHotspot from "./Hotspots/DataHotspot.svelte";
-  import InfoHotspot from "./Hotspots/InfoHotspot.svelte";
-  import SceneHotspot from "./Hotspots/SceneHotspot.svelte";
-  import GrafanaData from "./Data/GrafanaData.svelte";
+  import DataHotspot from "./Variants/DataHotspot.svelte";
+  import InfoHotspot from "./Variants/InfoHotspot.svelte";
+  import SceneHotspot from "./Variants/SceneHotspot.svelte";
+  import GrafanaData from "../Data/GrafanaData.svelte";
   import DraggableHotspot from "./DraggableHotspot.svelte";
-  import type { HotspotConfig } from "../utils/getConfig";
+  import HotspotEditor from "../Editors/HotspotEditor.svelte";
+  import type { HotspotConfig } from "~/utils/getConfig";
   import {
     configStore,
     currentEditableHotspotStore,
     hotspotEditsStore,
     newHotspotStore,
     viewerStore,
-  } from "../stores";
-  import HotspotEditor from "./Editors/HotspotEditor.svelte";
-  import { clickOutside } from "../utils/clickOutside";
-  import type { SceneData } from "../utils/getSceneDataList";
+  } from "~/stores";
+  import { clickOutside } from "~/utils/clickOutside";
+  import type { SceneData } from "~/utils/getSceneDataList";
   import { onDestroy } from "svelte";
 
   export let hotspotConfig: HotspotConfig;

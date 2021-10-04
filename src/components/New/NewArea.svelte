@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { headers } from "../utils/apiHeaders";
-  import { getFullAPIPath } from "../utils/apiPath";
-  import { update } from "../utils/update";
+  import { headers } from "~/utils/apiHeaders";
+  import { getFullAPIPath } from "~/utils/apiPath";
+  import { update } from "~/utils/update";
 
-  import TextInput from "./Inputs/TextInput.svelte";
+  import TextInput from "../Inputs/TextInput.svelte";
 
   let areaConfig = {
     area_name: "New area",

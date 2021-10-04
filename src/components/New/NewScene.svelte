@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { currentAreaKeyStore } from "../stores";
-  import { headers } from "../utils/apiHeaders";
-  import { getFileURL, getFullAPIPath } from "../utils/apiPath";
-  import { update } from "../utils/update";
+  import { currentAreaKeyStore } from "~/stores";
+  import { headers } from "~/utils/apiHeaders";
+  import { getFileURL, getFullAPIPath } from "~/utils/apiPath";
+  import { update } from "~/utils/update";
 
-  import ImageInput from "./Inputs/ImageInput.svelte";
-  import NumberInput from "./Inputs/NumberInput.svelte";
-  import TextInput from "./Inputs/TextInput.svelte";
+  import ImageInput from "../Inputs/ImageInput.svelte";
+  import NumberInput from "../Inputs/NumberInput.svelte";
+  import TextInput from "../Inputs/TextInput.svelte";
 
   let sceneConfig = {
     area_key: $currentAreaKeyStore,
