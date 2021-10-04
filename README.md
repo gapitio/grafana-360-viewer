@@ -9,6 +9,7 @@ Bundler to make developing code easier and scalable.
   - [Contains](#contains)
   - [Usage](#usage)
   - [Dev site](#dev-site)
+  - [Backend](#backend)
   - [Token](#token)
   - [Generate a token](#generate-a-token)
 
@@ -54,6 +55,12 @@ Then go to `/dist` and copy the content of `panel-options.json` to the panels `I
 To add custom series go to `src/dev-site/data.ts` and add createSeries() in series.
 
 Window has been used to get global variables like data, customProperties, ETC.
+
+## Backend
+
+Template: <https://github.com/gapitio/grafana-360-viewer-backend-template>
+
+Backend used for testing: <https://github.com/ZuperZee/grafana-360-viewer-backend-example>
 
 ## Token
 
