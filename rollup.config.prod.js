@@ -8,6 +8,14 @@ import { terser } from "rollup-plugin-terser";
 
 const OUT_DIR = "dist";
 
+const commonPlugins = [
+  typescript({
+    sourceMap: false,
+  }),
+  terser(),
+  commonjs(),
+];
+
 export default [
   {
     input: "src/on-init.ts",
@@ -18,19 +26,15 @@ export default [
       name: "app",
     },
     plugins: [
+      ...commonPlugins,
       svelte({
         preprocess: sveltePreprocess(),
       }),
       css({ output: "bundle.css" }),
-      typescript({
-        sourceMap: false,
-      }),
-      terser(),
       nodeResolve({
         browser: true,
         dedupe: ["svelte"],
       }),
-      commonjs(),
     ],
   },
   {
@@ -41,14 +45,10 @@ export default [
       sourcemap: false,
     },
     plugins: [
-      typescript({
-        sourceMap: false,
-      }),
-      terser(),
+      ...commonPlugins,
       nodeResolve({
         browser: true,
       }),
-      commonjs(),
     ],
   },
 ];
