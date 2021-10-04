@@ -7,39 +7,26 @@ import type {
   HotspotConfig,
   SceneConfig,
 } from "./getConfig";
+import { getRequest, Params } from "./getRequest";
 
-async function getAreaConfig() {
-  const url = new URL(`${getFullAPIPath()}areas`);
-
-  const res = await fetch(url.href);
-  const data: AreaConfig[] = await res.json();
-  return data;
+async function getAreaConfig(params: Params = {}) {
+  return getRequest<AreaConfig[]>(`${getFullAPIPath()}areas`, params);
 }
 
-async function getSceneConfig(areaKey: number) {
-  const url = new URL(`${getFullAPIPath()}scenes`);
-  url.searchParams.append("area_key", `eq.${areaKey}`);
-
-  const res = await fetch(url.href);
-  const data: SceneConfig[] = await res.json();
-  return data;
+async function getSceneConfig(params: Params = {}) {
+  return getRequest<SceneConfig[]>(`${getFullAPIPath()}scenes`, params);
 }
 
-async function getHotspotConfig(areaKey: number) {
-  const url = new URL(`${getFullAPIPath()}hotspots`);
-  url.searchParams.append("area_key", `eq.${areaKey}`);
-
-  const res = await fetch(url.href);
-  const data: HotspotConfig[] = await res.json();
-  return data;
+async function getHotspotConfig(params: Params = {}) {
+  return getRequest<HotspotConfig[]>(`${getFullAPIPath()}scenes`, params);
 }
 
 export async function getConfigFromAPI(): Promise<Config> {
   const areaKey = get(currentAreaKeyStore);
 
   const areas = await getAreaConfig();
-  const scenes = await getSceneConfig(areaKey);
-  const hotspots = await getHotspotConfig(areaKey);
+  const scenes = await getSceneConfig({ area_key: `eq.${areaKey}` });
+  const hotspots = await getHotspotConfig({ area_key: `eq.${areaKey}` });
 
   areas.sort((a, b) => a.area_key - b.area_key);
   scenes.sort((a, b) => a.scene_key - b.scene_key);
