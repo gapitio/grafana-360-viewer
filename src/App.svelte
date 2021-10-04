@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
   import { dataStore } from "./stores";
-  import PanoramaViewer from "./components/viewers/PanoramaViewer.svelte";
+  import PanoramaViewer from "./components/Viewers/PanoramaViewer.svelte";
 
   function onPanelUpdate() {
     dataStore.update(() => data);
