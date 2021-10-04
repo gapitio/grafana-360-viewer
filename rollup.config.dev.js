@@ -10,6 +10,8 @@ import image from "rollup-plugin-img";
 
 const OUT_DIR = "public/build";
 
+const commonPlugins = [typescript(), commonjs()];
+
 export default [
   {
     input: "src/dev-site/index.ts",
@@ -22,13 +24,13 @@ export default [
       clearScreen: false,
     },
     plugins: [
+      ...commonPlugins,
       image({
         limit: 100000000,
       }),
       json({
         preferConst: true,
       }),
-      typescript(),
       nodeResolve({
         browser: true,
       }),
@@ -44,6 +46,7 @@ export default [
       name: "app",
     },
     plugins: [
+      ...commonPlugins,
       svelte({
         compilerOptions: {
           dev: true,
@@ -51,12 +54,10 @@ export default [
         preprocess: sveltePreprocess(),
       }),
       css({ output: "bundle.css" }),
-      typescript(),
       nodeResolve({
         browser: true,
         dedupe: ["svelte"],
       }),
-      commonjs(),
     ],
   },
   {
@@ -66,12 +67,6 @@ export default [
       format: "iife",
       sourcemap: true,
     },
-    plugins: [
-      typescript(),
-      nodeResolve({
-        browser: true,
-      }),
-      commonjs(),
-    ],
+    plugins: [...commonPlugins],
   },
 ];
