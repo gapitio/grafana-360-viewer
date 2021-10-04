@@ -11,11 +11,11 @@
     sceneConfigListEditsStore,
     currentSceneKeyStore,
     uneditedSceneConfigListStore,
-  } from "../../stores";
-  import { headers } from "../../utils/apiHeaders";
-  import { getFileURL, getFullAPIPath } from "../../utils/apiPath";
+  } from "~/stores";
+  import { headers } from "~/utils/apiHeaders";
+  import { getFileURL, getFullAPIPath } from "~/utils/apiPath";
 
-  import type { SceneConfig } from "../../utils/getConfig";
+  import type { SceneConfig } from "~/utils/getConfig";
   import EditorContainer from "./EditorContainer.svelte";
 
   export let sceneConfig: SceneConfig;

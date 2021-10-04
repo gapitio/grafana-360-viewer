@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { clickOutside } from "../utils/clickOutside";
-  import { hexToRGB } from "../utils/hexToRGB";
+  import { clickOutside } from "~/utils/clickOutside";
+  import { hexToRGB } from "~/utils/hexToRGB";
 
   export let value = "#48ADE0";
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { sceneConfigListEditsStore } from "../../stores";
-  import { headers } from "../../utils/apiHeaders";
-  import { getFullAPIPath } from "../../utils/apiPath";
-  import type { HotspotConfig } from "../../utils/getConfig";
-  import { update } from "../../utils/update";
-  import ColorPicker from "../ColorPicker.svelte";
+  import { sceneConfigListEditsStore } from "~/stores";
+  import { headers } from "~/utils/apiHeaders";
+  import { getFullAPIPath } from "~/utils/apiPath";
+  import type { HotspotConfig } from "~/utils/getConfig";
+  import { update } from "~/utils/update";
+  import ColorPicker from "../Inputs/ColorPicker.svelte";
   import DeleteButton from "../DeleteButton.svelte";
 
   import NumberInput from "../Inputs/NumberInput.svelte";

@@ -1,9 +1,9 @@
 <script lang="ts">
   import AreaEditor from "../Editors/AreaEditor.svelte";
 
-  import { areaEditsStore, currentAreaKeyStore } from "../../stores";
+  import { areaEditsStore, currentAreaKeyStore } from "~/stores";
 
-  import type { AreaConfig } from "../../utils/getConfig";
+  import type { AreaConfig } from "~/utils/getConfig";
 
   export let areaConfig: AreaConfig;
   export let selectedArea: number;

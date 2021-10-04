@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { hotspotConfigListStore } from "../../stores";
+  import { hotspotConfigListStore } from "~/stores";
   import HotspotItem from "./HotspotItem.svelte";
 </script>
 
