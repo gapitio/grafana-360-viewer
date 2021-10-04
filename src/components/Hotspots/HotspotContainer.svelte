@@ -1,7 +1,7 @@
 <script lang="ts">
   import HotspotWrapper from "./HotspotWrapper.svelte";
-  import type { HotspotConfig } from "../utils/getConfig";
-  import type { SceneData } from "../utils/getSceneDataList";
+  import type { HotspotConfig } from "~/utils/getConfig";
+  import type { SceneData } from "~/utils/getSceneDataList";
 
   export let hotspotConfigList: HotspotConfig[];
   export let sceneDataList: SceneData[];

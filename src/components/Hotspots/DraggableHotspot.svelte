@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { viewerStore } from "../stores";
+  import { viewerStore } from "~/stores";
 
   export let hotspot: any;
   export let editable: boolean;

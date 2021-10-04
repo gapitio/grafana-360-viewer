@@ -5,8 +5,8 @@
     hotspotConfigListStore,
     newHotspotStore,
     viewerStore,
-  } from "../stores";
-  import type { HotspotConfig } from "../utils/getConfig";
+  } from "~/stores";
+  import type { HotspotConfig } from "~/utils/getConfig";
 
   function onClick() {
     newHotspotStore.update((e) => {

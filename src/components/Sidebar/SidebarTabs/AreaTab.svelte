@@ -5,7 +5,7 @@
   import { update } from "~/utils/update";
 
   import AreaList from "../../List/AreaList.svelte";
-  import NewArea from "../../NewArea.svelte";
+  import NewArea from "../../New/NewArea.svelte";
   import SaveButton from "../../SaveButton.svelte";
 
   async function saveFunc() {

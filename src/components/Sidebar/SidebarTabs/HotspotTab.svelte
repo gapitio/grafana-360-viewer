@@ -6,7 +6,7 @@
   import { update } from "~/utils/update";
 
   import HotspotList from "../../List/HotspotList.svelte";
-  import NewHotspot from "../../NewHotspot.svelte";
+  import NewHotspot from "../../New/NewHotspot.svelte";
   import SaveButton from "../../SaveButton.svelte";
 
   function updateEditHotspotKeys(keys: number[]) {
