@@ -1,8 +1,8 @@
 <script lang="ts">
   import equal from "fast-deep-equal";
-  import DataHotspot from "./hotspots/DataHotspot.svelte";
-  import InfoHotspot from "./hotspots/InfoHotspot.svelte";
-  import SceneHotspot from "./hotspots/SceneHotspot.svelte";
+  import DataHotspot from "./Hotspots/DataHotspot.svelte";
+  import InfoHotspot from "./Hotspots/InfoHotspot.svelte";
+  import SceneHotspot from "./Hotspots/SceneHotspot.svelte";
   import GrafanaData from "./Data/GrafanaData.svelte";
   import DraggableHotspot from "./DraggableHotspot.svelte";
   import type { HotspotConfig } from "../utils/getConfig";
