@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { areaEditsStore } from "../../../stores";
-  import { headers } from "../../../utils/apiHeaders";
-  import { getFullAPIPath } from "../../../utils/apiPath";
-  import { update } from "../../../utils/update";
+  import { areaEditsStore } from "~/stores";
+  import { headers } from "~/utils/apiHeaders";
+  import { getFullAPIPath } from "~/utils/apiPath";
+  import { update } from "~/utils/update";
 
   import AreaList from "../../List/AreaList.svelte";
   import NewArea from "../../NewArea.svelte";

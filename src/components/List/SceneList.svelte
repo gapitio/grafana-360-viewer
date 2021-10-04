@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    sceneConfigListEditsStore,
-    currentSceneKeyStore,
-  } from "../../stores";
+  import { sceneConfigListEditsStore, currentSceneKeyStore } from "~/stores";
   import SceneItem from "./SceneItem.svelte";
 
   $: selectedScene = $sceneConfigListEditsStore.find(

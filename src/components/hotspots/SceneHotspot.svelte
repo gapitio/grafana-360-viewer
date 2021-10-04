@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentSceneKeyStore } from "../../stores";
+  import { currentSceneKeyStore } from "~/stores";
 
   export let go_to_scene_key: number | null;
 

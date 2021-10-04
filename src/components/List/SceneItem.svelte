@@ -1,10 +1,10 @@
 <script lang="ts">
   import SceneEditor from "../Editors/SceneEditor.svelte";
 
-  import { currentSceneKeyStore, sceneEditsStore } from "../../stores";
-  import { getFileURL } from "../../utils/apiPath";
+  import { currentSceneKeyStore, sceneEditsStore } from "~/stores";
+  import { getFileURL } from "~/utils/apiPath";
 
-  import type { SceneConfig } from "../../utils/getConfig";
+  import type { SceneConfig } from "~/utils/getConfig";
 
   export let sceneConfig: SceneConfig;
   export let selectedScene: number;
