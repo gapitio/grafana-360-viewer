@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { areaEditsStore, currentEditableHotspotStore } from "../../stores";
+  import { areaEditsStore, currentEditableHotspotStore } from "~/stores";
 
-  import type { HotspotConfig } from "../../utils/getConfig";
+  import type { HotspotConfig } from "~/utils/getConfig";
   import HotspotEditor from "../Editors/HotspotEditor.svelte";
 
   export let hotspotConfig: HotspotConfig;

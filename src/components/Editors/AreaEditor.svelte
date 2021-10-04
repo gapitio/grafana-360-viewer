@@ -1,7 +1,7 @@
 <script lang="ts">
   import equal from "fast-deep-equal";
 
-  import { headers } from "../../utils/apiHeaders";
+  import { headers } from "~/utils/apiHeaders";
   import TextInput from "../Inputs/TextInput.svelte";
 
   import {
@@ -9,10 +9,10 @@
     areaEditsStore,
     currentAreaKeyStore,
     uneditedAreaConfigListStore,
-  } from "../../stores";
+  } from "~/stores";
 
-  import type { AreaConfig } from "../../utils/getConfig";
-  import { getFullAPIPath } from "../../utils/apiPath";
+  import type { AreaConfig } from "~/utils/getConfig";
+  import { getFullAPIPath } from "~/utils/apiPath";
   import DeleteButton from "../DeleteButton.svelte";
   import EditorContainer from "./EditorContainer.svelte";
 

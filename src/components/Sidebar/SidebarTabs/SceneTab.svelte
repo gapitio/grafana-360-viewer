@@ -1,11 +1,12 @@
 <script lang="ts">
-  import SceneList from "../../List/SceneList.svelte";
-  import { getFullAPIPath } from "../../../utils/apiPath";
-  import { update } from "../../../utils/update";
+  import { getFullAPIPath } from "~/utils/apiPath";
+  import { update } from "~/utils/update";
+  import { sceneEditsStore } from "~/stores";
+  import { headers } from "~/utils/apiHeaders";
+
   import NewScene from "../../NewScene.svelte";
   import SaveButton from "../../SaveButton.svelte";
-  import { sceneEditsStore } from "../../../stores";
-  import { headers } from "../../../utils/apiHeaders";
+  import SceneList from "../../List/SceneList.svelte";
 
   async function saveFunc() {
     Promise.all(

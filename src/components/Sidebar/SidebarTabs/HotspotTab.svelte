@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { hotspotEditsStore, newHotspotStore } from "../../../stores";
-  import { headers } from "../../../utils/apiHeaders";
-  import { getFullAPIPath } from "../../../utils/apiPath";
-  import type { HotspotConfig } from "../../../utils/getConfig";
-  import { update } from "../../../utils/update";
-  import HotspotList from "../../List/HotspotList.svelte";
+  import { hotspotEditsStore, newHotspotStore } from "~/stores";
+  import { headers } from "~/utils/apiHeaders";
+  import { getFullAPIPath } from "~/utils/apiPath";
+  import type { HotspotConfig } from "~/utils/getConfig";
+  import { update } from "~/utils/update";
 
+  import HotspotList from "../../List/HotspotList.svelte";
   import NewHotspot from "../../NewHotspot.svelte";
   import SaveButton from "../../SaveButton.svelte";
 

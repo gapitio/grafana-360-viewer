@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentAreaKeyStore, areaConfigListEditsStore } from "../../stores";
+  import { currentAreaKeyStore, areaConfigListEditsStore } from "~/stores";
   import AreaItem from "./AreaItem.svelte";
 
   $: selectedArea = $areaConfigListEditsStore.find(

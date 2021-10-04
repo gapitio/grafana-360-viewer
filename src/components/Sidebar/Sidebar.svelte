@@ -4,7 +4,7 @@
   import SceneTab from "./SidebarTabs/SceneTab.svelte";
   import AreaTab from "./SidebarTabs/AreaTab.svelte";
   import HotspotTab from "./SidebarTabs/HotspotTab.svelte";
-  import { currentEditableHotspotStore, currentTabStore } from "../../stores";
+  import { currentEditableHotspotStore, currentTabStore } from "~/stores";
 
   let width = 400;
 

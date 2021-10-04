@@ -8,14 +8,11 @@
     currentSceneDataStore,
     hotspotConfigListStore,
     autoRotateStore,
-  } from "../../stores";
+  } from "~/stores";
   import HotspotContainer from "../HotspotContainer.svelte";
-  import {
-    disableAutoRotation,
-    enableAutoRotation,
-  } from "../../utils/autorotate";
+  import { disableAutoRotation, enableAutoRotation } from "~/utils/autorotate";
   import Sidebar from "../Sidebar/Sidebar.svelte";
-  import { update } from "../../utils/update";
+  import { update } from "~/utils/update";
 
   const { editable } = customProperties;
 

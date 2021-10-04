@@ -3,7 +3,7 @@
   export let unit = "";
   export let decimals = 1;
 
-  import { dataStore } from "../../stores";
+  import { dataStore } from "~/stores";
   import { getMetricValue } from "@gapit/grafana-metric";
 
   let value: unknown = "No data";
