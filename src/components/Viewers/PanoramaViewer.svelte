@@ -9,7 +9,7 @@
     hotspotConfigListStore,
     autoRotateStore,
   } from "~/stores";
-  import HotspotContainer from "../HotspotContainer.svelte";
+  import HotspotContainer from "../Hotspots/HotspotContainer.svelte";
   import { disableAutoRotation, enableAutoRotation } from "~/utils/autorotate";
   import Sidebar from "../Sidebar/Sidebar.svelte";
   import { update } from "~/utils/update";
