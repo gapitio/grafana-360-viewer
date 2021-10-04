@@ -18,7 +18,7 @@ async function getSceneConfig(params: Params = {}) {
 }
 
 async function getHotspotConfig(params: Params = {}) {
-  return getRequest<HotspotConfig[]>(`${getFullAPIPath()}scenes`, params);
+  return getRequest<HotspotConfig[]>(`${getFullAPIPath()}hotspots`, params);
 }
 
 export async function getConfigFromAPI(): Promise<Config> {
