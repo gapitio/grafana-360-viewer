@@ -60,7 +60,7 @@ Window has been used to get global variables like data, customProperties, ETC.
 
 Template: <https://github.com/gapitio/grafana-360-viewer-backend-template>
 
-Backend used for testing: <https://github.com/ZuperZee/grafana-360-viewer-backend-example>
+Backend used for testing: <https://github.com/gapitio/grafana-360-viewer-backend-example>
 
 ## Token
 
