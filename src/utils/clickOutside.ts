@@ -16,11 +16,11 @@ export function clickOutside(node: HTMLElement): {
     }
   };
 
-  document.addEventListener("mousedown", handleClick, true);
+  htmlNode.addEventListener("mousedown", handleClick, true);
 
   return {
     destroy() {
-      document.removeEventListener("mousedown", handleClick, true);
+      htmlNode.removeEventListener("mousedown", handleClick, true);
     },
   };
 }
