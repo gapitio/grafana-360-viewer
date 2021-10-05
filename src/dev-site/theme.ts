@@ -5,17 +5,19 @@ function themeHandler() {
   const lightThemeButton = document.getElementById("light-theme-button");
   const darkThemeButton = document.getElementById("dark-theme-button");
 
-  lightThemeButton.onclick = () => {
-    url.searchParams.delete("theme");
-    url.searchParams.append("theme", "light");
-    window.location.href = url.href;
-  };
+  if (lightThemeButton)
+    lightThemeButton.onclick = () => {
+      url.searchParams.delete("theme");
+      url.searchParams.append("theme", "light");
+      window.location.href = url.href;
+    };
 
-  darkThemeButton.onclick = () => {
-    url.searchParams.delete("theme");
-    url.searchParams.append("theme", "dark");
-    window.location.href = url.href;
-  };
+  if (darkThemeButton)
+    darkThemeButton.onclick = () => {
+      url.searchParams.delete("theme");
+      url.searchParams.append("theme", "dark");
+      window.location.href = url.href;
+    };
 
   if (currentTheme == "dark") {
     theme.isDark = true;
