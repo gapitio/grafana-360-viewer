@@ -7,12 +7,11 @@
     dataStore,
     currentSceneDataStore,
     hotspotConfigListStore,
-    autoRotateStore,
   } from "~/stores";
   import HotspotContainer from "../Hotspots/HotspotContainer.svelte";
-  import { disableAutoRotation, enableAutoRotation } from "~/utils/autorotate";
   import Sidebar from "../Sidebar/Sidebar.svelte";
   import { update } from "~/utils/update";
+  import { autoRotate } from "~/utils/autorotate";
 
   const { editable } = customProperties;
 
@@ -25,14 +24,7 @@
   });
 
   dataStore.subscribe(update);
-
-  $: if ($viewerStore) {
-    if ($autoRotateStore == "False") {
-      disableAutoRotation($viewerStore);
-    } else {
-      enableAutoRotation($viewerStore);
-    }
-  }
+  autoRotate();
 
   onMount(async () => {
     viewerStore.set(new Marzipano.Viewer(panoramaContainer));
