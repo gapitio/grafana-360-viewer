@@ -12,10 +12,10 @@
   import Sidebar from "../Sidebar/Sidebar.svelte";
   import { update } from "~/utils/update";
   import { autoRotate } from "~/utils/autorotate";
+  import { logMousePosition } from "~/utils/logMousePosition";
 
   const { editable } = customProperties;
 
-  let container: HTMLElement;
   let panoramaContainer: HTMLElement;
 
   currentSceneDataStore.subscribe(async (e) => {
@@ -26,27 +26,15 @@
   dataStore.subscribe(update);
   autoRotate();
 
-  onMount(async () => {
-    viewerStore.set(new Marzipano.Viewer(panoramaContainer));
-
-    panoramaContainer.addEventListener("click", (event) => {
-      const { x: offsetX, y: offsetY } = $viewerStore
-        .domElement()
-        .getBoundingClientRect();
-
-      const x = event.x - offsetX;
-      const y = event.y - offsetY;
-
-      console.info(
-        "Mouse position",
-        $viewerStore.scene().view().screenToCoordinates({ x, y })
-      );
-    });
-  });
+  onMount(() => viewerStore.set(new Marzipano.Viewer(panoramaContainer)));
 </script>
 
-<div bind:this={container}>
-  <div bind:this={panoramaContainer} class="panorama-container" />
+<div>
+  <div
+    bind:this={panoramaContainer}
+    on:click={logMousePosition}
+    class="panorama-container"
+  />
   {#await $sceneDataListStore then sceneDataList}
     {#await $hotspotConfigListStore then hotspotConfigList}
       {#if $hotspotConfigListStore && sceneDataList.length > 0}
