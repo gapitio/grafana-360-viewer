@@ -14,6 +14,6 @@
   });
 </script>
 
-<main on:keydown|stopPropagation={toggleFullscreen} tabindex="0">
+<main on:keydown={toggleFullscreen} tabindex="0">
   <PanoramaViewer />
 </main>
