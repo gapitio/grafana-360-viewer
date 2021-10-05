@@ -12,11 +12,12 @@
     "fix": "run-s fix:eslint fix:prettier",
     "fix:eslint": "eslint . --ext .ts,.js --fix",
     "fix:prettier": "prettier --write .",
-    "lint": "run-s lint:eslint lint:prettier",
+    "lint": "run-s lint:eslint lint:prettier svelte-check",
     "lint:eslint": "eslint . --ext .ts,.js",
     "lint:prettier": "prettier --check .",
     "serve": "sirv public --single --host",
     "serve:dev": "sirv public --single --host --dev",
+    "svelte-check": "svelte-check",
     "watch": "rollup -c rollup.config.dev.js -w"
   },
   "devDependencies": {
