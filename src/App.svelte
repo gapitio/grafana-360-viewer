@@ -2,6 +2,7 @@
   import { onDestroy } from "svelte";
   import { dataStore } from "./stores";
   import PanoramaViewer from "./components/Viewers/PanoramaViewer.svelte";
+  import { toggleFullscreen } from "./utils/fullscreen";
 
   function onPanelUpdate() {
     dataStore.update(() => data);
@@ -13,6 +14,6 @@
   });
 </script>
 
-<main>
+<main on:keydown|stopPropagation={toggleFullscreen} tabindex="0">
   <PanoramaViewer />
 </main>
