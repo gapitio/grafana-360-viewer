@@ -4,9 +4,20 @@
   import SceneTab from "./SidebarTabs/SceneTab.svelte";
   import AreaTab from "./SidebarTabs/AreaTab.svelte";
   import HotspotTab from "./SidebarTabs/HotspotTab.svelte";
-  import { currentEditableHotspotStore, currentTabStore } from "~/stores";
+  import {
+    areaConfigListStore,
+    currentEditableHotspotStore,
+    currentTabStore,
+    hotspotConfigListStore,
+    sceneDataListStore,
+  } from "~/stores";
 
   let width = 400;
+  let sceneLength: number;
+
+  $: areaLength = $areaConfigListStore.length;
+  $: $sceneDataListStore.then(({ length }) => (sceneLength = length));
+  $: hotspotLength = $hotspotConfigListStore.length;
 
   $: if ($currentEditableHotspotStore !== null) $currentTabStore = 2;
 </script>
@@ -15,9 +26,9 @@
   <DraggableHorizontally bind:width />
   <Tabs
     tabs={[
-      { label: "Areas", component: AreaTab },
-      { label: "Scenes", component: SceneTab },
-      { label: "Hotspots", component: HotspotTab },
+      { label: `Areas (${areaLength})`, component: AreaTab },
+      { label: `Scenes (${sceneLength})`, component: SceneTab },
+      { label: `Hotspots (${hotspotLength})`, component: HotspotTab },
     ]}
     bind:currentTab={$currentTabStore}
   />

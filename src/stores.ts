@@ -91,11 +91,16 @@ export const sceneConfigListEditsStore = derived(
     }))
 );
 
-export const sceneDataListStore = derived(
+export const sceneConfigListStore = derived(
   [
     editable ? sceneConfigListEditsStore : uneditedSceneConfigListStore,
     viewerStore,
   ],
+  ([scenes, viewer]) => (viewer && scenes ? scenes : [])
+);
+
+export const sceneDataListStore = derived(
+  [sceneConfigListStore, viewerStore],
   async ([sceneConfig, viewer]) =>
     viewer && sceneConfig ? await getSceneDataList(sceneConfig, viewer) : []
 );
