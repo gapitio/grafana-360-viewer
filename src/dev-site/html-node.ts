@@ -1,6 +1,7 @@
-window.htmlNode = document
-  .getElementById("shadow-container")
-  .attachShadow({ mode: "open" }) as HTMLNode;
+const shadowContainer = document.getElementById("shadow-container");
+
+if (shadowContainer)
+  window.htmlNode = shadowContainer.attachShadow({ mode: "open" }) as HTMLNode;
 
 htmlNode.onpanelupdate = () => null;
 

@@ -63,7 +63,7 @@ function renderHandler() {
 
       refreshButton.classList.add("executed");
     }
-    onRender();
+    if (onRender) onRender();
   };
 }
 
