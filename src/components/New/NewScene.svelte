@@ -8,7 +8,14 @@
   import NumberInput from "../Inputs/NumberInput.svelte";
   import TextInput from "../Inputs/TextInput.svelte";
 
-  let sceneConfig = {
+  let sceneConfig: {
+    area_key: number;
+    scene_name: string;
+    facing_pitch: number;
+    facing_yaw: number;
+    fov: number;
+    file_id: number | null;
+  } = {
     area_key: $currentAreaKeyStore,
     scene_name: "New scene",
     facing_pitch: 0,
@@ -17,7 +24,7 @@
     file_id: null,
   };
 
-  $: image = sceneConfig.file_id && getFileURL(sceneConfig.file_id);
+  $: image = sceneConfig.file_id ? getFileURL(sceneConfig.file_id) : null;
 
   function createNewImage(
     event: CustomEvent<{ name: string; type: string; dataURLs: string }>

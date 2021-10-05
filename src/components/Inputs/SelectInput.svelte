@@ -2,11 +2,11 @@
   import Select from "svelte-select";
 
   export let items: { label: string; value: string | number }[];
-  export let value: string | number;
+  export let value: string | number | null;
 
   let selectedOption = items.find((option) => option.value == value);
 
-  $: value = selectedOption?.value;
+  $: value = selectedOption?.value ?? null;
 </script>
 
 <div>

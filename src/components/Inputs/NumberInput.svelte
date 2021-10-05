@@ -1,8 +1,8 @@
 <script lang="ts">
   export let value: number | null;
   export let step = 1;
-  export let min: number = null;
-  export let max: number = null;
+  export let min: number | undefined = undefined;
+  export let max: number | undefined = undefined;
 </script>
 
 <div>

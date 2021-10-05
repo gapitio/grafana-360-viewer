@@ -87,9 +87,8 @@
         }));
       }
     } else if ($hotspotEditsStore[hotspotConfig.hotspot_key]) {
-      $hotspotEditsStore =
-        delete $hotspotEditsStore[hotspotConfig.hotspot_key] &&
-        $hotspotEditsStore;
+      delete $hotspotEditsStore[hotspotConfig.hotspot_key];
+      $hotspotEditsStore = $hotspotEditsStore; // Trigger an update
     }
   }
 
@@ -153,8 +152,8 @@
             <tspan slot="value">
               <GrafanaData
                 alias={hotspotConfig.metric}
-                unit={hotspotConfig.unit}
-                decimals={hotspotConfig.decimals}
+                unit={hotspotConfig.unit ?? undefined}
+                decimals={hotspotConfig.decimals ?? undefined}
               />
             </tspan>
           </DataHotspot>

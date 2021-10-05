@@ -38,9 +38,10 @@
           ...e,
           ...{ [areaConfig.area_key]: edits },
         }));
-    } else if ($areaEditsStore[areaConfig.area_key])
-      $areaEditsStore =
-        delete $areaEditsStore[areaConfig.area_key] && $areaEditsStore;
+    } else if ($areaEditsStore[areaConfig.area_key]) {
+      delete $areaEditsStore[areaConfig.area_key];
+      $areaEditsStore = $areaEditsStore; // Trigger an update
+    }
   }
 
   function deleteFunc() {
@@ -52,7 +53,7 @@
     })
       .then(() => {
         const areas = $uneditedAreaConfigListStore;
-        let areaKey = null;
+        let areaKey: number | string = "";
 
         if (areas.length > currentAreaIndex + 1)
           areaKey = areas[currentAreaIndex + 1].area_key;

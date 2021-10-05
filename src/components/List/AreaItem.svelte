@@ -6,7 +6,7 @@
   import type { AreaConfig } from "~/utils/getConfig";
 
   export let areaConfig: AreaConfig;
-  export let selectedArea: number;
+  export let selectedArea: number | null;
 
   $: isActive = areaConfig.area_key == selectedArea;
   $: isEdited = areaConfig.area_key in $areaEditsStore;

@@ -2,7 +2,7 @@
   import { clickOutside } from "~/utils/clickOutside";
   import { hexToRGB } from "~/utils/hexToRGB";
 
-  export let value = "#48ADE0";
+  export let value: string | null = "#000";
 
   let values = [["#7A36D2", "#17C1B6", "#48ADE0", "#D648E0"]];
 
@@ -19,10 +19,11 @@
   };
 
   $: {
-    const rgb = value && hexToRGB(value);
+    const rgb = hexToRGB(value ?? "");
 
-    const brightness =
-      rgb && Math.round((rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000);
+    const brightness = rgb
+      ? Math.round((rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000)
+      : 255;
 
     caratColor = brightness > 125 ? "black" : "white";
   }
