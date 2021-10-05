@@ -7,7 +7,7 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "types": ["svelte"],
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"]
