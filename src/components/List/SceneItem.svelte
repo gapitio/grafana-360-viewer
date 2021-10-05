@@ -7,7 +7,7 @@
   import type { SceneConfig } from "~/utils/getConfig";
 
   export let sceneConfig: SceneConfig;
-  export let selectedScene: number;
+  export let selectedScene: number | null;
 
   $: isActive = sceneConfig.scene_key == selectedScene;
   $: isEdited = sceneConfig.scene_key in $sceneEditsStore;

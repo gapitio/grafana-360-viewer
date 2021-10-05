@@ -43,9 +43,10 @@
           ...e,
           ...{ [sceneConfig.scene_key]: edits },
         }));
-    } else if ($sceneEditsStore[sceneConfig.scene_key])
-      $sceneEditsStore =
-        delete $sceneEditsStore[sceneConfig.scene_key] && $sceneEditsStore;
+    } else if ($sceneEditsStore[sceneConfig.scene_key]) {
+      delete $sceneEditsStore[sceneConfig.scene_key];
+      $sceneEditsStore = $sceneEditsStore; // Trigger an update
+    }
   }
 
   function onNewImage(
@@ -75,7 +76,7 @@
     })
       .then(() => {
         const scenes = $uneditedSceneConfigListStore;
-        let sceneKey = null;
+        let sceneKey: string | number = "";
 
         if (scenes.length > currentSceneIndex + 1)
           sceneKey = scenes[currentSceneIndex + 1].scene_key;

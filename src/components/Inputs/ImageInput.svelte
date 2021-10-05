@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  export let image: string;
+  export let image: string | null;
 
   const dispatch = createEventDispatcher<{
     newimage: { name: string; type: string; dataURLs: string };
@@ -12,11 +12,13 @@
       currentTarget: EventTarget & HTMLInputElement;
     }
   ) => {
-    const file = e.currentTarget.files[0];
+    const file = e.currentTarget.files?.item(0);
+    if (!file) throw new Error("No file selected");
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
-      const result = e.target.result;
+      const result = e.target?.result;
 
       if (typeof result == "string")
         dispatch("newimage", {
@@ -30,7 +32,9 @@
 
 <div>
   <input type="file" on:change={onFileSelected} />
-  <img src={image} alt="Scene" crossorigin="anonymous" />
+  {#if image}
+    <img src={image} alt="Scene" crossorigin="anonymous" />
+  {/if}
 </div>
 
 <style>
