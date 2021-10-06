@@ -13,6 +13,7 @@
   import { update } from "~/utils/update";
   import { autoRotate } from "~/utils/autorotate";
   import { logMousePosition } from "~/utils/logMousePosition";
+  import DevInfo from "../DevInfo/DevInfo.svelte";
 
   const { editable } = customProperties;
 
@@ -46,6 +47,7 @@
 
 {#if editable}
   <Sidebar />
+  <DevInfo />
 {/if}
 
 <style>

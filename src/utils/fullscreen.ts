@@ -1,11 +1,4 @@
-export const toggleFullscreen = (
-  e: KeyboardEvent & {
-    currentTarget: EventTarget & HTMLElement;
-  }
-): void => {
-  if (e.key === "f") {
-    e.stopPropagation();
-    if (htmlNode.fullscreenElement) document.exitFullscreen();
-    else e.currentTarget.requestFullscreen();
-  }
+export const toggleFullscreen = (elt: HTMLElement): void => {
+  if (htmlNode.fullscreenElement) document.exitFullscreen();
+  else elt.requestFullscreen();
 };
