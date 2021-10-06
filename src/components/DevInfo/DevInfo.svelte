@@ -1,8 +1,17 @@
 <script lang="ts">
-  import ViewPosition from "./ViewPosition.svelte";
+  import { viewerStore } from "~/stores";
+  import GeneralInfo from "./GeneralInfo.svelte";
+  import MouseCoordinates from "./MouseCoordinates.svelte";
+  import ViewCoordinates from "./ViewCoordinates.svelte";
 </script>
 
-<div class="dev-info"><ViewPosition /></div>
+<div class="dev-info">
+  {#if $viewerStore}
+    <GeneralInfo viewer={$viewerStore} />
+    <ViewCoordinates viewer={$viewerStore} />
+    <MouseCoordinates />
+  {/if}
+</div>
 
 <style>
   .dev-info {
@@ -10,8 +19,12 @@
     bottom: 0;
     right: 0;
     display: flex;
-    padding: 20px;
+    padding: 10px 20px;
     color: #fcfcfc;
     background-color: #1b191c55;
+  }
+
+  .dev-info > :global(div:not(:last-child)) {
+    margin-right: 20px;
   }
 </style>

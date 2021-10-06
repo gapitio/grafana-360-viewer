@@ -12,7 +12,10 @@
   import Sidebar from "../Sidebar/Sidebar.svelte";
   import { update } from "~/utils/update";
   import { autoRotate } from "~/utils/autorotate";
-  import { logMousePosition } from "~/utils/logMousePosition";
+  import {
+    logMouseCoordinates,
+    updateMouseCoordinates,
+  } from "~/utils/mouseCoordinates";
   import DevInfo from "../DevInfo/DevInfo.svelte";
 
   const { editable } = customProperties;
@@ -30,25 +33,27 @@
   onMount(() => viewerStore.set(new Marzipano.Viewer(panoramaContainer)));
 </script>
 
-<div>
-  <div
-    bind:this={panoramaContainer}
-    on:click={logMousePosition}
-    class="panorama-container"
-  />
-  {#await $sceneDataListStore then sceneDataList}
-    {#await $hotspotConfigListStore then hotspotConfigList}
-      {#if $hotspotConfigListStore && sceneDataList.length > 0}
-        <HotspotContainer {hotspotConfigList} {sceneDataList} />
-      {/if}
+<div on:mousemove={updateMouseCoordinates}>
+  <div>
+    <div
+      bind:this={panoramaContainer}
+      on:click={logMouseCoordinates}
+      class="panorama-container"
+    />
+    {#await $sceneDataListStore then sceneDataList}
+      {#await $hotspotConfigListStore then hotspotConfigList}
+        {#if $hotspotConfigListStore && sceneDataList.length > 0}
+          <HotspotContainer {hotspotConfigList} {sceneDataList} />
+        {/if}
+      {/await}
     {/await}
-  {/await}
-</div>
+  </div>
 
-{#if editable}
-  <Sidebar />
-  <DevInfo />
-{/if}
+  {#if editable}
+    <Sidebar />
+    <DevInfo />
+  {/if}
+</div>
 
 <style>
   .panorama-container {
