@@ -7,6 +7,7 @@
   import {
     areaConfigListStore,
     currentEditableHotspotStore,
+    currentSceneKeyStore,
     currentTabStore,
     hotspotConfigListStore,
     sceneDataListStore,
@@ -17,7 +18,9 @@
 
   $: areaLength = $areaConfigListStore.length;
   $: $sceneDataListStore.then(({ length }) => (sceneLength = length));
-  $: hotspotLength = $hotspotConfigListStore.length;
+  $: hotspotLength = $hotspotConfigListStore.filter(
+    (hotspotConfig) => hotspotConfig.scene_key === $currentSceneKeyStore
+  ).length;
 
   $: if ($currentEditableHotspotStore !== null) $currentTabStore = 2;
 </script>
