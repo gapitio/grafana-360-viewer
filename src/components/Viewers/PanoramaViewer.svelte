@@ -17,6 +17,7 @@
     updateMouseCoordinates,
   } from "~/utils/mouseCoordinates";
   import DevInfo from "../DevInfo/DevInfo.svelte";
+  import { handleHotspotEditing } from "~/utils/controls";
 
   const { editable } = customProperties;
 
@@ -29,6 +30,7 @@
 
   dataStore.subscribe(update);
   autoRotate();
+  handleHotspotEditing();
 
   onMount(() => viewerStore.set(new Marzipano.Viewer(panoramaContainer)));
 </script>

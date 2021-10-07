@@ -11,26 +11,31 @@
     configStore,
     currentEditableHotspotStore,
     hotspotEditsStore,
+    hotspotListEltStore,
     newHotspotStore,
-    viewerStore,
   } from "~/stores";
   import { clickOutside } from "~/utils/clickOutside";
   import type { SceneData } from "~/utils/getSceneDataList";
-  import { onDestroy } from "svelte";
 
   export let hotspotConfig: HotspotConfig;
   export let sceneDataList: SceneData[];
   export let index: number;
 
   const { editable } = customProperties;
-  const viewer = $viewerStore;
   let editing = false;
 
   let hotspot: any;
   let hotspotElement: HTMLDivElement;
 
-  $: if ($currentEditableHotspotStore === hotspotConfig.hotspot_key)
-    editing = true;
+  const uneditedHotspotConfig = [
+    ...$configStore.hotspots,
+    ...$newHotspotStore,
+  ].find((hotspot) => hotspot.hotspot_key == hotspotConfig.hotspot_key);
+
+  $: editing = $currentEditableHotspotStore === hotspotConfig.hotspot_key;
+
+  $: if (!editing && !equal(hotspotConfig, uneditedHotspotConfig))
+    updateEdits();
 
   function findScene(sceneKey: number) {
     const scene = sceneDataList.find((scene) => scene.key == sceneKey);
@@ -64,11 +69,6 @@
   }
 
   function updateEdits() {
-    const uneditedHotspotConfig = [
-      ...$configStore.hotspots,
-      ...$newHotspotStore,
-    ].find((hotspot) => hotspot.hotspot_key == hotspotConfig.hotspot_key);
-
     if (uneditedHotspotConfig && !equal(hotspotConfig, uneditedHotspotConfig)) {
       const edits = {};
 
@@ -100,23 +100,16 @@
   }
 
   function onMouseDown() {
-    if (editable) {
-      viewer.controls().disable();
-      $currentEditableHotspotStore = hotspotConfig.hotspot_key;
-      editing = true;
-    }
+    if (editable) $currentEditableHotspotStore = hotspotConfig.hotspot_key;
   }
 
   function onOutsideClick() {
-    if (editing) {
-      viewer.controls().enable();
-      updateEdits();
-    }
-    $currentEditableHotspotStore = null;
-    editing = false;
+    if (editing) $currentEditableHotspotStore = null;
   }
 
-  onDestroy(() => editing && viewer.controls().enable());
+  function hotspotClickOutside(node: HTMLDivElement) {
+    clickOutside(node, { ignoreNodesStores: [hotspotListEltStore] });
+  }
 </script>
 
 <div class="wrapper">
@@ -130,7 +123,7 @@
     class:editable
     style="z-index: {index};"
     use:addHotspot
-    use:clickOutside
+    use:hotspotClickOutside
     bind:this={hotspotElement}
     on:mousedown={onMouseDown}
     on:outsideclick={onOutsideClick}
