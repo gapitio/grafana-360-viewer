@@ -1,10 +1,18 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
 
-  import { hotspotConfigListStore, hotspotListEltStore } from "~/stores";
+  import {
+    currentSceneKeyStore,
+    hotspotConfigListStore,
+    hotspotListEltStore,
+  } from "~/stores";
   import HotspotItem from "./HotspotItem.svelte";
 
   let listElt: HTMLUListElement;
+
+  $: currentSceneHotspotList = $hotspotConfigListStore.filter(
+    (hotspotConfig) => hotspotConfig.scene_key === $currentSceneKeyStore
+  );
 
   onMount(() => {
     hotspotListEltStore.set([...$hotspotListEltStore, listElt]);
@@ -19,7 +27,7 @@
 
 <div>
   <ul bind:this={listElt}>
-    {#each $hotspotConfigListStore as hotspotConfig}
+    {#each currentSceneHotspotList as hotspotConfig}
       <HotspotItem {hotspotConfig} />
     {/each}
   </ul>
