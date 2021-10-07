@@ -122,3 +122,5 @@ export const currentEditableHotspotStore = writable<number | string | null>(
 export const currentTabStore = writable(1);
 
 export const mouseCoordinates = writable({ pitch: 0, yaw: 0 });
+
+export const hotspotListEltStore = writable<HTMLUListElement[]>([]);
