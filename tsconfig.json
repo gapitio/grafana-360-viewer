@@ -6,6 +6,11 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "types": ["svelte"]
+    "types": ["svelte"],
+    "strictNullChecks": true,
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["src/*"]
+    }
   }
 }

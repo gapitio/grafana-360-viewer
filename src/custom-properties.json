@@ -1,6 +1,13 @@
 {
+  "editable": true,
+  "isGrafana": false,
   "templateVariables": {
     "area": "area",
-    "scene": "scene"
+    "scene": "scene",
+    "autoRotate": "autoRotate"
+  },
+  "api": {
+    "url": "http://localhost:3203",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiZWRpdG9yIn0.prDbUIvvO_qmOyL4hg0c9MVGpW6HZaxKzZbd3fCUha4"
   }
 }

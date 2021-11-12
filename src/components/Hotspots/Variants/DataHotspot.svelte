@@ -1,15 +1,15 @@
 <script lang="ts">
-  export let title: string;
-  export let unit: string;
-  export let color: string;
-  export let value: string | number;
+  export let title: string | null;
+  export let color: string | null;
+  export let link: string | null = "";
+  export let value: string | number | null;
 
-  // setInterval(() => {
-  //   value = (Math.random() * 1000).toFixed(2);
-  // }, 1000);
+  function onClick(event: MouseEvent) {
+    link && window.open(link, event.ctrlKey ? "_blank" : "_self");
+  }
 </script>
 
-<div class="hotspot">
+<div class="hotspot" on:click={onClick} class:link>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="100%"
@@ -20,7 +20,7 @@
       <g
         transform="translate(657 552)"
         fill="#1b191c"
-        stroke={color}
+        stroke={color ?? "#000"}
         stroke-width="5"
         opacity="0.88"
       >
@@ -46,7 +46,6 @@
         font-weight="600"
       >
         <slot name="value">{value}</slot>
-        <slot name="unit">{` ${unit}`}</slot>
         <slot />
       </text>
     </g>
@@ -61,6 +60,10 @@
     color: white;
     width: 200px;
     transform: translate(-50%, -50%);
+  }
+
+  .link {
+    cursor: pointer;
   }
   .type {
     text-transform: uppercase;
