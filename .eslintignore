@@ -7,3 +7,5 @@ public
 coverage
 # don't lint local folder
 local
+
+website
