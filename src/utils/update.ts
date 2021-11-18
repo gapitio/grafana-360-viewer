@@ -18,7 +18,7 @@ export async function update(): Promise<void> {
   const newConfig = customProperties.editable
     ? await getConfigFromAPI()
     : getConfig();
-  if (!equal(get(configStore), newConfig)) {
+  if (newConfig && !equal(get(configStore), newConfig)) {
     configStore.set(newConfig);
   }
 

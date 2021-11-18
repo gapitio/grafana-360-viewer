@@ -7,34 +7,69 @@ import type {
   HotspotConfig,
   SceneConfig,
 } from "./getConfig";
-import { getRequest, Params } from "./getRequest";
+export interface Params {
+  [key: string]: string;
+}
+
+class RequstConfig {
+  aborter = new AbortController();
+
+  async request<T>(urlString: string, params: Params = {}): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const url = new URL(urlString);
+
+      for (const param of Object.entries(params)) {
+        url.searchParams.append(...param);
+      }
+
+      fetch(url.href, { signal: this.aborter.signal })
+        .then((res) => res.json().then(resolve).catch(reject))
+        .catch(reject);
+    });
+  }
+}
+
+const requestConfig = new RequstConfig();
 
 async function getAreaConfig(params: Params = {}) {
-  return getRequest<AreaConfig[]>(`${getFullAPIPath()}areas`, params);
+  return requestConfig.request<AreaConfig[]>(
+    `${getFullAPIPath()}areas`,
+    params
+  );
 }
 
 async function getSceneConfig(params: Params = {}) {
-  return getRequest<SceneConfig[]>(`${getFullAPIPath()}scenes`, params);
+  return requestConfig.request<SceneConfig[]>(
+    `${getFullAPIPath()}scenes`,
+    params
+  );
 }
 
 async function getHotspotConfig(params: Params = {}) {
-  return getRequest<HotspotConfig[]>(`${getFullAPIPath()}hotspots`, params);
+  return requestConfig.request<HotspotConfig[]>(
+    `${getFullAPIPath()}hotspots`,
+    params
+  );
 }
 
 export async function getConfigFromAPI(): Promise<Config> {
   const areaKey = get(currentAreaKeyStore);
 
-  const areas = await getAreaConfig();
-  const scenes = await getSceneConfig({ area_key: `eq.${areaKey}` });
-  const hotspots = await getHotspotConfig({ area_key: `eq.${areaKey}` });
+  requestConfig.aborter.abort();
+  requestConfig.aborter = new AbortController();
 
-  areas.sort((a, b) => a.area_key - b.area_key);
-  scenes.sort((a, b) => a.scene_key - b.scene_key);
-  hotspots.sort((a, b) => Number(a.hotspot_key) - Number(b.hotspot_key));
-
-  return {
-    areas,
-    scenes,
-    hotspots,
-  };
+  return new Promise((resolve, reject) => {
+    Promise.all([
+      getAreaConfig(),
+      getSceneConfig({ area_key: `eq.${areaKey}` }),
+      getHotspotConfig({ area_key: `eq.${areaKey}` }),
+    ])
+      .then(([areas, scenes, hotspots]) => {
+        areas.sort((a, b) => a.area_key - b.area_key);
+        scenes.sort((a, b) => a.scene_key - b.scene_key);
+        hotspots.sort((a, b) => Number(a.hotspot_key) - Number(b.hotspot_key));
+        resolve({ areas, scenes, hotspots });
+      })
+      .catch(reject);
+  });
 }
