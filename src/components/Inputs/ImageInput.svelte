@@ -3,6 +3,8 @@
 
   export let image: string | null;
 
+  const { hideEditImages } = customProperties;
+
   const dispatch = createEventDispatcher<{
     newimage: { name: string; type: string; dataURLs: string };
   }>();
@@ -32,7 +34,7 @@
 
 <div>
   <input type="file" on:change={onFileSelected} />
-  {#if image && !customProperties.hideEditImages}
+  {#if image && !hideEditImages}
     <img src={image} alt="Scene" crossorigin="anonymous" />
   {/if}
 </div>
