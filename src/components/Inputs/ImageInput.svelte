@@ -32,7 +32,7 @@
 
 <div>
   <input type="file" on:change={onFileSelected} />
-  {#if image}
+  {#if image && !customProperties.hideEditImages}
     <img src={image} alt="Scene" crossorigin="anonymous" />
   {/if}
 </div>

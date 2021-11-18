@@ -1,6 +1,7 @@
 {
   "editable": true,
   "isGrafana": false,
+  "hideEditImages": true,
   "templateVariables": {
     "area": "area",
     "scene": "scene",
