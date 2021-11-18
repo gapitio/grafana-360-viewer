@@ -8,5 +8,6 @@ export default {
   html: "<div></div>",
   onRender: "",
   dynamicData: true,
+  panelupdateOnMount: false,
   onInit: "",
 };

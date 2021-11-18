@@ -41,11 +41,6 @@ function renderHandler() {
 
   const panelUpdateEvent = new CustomEvent("panelupdate");
 
-  window.onload = () => {
-    htmlNode.onpanelupdate();
-    htmlNode.dispatchEvent(panelUpdateEvent);
-  };
-
   refreshButton.onclick = async function () {
     updateData();
     htmlNode.dispatchEvent(panelUpdateEvent);
