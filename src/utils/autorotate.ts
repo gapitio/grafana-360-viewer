@@ -7,11 +7,7 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function enableAutoRotation(viewer) {
-  const autorotate = Marzipano.autorotate({
-    yawSpeed: 0.1, // Yaw rotation speed
-    targetPitch: 0, // Pitch value to converge to
-    targetFov: Math.PI / 2, // Fov value to converge to
-  });
+  const autorotate = Marzipano.autorotate({ yawSpeed: 0.1, targetPitch: 0 });
 
   // Autorotate will start after 3s of idle time
   viewer.setIdleMovement(3000, autorotate);
