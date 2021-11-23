@@ -99,6 +99,12 @@ export const sceneConfigListStore = derived(
   ([scenes, viewer]) => (viewer && scenes ? scenes : [])
 );
 
+export const currentSceneConfigStore = derived(
+  [sceneConfigListStore, currentSceneKeyStore],
+  ([sceneConfigList, sceneKey]) =>
+    sceneConfigList.find((scene) => scene.scene_key === sceneKey)
+);
+
 export const sceneDataListStore = derived(
   [sceneConfigListStore, viewerStore],
   async ([sceneConfig, viewer]) =>
