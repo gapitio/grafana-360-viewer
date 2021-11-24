@@ -10,6 +10,9 @@
   let init = true;
 
   $: if (alias) {
+    unit;
+    decimals;
+
     if (!init) updateValue();
     // Don't trigger updateValue on init
     init = false;
