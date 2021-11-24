@@ -6,14 +6,15 @@ export const onKeyInput = (
     currentTarget: EventTarget & HTMLElement;
   }
 ): void => {
-  switch (e.key) {
-    case "f":
-      e.stopPropagation();
-      toggleFullscreen(e.currentTarget);
-      break;
+  if (!e.composedPath().some((elt: HTMLElement) => elt.tagName === "INPUT"))
+    switch (e.key) {
+      case "f":
+        e.stopPropagation();
+        toggleFullscreen(e.currentTarget);
+        break;
 
-    case "r":
-      resetFov();
-      break;
-  }
+      case "r":
+        resetFov();
+        break;
+    }
 };
