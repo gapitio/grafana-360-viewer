@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { sceneConfigListEditsStore } from "~/stores";
+  import {
+    configStore,
+    currentEditableHotspotStore,
+    hotspotEditsStore,
+    newHotspotStore,
+    sceneConfigListEditsStore,
+  } from "~/stores";
   import { headers } from "~/utils/apiHeaders";
   import { getFullAPIPath } from "~/utils/apiPath";
   import type { HotspotConfig } from "~/utils/getConfig";
@@ -27,14 +33,24 @@
   ];
 
   function deleteFunc() {
-    const url = new URL(`${getFullAPIPath()}hotspots`);
-    url.searchParams.append("hotspot_key", `eq.${hotspotConfig.hotspot_key}`);
-    fetch(url.href, {
-      method: "DELETE",
-      headers,
-    })
-      .then(() => update())
-      .catch((err) => console.error(err));
+    const isNewHotspot = typeof hotspotConfig.hotspot_key == "string";
+    if (isNewHotspot) {
+      $newHotspotStore = $newHotspotStore.filter(
+        (v) => v.hotspot_key !== hotspotConfig.hotspot_key
+      );
+      delete $hotspotEditsStore[hotspotConfig.hotspot_key];
+      $hotspotEditsStore = $hotspotEditsStore;
+      $configStore = $configStore; // force update
+    } else {
+      const url = new URL(`${getFullAPIPath()}hotspots`);
+      url.searchParams.append("hotspot_key", `eq.${hotspotConfig.hotspot_key}`);
+      fetch(url.href, {
+        method: "DELETE",
+        headers,
+      })
+        .then(() => update())
+        .catch((err) => console.error(err));
+    }
   }
 </script>
 
