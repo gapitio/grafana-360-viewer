@@ -33,6 +33,7 @@
   ];
 
   function deleteFunc() {
+    $currentEditableHotspotStore = null;
     const isNewHotspot = typeof hotspotConfig.hotspot_key == "string";
     if (isNewHotspot) {
       $newHotspotStore = $newHotspotStore.filter(
