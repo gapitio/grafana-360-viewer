@@ -3,9 +3,9 @@
   "isGrafana": false,
   "hideEditImages": true,
   "templateVariables": {
-    "area": "area",
-    "scene": "scene",
-    "autoRotate": "autoRotate"
+    "area": "${area}",
+    "scene": "${scene}",
+    "autoRotate": "${autoRotate}"
   },
   "api": {
     "url": "http://localhost:3203",

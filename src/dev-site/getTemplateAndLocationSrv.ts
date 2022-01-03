@@ -5,7 +5,7 @@ window.getTemplateSrv = (): TemplateSrv => ({
   getVariables: (): VariableModel[] => window.templateVariableList,
   replace: (target): string =>
     window.templateVariableList.find(
-      (variable) => "$" + variable.name == target
+      (variable) => variable.name == target?.replace(/[${}]/g, "")
     ).current.value,
 });
 
