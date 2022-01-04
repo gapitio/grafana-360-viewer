@@ -2,6 +2,7 @@
   "name": "grafana-360-viewer",
   "version": "0.0.0",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "build": "run-s lint build:prod build:custom-properties build:panel-options",
     "build:custom-properties": "node ./scripts/custom-properties.mjs",
