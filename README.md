@@ -4,4 +4,4 @@
 
 Full documentation for the plugin is available on the [website](https://grafana-360-viewer.gapit.io/).
 
-![360 showcase](https://grafana-360-viewer.gapit.io/gif/360-viewer-office.gif)
+![360 showcase](https://github.com/gapitio/grafana-360-viewer/blob/main/website/static/gif/360-viewer-office.gif?raw=true)
